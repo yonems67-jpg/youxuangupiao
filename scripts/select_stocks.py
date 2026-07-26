@@ -60,3 +60,4 @@ def your_strategy_logic(stock_list: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
     select_stocks()
+
