@@ -7,6 +7,12 @@ from datetime import datetime
 def select_stocks():
     # 1. 获取股票池 / 行情数据(按你策略需要的接口替换)
     stock_list = ak.stock_zh_a_spot_tx()
+    print("=== 当前数据包含的列名有 ===")
+    print(stock_list.columns.tolist())
+    print("==========================")
+
+    # ... 后续的 your_strategy_logic ...
+
 
     # 2. TODO: 接入你现有的短线选股逻辑
     #    对 stock_list 做筛选/打分,返回一个 DataFrame
