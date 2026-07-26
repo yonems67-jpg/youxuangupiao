@@ -449,43 +449,6 @@
   loadAll();
   setInterval(loadAll, 15 * 60 * 1000); // 每 15 分钟自动刷新一次数据
 
-// ===== 每分钟检查一次是否跨天（北京时间）=====
-let currentDate = new Intl.DateTimeFormat('zh-CN', {
-  timeZone: 'Asia/Shanghai',
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit'
-}).format(new Date());
-
-setInterval(() => {
-  const today = new Intl.DateTimeFormat('zh-CN', {
-    timeZone: 'Asia/Shanghai',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  }).format(new Date());
-
-if (today !== currentDate) {
-    currentDate = today;
-    loadAll();
-    console.log('北京时间已跨天，刷新今日数据。');
-}
-
-
-    // 重新加载运势
-    loadFortune();
-
-    // 如果 latest.json 也是每天更新，可以一起刷新
-    loadAll();
-
-    console.log('已跨入新的一天，重新加载今日数据。');
-  }
-}, 60 * 1000);
-
-</script>
-
-</body>
-</html>
 
   </script>
 </body>
