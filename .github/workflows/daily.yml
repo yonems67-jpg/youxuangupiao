@@ -15,6 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -30,7 +34,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add site/data/latest.json
-          # 判断文件是否变动，无变化不提交，避免报错
-          git diff --staged --quiet || git commit -m "Update stock picks $(date +'%Y-%m-%d')"
-          git push
+          git add site/data/latest.json || true
+          if [ -f site/data/latest.json ] && ! git diff --quiet -- site/data/latest.json; then
+            git commit -m "Update stock picks $(date +'%Y-%m-%d')"
+            git push origin HEAD:main
+          else
+            echo "No changes to commit or latest.json missing."
+          fi
