@@ -1,0 +1,36 @@
+name: Daily Stock Selection
+
+on:
+  schedule:
+    # UTC 10点 = 北京时间18点，周一至周五执行
+    - cron: '0 10 * * 1-5'
+  workflow_dispatch:
+
+# 必配权限：赋予 bot 写入代码库的权限，否则无法提交 JSON
+permissions:
+  contents: write
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run selection script
+        run: python scripts/select_stocks.py
+
+      - name: Commit and push results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/data/latest.json
+          # 判断文件是否变动，无变化不提交，避免报错
+          git diff --staged --quiet || git commit -m "Update stock picks $(date +'%Y-%m-%d')"
+          git push
