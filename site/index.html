@@ -1,64 +1,458 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>每日选股</title>
-  <style>
-    body { font-family: sans-serif; margin: 2rem; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background: #f5f5f5; }
-    #status { color: #888; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每日优选 · 仪表盘</title>
+<style>
+  :root {
+    --bg: #F5F5F7;
+    --surface: #FFFFFF;
+    --ink: #1D1D1F;
+    --muted: #6E6E73;
+    --hairline: #E5E5EA;
+    --fortune: #A6303C;
+    --fortune-soft: rgba(166, 48, 60, 0.08);
+    --gold: #B8912F;
+    --gold-soft: rgba(184, 145, 47, 0.12);
+    --up: #E0303F;
+    --up-soft: rgba(224, 48, 63, 0.10);
+    --down: #1E8E5A;
+    --down-soft: rgba(30, 142, 90, 0.10);
+    --warn: #C9750A;
+    --warn-soft: rgba(201, 117, 10, 0.10);
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "SF Pro Display",
+      "Helvetica Neue", "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 64px;
+  }
+
+  .mono { font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace; }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: rgba(245, 245, 247, 0.86);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .brand { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+
+  .clock-wrap {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted);
+  }
+
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--down); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .live-dot { animation: pulse 2.4s ease-in-out infinite; }
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  main { max-width: 680px; margin: 0 auto; padding: 24px 16px 0; }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 22px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card { opacity: 0; transform: translateY(10px); animation: rise 0.5s ease forwards; }
+    .card:nth-of-type(1) { animation-delay: 0.02s; }
+    .card:nth-of-type(2) { animation-delay: 0.06s; }
+    .card:nth-of-type(3) { animation-delay: 0.10s; }
+    .card:nth-of-type(4) { animation-delay: 0.14s; }
+    .card:nth-of-type(5) { animation-delay: 0.18s; }
+  }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  .card-label {
+    font-size: 12px; color: var(--muted); font-weight: 600;
+    text-transform: none; margin-bottom: 10px;
+  }
+
+  /* ---------- 今日运势 ---------- */
+  .date-line { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+  .fortune-title { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 14px; }
+
+  .bazi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .pillar {
+    text-align: center; padding: 12px 4px 10px; border-radius: var(--radius-md);
+    background: var(--bg); border: 1px solid var(--hairline);
+  }
+  .pillar.day-master { background: var(--gold-soft); border-color: rgba(184, 145, 47, 0.35); }
+  .pillar-label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .pillar-char { display: block; font-size: 22px; font-weight: 600; line-height: 1.35; }
+  .pillar.day-master .pillar-char:first-of-type { color: var(--gold); }
+
+  .stat-strip {
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px;
+    margin-bottom: 16px; scrollbar-width: none;
+  }
+  .stat-strip::-webkit-scrollbar { display: none; }
+  .stat-chip {
+    flex: 0 0 auto; background: var(--bg); border-radius: var(--radius-sm);
+    padding: 8px 12px; font-size: 12px; color: var(--muted); white-space: nowrap;
+  }
+  .stat-chip b { color: var(--ink); font-weight: 600; }
+
+  .yiji-row { display: flex; gap: 16px; margin-bottom: 14px; }
+  .yiji-col { flex: 1; min-width: 0; }
+  .yiji-label { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .yiji-label.yi { color: var(--down); }
+  .yiji-label.ji { color: var(--up); }
+  .chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 12px; padding: 4px 9px; border-radius: 100px; }
+  .chip.yi { background: var(--down-soft); color: var(--down); }
+  .chip.ji { background: var(--up-soft); color: var(--up); }
+  .chip.more { background: var(--bg); color: var(--muted); }
+
+  .fortune-summary {
+    font-size: 14px; line-height: 1.6; color: var(--ink); background: var(--fortune-soft);
+    border-left: 3px solid var(--fortune); padding: 12px 14px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  /* ---------- 市场概览 ---------- */
+  .market-top { display: flex; align-items: flex-end; gap: 14px; margin-bottom: 14px; }
+  .market-score { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; }
+  .market-score-unit { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .status-badge {
+    display: inline-block; padding: 4px 12px; border-radius: 100px;
+    font-size: 13px; font-weight: 600; margin-bottom: 6px;
+  }
+  .status-badge.strong { background: var(--up-soft); color: var(--up); }
+  .status-badge.oscillate { background: var(--gold-soft); color: var(--gold); }
+  .status-badge.weak { background: var(--down-soft); color: var(--down); }
+
+  .market-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .market-sub b { color: var(--ink); }
+
+  .breadth-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  }
+  .breadth-item {
+    text-align: center; background: var(--bg); border-radius: var(--radius-sm);
+    padding: 10px 4px;
+  }
+  .breadth-num { font-size: 16px; font-weight: 600; }
+  .breadth-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ---------- 风险提示 ---------- */
+  .risk-card.warn { background: var(--warn-soft); }
+  .risk-card.ok { background: var(--down-soft); }
+  .risk-title {
+    font-size: 15px; font-weight: 700; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .risk-card.warn .risk-title { color: var(--warn); }
+  .risk-card.ok .risk-title { color: var(--down); }
+  .risk-note { font-size: 13px; line-height: 1.6; color: var(--ink); margin: 4px 0; }
+
+  /* ---------- 策略回测(占位) ---------- */
+  .backtest-empty { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .backtest-tag {
+    display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 100px;
+    background: var(--bg); color: var(--muted); margin-left: 6px;
+  }
+
+  /* ---------- 股票列表 ---------- */
+  .section-title { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; margin: 28px 0 12px 4px; }
+  .status-line { font-size: 12px; color: var(--muted); margin: 0 0 12px 4px; }
+
+  .stock-row {
+    display: flex; align-items: center; padding: 12px 4px;
+    border-bottom: 1px solid var(--hairline); gap: 10px;
+  }
+  .stock-row:last-child { border-bottom: none; }
+
+  .rank { width: 18px; flex: 0 0 auto; font-size: 12px; color: var(--muted); text-align: center; }
+
+  .stock-name { flex: 1; min-width: 0; }
+  .stock-name .name-line { display: flex; align-items: baseline; gap: 6px; }
+  .stock-name .name {
+    font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .stock-name .code { font-size: 11px; color: var(--muted); }
+  .stock-name .industry { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .action-tag {
+    display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px;
+    border-radius: 100px; margin-top: 4px;
+  }
+  .action-tag.focus { background: var(--fortune-soft); color: var(--fortune); }
+  .action-tag.watch { background: var(--bg); color: var(--muted); }
+  .action-tag.caution { background: var(--warn-soft); color: var(--warn); }
+
+  .stock-metrics { flex: 0 0 auto; text-align: right; }
+  .stock-price { font-size: 15px; font-weight: 600; }
+  .stock-change {
+    display: inline-block; margin-top: 3px; font-size: 12px; font-weight: 600;
+    padding: 2px 7px; border-radius: 100px;
+  }
+  .stock-change.up { background: var(--up-soft); color: var(--up); }
+  .stock-change.down { background: var(--down-soft); color: var(--down); }
+
+  .placeholder { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  footer {
+    max-width: 680px; margin: 8px auto 0; padding: 0 20px;
+    font-size: 11px; line-height: 1.6; color: var(--muted); text-align: center;
+  }
+</style>
 </head>
 <body>
-  <h1>每日优选股票</h1>
-  <p id="status">加载中...</p>
-  <table>
-    <thead><tr id="table-header"></tr></thead>
-    <tbody id="table-body"></tbody>
-  </table>
 
-  <script>
-    fetch('data/latest.json')
+<header>
+  <div class="brand">每日优选 · 仪表盘</div>
+  <div class="clock-wrap">
+    <span class="live-dot"></span>
+    <span id="clock" class="mono"></span>
+  </div>
+</header>
+
+<main>
+
+  <!-- 今日运势(等出生日期时间提供后接入真实数据) -->
+  <section class="card" id="fortune-card">
+    <div class="date-line" id="date-line">加载中...</div>
+    <h1 class="fortune-title">今日运势</h1>
+    <div id="fortune-body">
+      <p class="placeholder">运势数据还没有接入,配置好之后这里会显示八字与今日黄历的对照分析。</p>
+    </div>
+  </section>
+
+  <!-- 市场概览 -->
+  <section class="card" id="market-card">
+    <div class="card-label">市场概览</div>
+    <div class="market-top">
+      <div class="market-score" id="market-score">--</div>
+      <div class="market-score-unit">/ 100</div>
+    </div>
+    <div id="market-status-wrap" class="market-sub">
+      <span class="status-badge" id="status-badge">--</span>
+      建议仓位 <b id="suggested-position">--</b>
+    </div>
+    <div class="breadth-grid" id="breadth-grid"></div>
+  </section>
+
+  <!-- 风险提示 -->
+  <section class="card risk-card ok" id="risk-card">
+    <div class="risk-title" id="risk-title">风险提示</div>
+    <div id="risk-body"><p class="risk-note">加载中...</p></div>
+  </section>
+
+  <!-- 策略回测(诚实占位,不编数字) -->
+  <section class="card" id="backtest-card">
+    <div class="card-label">策略回测<span class="backtest-tag">尚未接入</span></div>
+    <p class="backtest-empty">
+      这里以后会显示真实回测算出的胜率、平均持仓天数、最大回撤。目前这些指标还没有对应的历史回测计算,
+      为了不展示编造的数字,暂时留空。下方的"操作建议"标签只是当日筛选规则里的相对排名,不代表历史表现。
+    </p>
+  </section>
+
+  <div class="section-title">今日优选股票</div>
+  <p class="status-line" id="stock-status">加载中...</p>
+  <section class="card" id="stock-card" style="padding: 6px 16px;">
+    <div id="stock-list"></div>
+  </section>
+
+</main>
+
+<footer>
+  数据每 15 分钟自动更新一次 · 市场评分基于全市场涨跌家数计算,操作建议为规则标签,均不构成投资建议
+</footer>
+
+<script>
+  // ---------- 实时时钟(北京时间)----------
+  function updateClock() {
+    const now = new Date();
+    const formatted = new Intl.DateTimeFormat('zh-CN', {
+      timeZone: 'Asia/Shanghai',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    }).format(now);
+    document.getElementById('clock').textContent = formatted + ' 北京时间';
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ---------- 市场概览 + 风险 + 股票列表(全部来自 latest.json)----------
+  function renderMarket(market) {
+    document.getElementById('market-score').textContent = market.market_score ?? '--';
+
+    const badge = document.getElementById('status-badge');
+    const statusMap = { '强势': 'strong', '震荡': 'oscillate', '弱势': 'weak' };
+    badge.textContent = market.market_status ?? '--';
+    badge.className = 'status-badge ' + (statusMap[market.market_status] || '');
+
+    document.getElementById('suggested-position').textContent = market.suggested_position ?? '--';
+
+    const items = [
+      ['上涨', market.up_count, 'up'],
+      ['下跌', market.down_count, 'down'],
+      ['涨停', market.limit_up_count, 'up'],
+      ['跌停', market.limit_down_count, 'down'],
+    ];
+    document.getElementById('breadth-grid').innerHTML = items.map(([label, val, cls]) => `
+      <div class="breadth-item">
+        <div class="breadth-num" style="color: var(--${cls})">${val ?? '--'}</div>
+        <div class="breadth-label">${label}</div>
+      </div>`).join('');
+  }
+
+  function renderRisk(risk) {
+    const card = document.getElementById('risk-card');
+    const title = document.getElementById('risk-title');
+    const body = document.getElementById('risk-body');
+    const hasWarning = risk.suggest_reduce_position;
+
+    card.className = 'card risk-card ' + (hasWarning ? 'warn' : 'ok');
+    title.textContent = hasWarning ? '风险提示 · 建议降低仓位' : '风险提示 · 暂无明显警示';
+
+    if (risk.notes && risk.notes.length) {
+      body.innerHTML = risk.notes.map(n => `<p class="risk-note">· ${n}</p>`).join('');
+    } else {
+      body.innerHTML = '<p class="risk-note">行业集中度与市场宽度目前都在正常范围内。</p>';
+    }
+  }
+
+  function renderStocks(data) {
+    const stocks = data.stocks || [];
+    const statusEl = document.getElementById('stock-status');
+    statusEl.textContent = '更新于 ' + (data.update_date || '--');
+
+    const listEl = document.getElementById('stock-list');
+    if (stocks.length === 0) {
+      listEl.innerHTML = '<p class="placeholder" style="padding:12px 4px;">今天没有符合条件的股票</p>';
+      return;
+    }
+
+    const actionCls = { '重点关注': 'focus', '观察': 'watch', '谨慎': 'caution' };
+
+    listEl.innerHTML = stocks.map((s, i) => {
+      const change = parseFloat(s['涨跌幅']);
+      const isUp = change >= 0;
+      const cls = isUp ? 'up' : 'down';
+      const sign = isUp ? '+' : '';
+      const action = s['操作建议'] || '';
+      return `
+        <div class="stock-row">
+          <div class="rank">${i + 1}</div>
+          <div class="stock-name">
+            <div class="name-line">
+              <span class="name">${s['名称'] ?? ''}</span>
+              <span class="code mono">${s['代码'] ?? ''}</span>
+            </div>
+            <div class="industry">${s['行业'] ?? '未分类'}</div>
+            ${action ? `<span class="action-tag ${actionCls[action] || 'watch'}">${action}</span>` : ''}
+          </div>
+          <div class="stock-metrics">
+            <div class="stock-price mono">${s['最新价'] ?? '--'}</div>
+            <div class="stock-change ${cls}">${sign}${isNaN(change) ? '--' : change.toFixed(2)}%</div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ---------- 运势数据(独立于股票数据,来自 fortune.json)----------
+  function renderFortune(data) {
+    document.getElementById('date-line').textContent =
+      (data.solar_date || '') + (data.lunar_date ? ' · ' + data.lunar_date : '');
+
+    const b = data.bazi || {};
+    const pillars = [
+      { label: '年柱', value: b.year },
+      { label: '月柱', value: b.month },
+      { label: '日柱', value: b.day, isDayMaster: true },
+      { label: '时柱', value: b.hour },
+    ];
+
+    const chip = (text, cls) => `<span class="chip ${cls}">${text}</span>`;
+    const yijiList = (arr, cls) => {
+      if (!arr || !arr.length) return '<span class="placeholder">暂无</span>';
+      const shown = arr.slice(0, 6).map(t => chip(t, cls)).join('');
+      const rest = arr.length > 6 ? chip('共' + arr.length + '项', 'more') : '';
+      return `<div class="chip-wrap">${shown}${rest}</div>`;
+    };
+
+    let pillarsHtml = '';
+    pillars.forEach(p => {
+      if (!p.value) return;
+      pillarsHtml += `
+        <div class="pillar${p.isDayMaster ? ' day-master' : ''}">
+          <span class="pillar-label">${p.label}</span>
+          <span class="pillar-char">${p.value.charAt(0)}</span>
+          <span class="pillar-char">${p.value.slice(1)}</span>
+        </div>`;
+    });
+
+    const stats = [['纳音', data.nayin], ['值神', data.day_officer], ['廿八宿', data.star_28], ['生肖', data.zodiac]]
+      .filter(([, v]) => v);
+    const statsHtml = stats.map(([k, v]) => `<div class="stat-chip">${k} <b>${v}</b></div>`).join('');
+
+    document.getElementById('fortune-body').innerHTML = `
+      ${pillarsHtml ? `<div class="bazi-grid">${pillarsHtml}</div>` : ''}
+      ${statsHtml ? `<div class="stat-strip">${statsHtml}</div>` : ''}
+      <div class="yiji-row">
+        <div class="yiji-col"><div class="yiji-label yi">宜</div>${yijiList(data.good_things, 'yi')}</div>
+        <div class="yiji-col"><div class="yiji-label ji">忌</div>${yijiList(data.bad_things, 'ji')}</div>
+      </div>
+      ${data.fortune_summary ? `<p class="fortune-summary">${data.fortune_summary}</p>` : ''}
+    `;
+  }
+
+  function loadFortune() {
+    fetch('data/fortune.json', { cache: 'no-store' })
+      .then(res => { if (!res.ok) throw new Error('status ' + res.status); return res.json(); })
+      .then(renderFortune)
+      .catch(() => { /* 数据还没生成之前保持占位提示,不打扰用户 */ });
+  }
+
+  function loadAll() {
+    loadFortune();
+    const statusEl = document.getElementById('stock-status');
+    fetch('data/latest.json', { cache: 'no-store' })
       .then(res => {
-        if (!res.ok) {
-          throw new Error('data/latest.json 请求失败,状态码 ' + res.status + '(文件可能还没生成,或路径不对)');
-        }
+        if (!res.ok) throw new Error('data/latest.json 请求失败,状态码 ' + res.status);
         return res.json();
       })
       .then(data => {
-        const statusEl = document.getElementById('status');
-        const stocks = data.stocks || [];
-
-        if (stocks.length === 0) {
-          statusEl.textContent = '更新时间: ' + data.update_date + ' — 今天没有符合条件的股票';
-          return;
-        }
-
-        statusEl.textContent = '更新时间: ' + data.update_date;
-
-        const headerRow = document.getElementById('table-header');
-        Object.keys(stocks[0]).forEach(key => {
-          const th = document.createElement('th');
-          th.textContent = key;
-          headerRow.appendChild(th);
-        });
-
-        const tbody = document.getElementById('table-body');
-        stocks.forEach(stock => {
-          const tr = document.createElement('tr');
-          Object.values(stock).forEach(val => {
-            const td = document.createElement('td');
-            td.textContent = val;
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
+        if (data.market) renderMarket(data.market);
+        if (data.risk) renderRisk(data.risk);
+        renderStocks(data);
       })
-      .catch(err => {
-        document.getElementById('status').textContent = '加载失败: ' + err.message;
-      });
+      .catch(err => { statusEl.textContent = '加载失败: ' + err.message; });
+  }
+
+  loadAll();
+  setInterval(loadAll, 15 * 60 * 1000); // 每 15 分钟自动刷新一次数据
+</script>
+
+</body>
+</html>
+
   </script>
 </body>
 </html>
