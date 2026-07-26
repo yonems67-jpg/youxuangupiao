@@ -1,9 +1,34 @@
 import akshare as ak
 import pandas as pd
+import numpy as np
 import json
 import os
 import re
+import time
 from datetime import datetime
+
+
+def to_json_safe(obj):
+    """
+    递归把 numpy/pandas 的标量类型转成原生 Python 类型。
+    根因:compute_risk() 里 top_share > 0.4 这类比较,算出来的是 numpy.bool_
+    而不是 Python 原生 bool,json 标准库不认这个类型,哪怕它看起来就是 True/False,
+    会报 "Object of type bool is not JSON serializable"。这里做成通用的递归转换,
+    顺便把 numpy.int64/float64、NaN 也一起处理掉,不只是头痛医头。
+    """
+    if isinstance(obj, dict):
+        return {k: to_json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [to_json_safe(v) for v in obj]
+    if isinstance(obj, np.bool_):
+        return bool(obj)
+    if isinstance(obj, np.integer):
+        return int(obj)
+    if isinstance(obj, np.floating):
+        return None if np.isnan(obj) else float(obj)
+    if isinstance(obj, float) and pd.isna(obj):
+        return None
+    return obj
 
 
 def select_stocks():
@@ -34,7 +59,7 @@ def select_stocks():
 
     os.makedirs("site/data", exist_ok=True)
     with open("site/data/latest.json", "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+        json.dump(to_json_safe(result), f, ensure_ascii=False, indent=2)
 
     print(f"选出 {len(selected_df)} 只股票,市场评分 {market['market_score']},已写入 site/data/latest.json")
 
@@ -137,22 +162,31 @@ def robust_strategy_logic(stock_list: pd.DataFrame) -> pd.DataFrame:
 def enrich_with_industry(selected_df: pd.DataFrame) -> pd.DataFrame:
     """
     给入选股票逐个查行业分类。
-    注意:ak.stock_individual_info_em() 我这边没法离线验证实际返回字段
-    (沙盒里连不了 akshare 真实数据源),如果跑起来行业全变成"未分类",
-    大概率是这个接口的字段名或代码格式对不上,把 except 里的 print 输出发我看一下就行。
+    之前连续请求没有间隔,被数据源限流导致好几只股票直接拿到空响应
+    (Expecting value: line 1 column 1 (char 0)),现在加了请求间隔 + 重试。
+    如果加了间隔后行业还是大面积变成"未分类",大概率是接口字段名或代码格式对不上,
+    把 except 里的 print 输出发我看一下就行。
     """
     industries = []
     for code in selected_df["代码"]:
         industry = "未分类"
-        try:
-            code_clean = re.sub(r"[^0-9]", "", str(code))[-6:]
-            info = ak.stock_individual_info_em(symbol=code_clean)
-            row = info.loc[info["item"] == "行业", "value"]
-            if not row.empty:
-                industry = str(row.values[0])
-        except Exception as e:
-            print(f"查询行业失败 code={code}: {e}")
+        code_clean = re.sub(r"[^0-9]", "", str(code))[-6:]
+
+        for attempt in range(1, 3):  # 最多重试1次
+            try:
+                info = ak.stock_individual_info_em(symbol=code_clean)
+                row = info.loc[info["item"] == "行业", "value"]
+                if not row.empty:
+                    industry = str(row.values[0])
+                break
+            except Exception as e:
+                if attempt == 1:
+                    time.sleep(1.0)  # 大概率是限流,退避一下再试一次
+                else:
+                    print(f"查询行业失败 code={code}: {e}")
+
         industries.append(industry)
+        time.sleep(0.3)  # 请求间隔,避免连续请求触发限流
 
     selected_df = selected_df.copy()
     selected_df["行业"] = industries
