@@ -2,23 +2,14 @@ name: Daily Stock Selection
 
 on:
   schedule:
-    # UTC 10点 = 北京时间18点，周一至周五执行
-    - cron: '0 10 * * 1-5'
-  workflow_dispatch:
-
-# 必配权限：赋予 bot 写入代码库的权限，否则无法提交 JSON
-permissions:
-  contents: write
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:      # 允许在 Actions 页面手动点击立即运行
 
 jobs:
   select:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
-          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -30,14 +21,22 @@ jobs:
       - name: Run selection script
         run: python scripts/select_stocks.py
 
+      - name: Check output file
+        run: |
+          echo "=== 检查生成的文件 ==="
+          ls -la site/data/ || echo "!!! site/data 目录不存在 !!!"
+          cat site/data/latest.json || echo "!!! latest.json 不存在或读取失败 !!!"
+
       - name: Commit and push results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add site/data/latest.json || true
-          if [ -f site/data/latest.json ] && ! git diff --quiet -- site/data/latest.json; then
+          git add -f site/data/latest.json
+          git status
+          if git diff --staged --quiet; then
+            echo "没有变化,跳过 commit"
+          else
             git commit -m "Update stock picks $(date +'%Y-%m-%d')"
             git push origin HEAD:main
-          else
-            echo "No changes to commit or latest.json missing."
+            echo "已 commit 并 push"
           fi
