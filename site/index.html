@@ -2,28 +2,21 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>每日动量选股池</title>
+  <title>每日选股</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 2rem; background: #f9f9f9; }
-    .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    h1 { color: #333; font-size: 1.5rem; }
-    p { color: #666; font-size: 0.9rem; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; font-size: 0.95rem; }
-    th, td { border-bottom: 1px solid #eee; padding: 12px 8px; text-align: left; }
-    th { background: #f5f5f5; color: #555; font-weight: 600; }
-    tr:hover { background-color: #fdfdfd; }
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f5f5f5; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📊 每日动量选股池</h1>
-    <p id="update-time">拉取数据中...</p>
-    <table>
-      <thead><tr id="table-header"></tr></thead>
-      <tbody id="table-body"></tbody>
-    </table>
-  </div>
+  <h1>每日优选股票</h1>
+  <p id="update-time"></p>
+  <table>
+    <thead><tr id="table-header"></tr></thead>
+    <tbody id="table-body"></tbody>
+  </table>
 
   <script>
     fetch('data/latest.json')
@@ -31,10 +24,7 @@
       .then(data => {
         document.getElementById('update-time').textContent = '更新时间: ' + data.update_date;
         const stocks = data.stocks;
-        if (!stocks.length) {
-            document.getElementById('table-body').innerHTML = '<tr><td colspan="10">今日无符合条件的股票</td></tr>';
-            return;
-        }
+        if (!stocks.length) return;
 
         const headerRow = document.getElementById('table-header');
         Object.keys(stocks[0]).forEach(key => {
@@ -46,25 +36,13 @@
         const tbody = document.getElementById('table-body');
         stocks.forEach(stock => {
           const tr = document.createElement('tr');
-          Object.entries(stock).forEach(([key, val]) => {
+          Object.values(stock).forEach(val => {
             const td = document.createElement('td');
-            if (key === '涨跌幅') {
-              const num = parseFloat(val);
-              td.textContent = (num > 0 ? '+' : '') + num.toFixed(2) + '%';
-              td.style.color = num > 0 ? '#d90429' : (num < 0 ? '#2a9d8f' : '#333');
-              td.style.fontWeight = 'bold';
-            } else if (typeof val === 'number' && key !== '代码') {
-              td.textContent = val.toFixed(2);
-            } else {
-              td.textContent = val;
-            }
+            td.textContent = val;
             tr.appendChild(td);
           });
           tbody.appendChild(tr);
         });
-      })
-      .catch(err => {
-        document.getElementById('update-time').textContent = '数据加载失败，请检查 latest.json 是否已生成。';
       });
   </script>
 </body>
