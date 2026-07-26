@@ -7,8 +7,7 @@ import random
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-# 全局设置超时时间，防止卡死
-ak.set_timeout((12, 18))
+
 
 def select_stocks():
     max_retry = 3
