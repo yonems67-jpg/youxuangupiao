@@ -174,7 +174,7 @@ def enrich_with_industry(selected_df: pd.DataFrame) -> pd.DataFrame:
 
         for attempt in range(1, 3):  # 最多重试1次
             try:
-                info = ak.stock_individual_info_em(symbol=code_clean)
+                info = ak.stock_individual_info_xq(symbol=code_clean)
                 row = info.loc[info["item"] == "行业", "value"]
                 if not row.empty:
                     industry = str(row.values[0])
