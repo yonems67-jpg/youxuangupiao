@@ -50,7 +50,7 @@ def select_stocks():
 
     # 6. 整理输出
     result = {
-        "update_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "update_date": get_beijing_now().strftime("%Y-%m-%d %H:%M:%S"),
         "market": market,
         "risk": risk,
         "stocks": selected_df.to_dict(orient="records"),
