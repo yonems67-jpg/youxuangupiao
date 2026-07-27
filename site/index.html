@@ -9,14 +9,13 @@
 <style>
   :root {
     --bg: #F4F5F8;
-    --bg-gradient: radial-gradient(at 10% 10%, rgba(224, 231, 255, 0.5) 0px, transparent 50%),
-                   radial-gradient(at 90% 90%, rgba(254, 243, 199, 0.4) 0px, transparent 50%);
-    --surface: rgba(255, 255, 255, 0.82);
+    --bg-gradient: radial-gradient(at 0% 0%, rgba(224, 231, 255, 0.4) 0px, transparent 50%),
+                   radial-gradient(at 100% 100%, rgba(254, 243, 199, 0.3) 0px, transparent 50%);
+    --surface: rgba(255, 255, 255, 0.85);
     --surface-solid: #FFFFFF;
     --ink: #0F172A;
     --muted: #64748B;
     --hairline: rgba(226, 232, 240, 0.8);
-    --border-glow: rgba(0, 0, 0, 0.04);
     
     --fortune: #B91C1C;
     --fortune-soft: rgba(185, 28, 28, 0.06);
@@ -31,9 +30,8 @@
     --warn: #F59E0B;
     --warn-soft: rgba(245, 158, 11, 0.08);
     
-    --header-bg: rgba(244, 245, 248, 0.75);
+    --header-bg: rgba(244, 245, 248, 0.8);
     --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-    --card-hover-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.06);
     --radius-lg: 20px;
     --radius-md: 12px;
     --radius-sm: 8px;
@@ -42,14 +40,13 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #090A0F;
-      --bg-gradient: radial-gradient(at 10% 0%, rgba(30, 41, 59, 0.5) 0px, transparent 60%),
-                     radial-gradient(at 90% 100%, rgba(67, 56, 202, 0.15) 0px, transparent 60%);
-      --surface: rgba(22, 26, 36, 0.7);
+      --bg-gradient: radial-gradient(at 0% 0%, rgba(30, 41, 59, 0.5) 0px, transparent 50%),
+                     radial-gradient(at 100% 100%, rgba(67, 56, 202, 0.12) 0px, transparent 50%);
+      --surface: rgba(22, 26, 36, 0.75);
       --surface-solid: #161A24;
       --ink: #F8FAFC;
       --muted: #94A3B8;
       --hairline: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(255, 255, 255, 0.05);
       
       --fortune: #F87171;
       --fortune-soft: rgba(248, 113, 113, 0.12);
@@ -64,9 +61,8 @@
       --warn: #FBBF24;
       --warn-soft: rgba(251, 191, 36, 0.12);
       
-      --header-bg: rgba(9, 10, 15, 0.75);
+      --header-bg: rgba(9, 10, 15, 0.8);
       --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-      --card-hover-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
     }
   }
 
@@ -78,25 +74,31 @@
     background-image: var(--bg-gradient);
     background-attachment: fixed;
     color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", sans-serif;
     -webkit-font-smoothing: antialiased;
-    padding-bottom: 80px;
+    padding-bottom: 60px;
   }
 
-  .mono { font-family: "SF Mono", "JetBrains Mono", "Menlo", "Consolas", monospace; letter-spacing: -0.02em; }
+  .mono { font-family: "SF Mono", "JetBrains Mono", "Menlo", monospace; letter-spacing: -0.02em; }
 
+  /* 顶部导航与时钟 */
   header {
     position: sticky;
     top: 0;
     z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
+    padding: 14px 24px;
     background: var(--header-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--hairline);
+  }
+
+  .header-container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .brand { 
@@ -115,21 +117,73 @@
     padding: 6px 12px;
     border-radius: 100px;
     border: 1px solid var(--hairline);
-    backdrop-filter: blur(10px);
   }
 
   .live-dot { 
-    width: 7px; height: 7px; border-radius: 50%; 
+    width: 6px; height: 6px; border-radius: 50%; 
     background: var(--down); 
     box-shadow: 0 0 8px var(--down);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .live-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    .live-dot { animation: pulse 2s ease-in-out infinite; }
   }
-  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-  main { max-width: 680px; margin: 0 auto; padding: 28px 20px 0; }
+  /* Tab 导航切页控制 */
+  .nav-tabs-wrap {
+    max-width: 960px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    gap: 4px;
+    backdrop-filter: blur(10px);
+  }
+
+  .tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: calc(var(--radius-md) - 4px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active {
+    background: var(--surface-solid);
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* 主内容区域与页面分屏 */
+  main { max-width: 960px; margin: 0 auto; padding: 20px 20px 0; }
+
+  .tab-page { display: none; }
+  .tab-page.active { display: block; }
+
+  /* 2列并列网格布局 (用于首页) */
+  .grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .grid-2col { grid-template-columns: 1fr; }
+  }
 
   .card {
     background: var(--surface);
@@ -137,26 +191,10 @@
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--hairline);
     border-radius: var(--radius-lg);
-    padding: 24px;
-    margin-bottom: 20px;
+    padding: 22px;
+    margin-bottom: 16px;
     box-shadow: var(--card-shadow);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   }
-
-  .card:hover {
-    box-shadow: var(--card-hover-shadow);
-    border-color: var(--border-glow);
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .card { opacity: 0; transform: translateY(16px); animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    .card:nth-of-type(1) { animation-delay: 0.04s; }
-    .card:nth-of-type(2) { animation-delay: 0.08s; }
-    .card:nth-of-type(3) { animation-delay: 0.12s; }
-    .card:nth-of-type(4) { animation-delay: 0.16s; }
-    .card:nth-of-type(5) { animation-delay: 0.20s; }
-  }
-  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
   .card-label {
     font-size: 11px; color: var(--muted); font-weight: 700;
@@ -171,12 +209,10 @@
   .pillar {
     text-align: center; padding: 14px 6px 12px; border-radius: var(--radius-md);
     background: var(--surface-solid); border: 1px solid var(--hairline);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
   .pillar.day-master { 
     background: var(--gold-soft); 
     border-color: var(--gold-border);
-    box-shadow: 0 0 12px rgba(217, 119, 6, 0.08);
   }
   .pillar-label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
   .pillar-char { display: block; font-size: 22px; font-weight: 700; line-height: 1.3; }
@@ -212,27 +248,21 @@
 
   /* ---------- 市场概览 ---------- */
   .market-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
-  .market-score { 
-    font-size: 48px; font-weight: 800; letter-spacing: -0.04em; 
-    line-height: 1;
-    background: linear-gradient(180deg, var(--ink), var(--muted));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .market-score-unit { font-size: 15px; font-weight: 600; color: var(--muted); }
+  .market-score { font-size: 44px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .market-score-unit { font-size: 14px; font-weight: 600; color: var(--muted); }
   
   .market-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
   .market-sub b { color: var(--ink); font-weight: 600; }
 
   .status-badge {
     display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
+    font-size: 12px; font-weight: 700;
   }
   .status-badge.strong { background: var(--up-soft); color: var(--up); }
   .status-badge.oscillate { background: var(--gold-soft); color: var(--gold); }
   .status-badge.weak { background: var(--down-soft); color: var(--down); }
 
-  .breadth-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .breadth-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .breadth-item {
     text-align: center; background: var(--surface-solid); border: 1px solid var(--hairline);
     border-radius: var(--radius-md); padding: 12px 6px;
@@ -240,32 +270,29 @@
   .breadth-num { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
   .breadth-label { font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 4px; }
 
-  /* ---------- 风险提示 ---------- */
+  /* ---------- 风险提示与回测 ---------- */
   .risk-card.warn { background: var(--warn-soft); border-color: rgba(245, 158, 11, 0.2); }
   .risk-card.ok { background: var(--surface); }
   .risk-title {
     font-size: 15px; font-weight: 700; margin-bottom: 8px;
-    display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 8px;
   }
   .risk-card.warn .risk-title { color: var(--warn); }
   .risk-card.ok .risk-title { color: var(--down); }
-  .risk-note { font-size: 13px; line-height: 1.6; color: var(--ink); margin: 6px 0; opacity: 0.9; }
+  .risk-note { font-size: 13px; line-height: 1.6; color: var(--ink); margin: 6px 0; }
 
-  /* ---------- 策略回测 ---------- */
-  .backtest-empty { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
+  .backtest-empty { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
   .backtest-tag {
     display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px;
-    background: var(--hairline); color: var(--muted); margin-left: 8px; text-transform: uppercase;
+    background: var(--hairline); color: var(--muted); margin-left: 8px;
   }
 
   /* ---------- 股票列表 ---------- */
-  .section-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin: 32px 0 6px 4px; }
   .status-line { font-size: 12px; color: var(--muted); margin: 0 0 16px 4px; line-height: 1.5; }
 
   .stock-row {
     display: flex; align-items: center; padding: 14px 4px;
     border-bottom: 1px solid var(--hairline); gap: 12px;
-    transition: background 0.2s ease;
   }
   .stock-row:last-child { border-bottom: none; }
 
@@ -273,22 +300,20 @@
 
   .stock-name { flex: 1; min-width: 0; }
   .stock-name .name-line { display: flex; align-items: baseline; gap: 8px; }
-  .stock-name .name {
-    font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em;
-  }
+  .stock-name .name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .stock-name .code { font-size: 12px; color: var(--muted); font-weight: 500; }
   .stock-name .industry { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
   .action-tag {
     display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px;
-    border-radius: 6px; margin-top: 6px; letter-spacing: 0.02em;
+    border-radius: 6px; margin-top: 6px;
   }
   .action-tag.focus { background: var(--fortune-soft); color: var(--fortune); }
   .action-tag.watch { background: var(--surface-solid); border: 1px solid var(--hairline); color: var(--muted); }
   .action-tag.caution { background: var(--warn-soft); color: var(--warn); }
 
   .stock-metrics { flex: 0 0 auto; text-align: right; }
-  .stock-price { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+  .stock-price { font-size: 16px; font-weight: 700; }
   .stock-change {
     display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 700;
     padding: 3px 8px; border-radius: 6px;
@@ -318,11 +343,6 @@
     background: var(--bg);
     color: var(--ink);
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  .position-form input:focus {
-    border-color: var(--ink);
-    box-shadow: 0 0 0 3px var(--hairline);
   }
   .position-form input::placeholder { color: var(--muted); }
   .position-form button {
@@ -336,9 +356,7 @@
     background: var(--ink);
     color: var(--bg);
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.1s ease;
   }
-  .position-form button:active { transform: scale(0.99); }
 
   .position-item {
     padding: 16px 4px;
@@ -352,162 +370,160 @@
     justify-content: space-between;
     margin-bottom: 6px;
   }
-  .position-head .name { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+  .position-head .name { font-size: 16px; font-weight: 700; }
   .position-head .code { font-size: 12px; color: var(--muted); margin-left: 6px; }
   .position-del { 
     font-size: 12px; font-weight: 600; color: var(--muted); 
     background: none; border: none; padding: 4px 8px; cursor: pointer;
-    border-radius: 4px; transition: background 0.2s ease, color 0.2s ease;
   }
-  .position-del:hover { background: var(--up-soft); color: var(--up); }
 
-  .position-meta {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
+  .position-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
 
   .position-price-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
   }
   .position-price-row input {
-    width: 110px;
-    font-family: "SF Mono", monospace;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 8px 10px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--hairline);
-    background: var(--surface-solid);
-    color: var(--ink);
-    outline: none;
+    width: 110px; font-family: "SF Mono", monospace; font-size: 14px; font-weight: 600;
+    padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--hairline);
+    background: var(--surface-solid); color: var(--ink); outline: none;
   }
   .position-pnl { font-size: 14px; font-weight: 700; }
   .position-pnl.up { color: var(--up); }
   .position-pnl.down { color: var(--down); }
 
   .position-target-strip {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    margin-bottom: 12px;
-    scrollbar-width: none;
+    display: flex; gap: 8px; overflow-x: auto; margin-bottom: 12px; scrollbar-width: none;
   }
   .position-target-strip::-webkit-scrollbar { display: none; }
   .target-chip {
-    flex: 0 0 auto;
-    font-size: 11px;
-    padding: 6px 10px;
-    border-radius: var(--radius-sm);
-    background: var(--surface-solid);
-    border: 1px solid var(--hairline);
-    color: var(--muted);
-    white-space: nowrap;
+    flex: 0 0 auto; font-size: 11px; padding: 6px 10px; border-radius: var(--radius-sm);
+    background: var(--surface-solid); border: 1px solid var(--hairline); color: var(--muted); white-space: nowrap;
   }
   .target-chip b { color: var(--ink); font-weight: 700; }
 
   .position-verdict {
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.5;
-    padding: 12px 14px;
-    border-radius: var(--radius-sm);
-    background: var(--surface-solid);
-    border: 1px solid var(--hairline);
-    color: var(--muted);
+    font-size: 13px; font-weight: 500; line-height: 1.5; padding: 12px 14px;
+    border-radius: var(--radius-sm); background: var(--surface-solid); border: 1px solid var(--hairline); color: var(--muted);
   }
   .position-verdict.fire-loss { background: var(--up-soft); border-color: transparent; color: var(--up); font-weight: 600; }
   .position-verdict.fire-profit { background: var(--down-soft); border-color: transparent; color: var(--down); font-weight: 600; }
   .position-verdict.fire-time { background: var(--warn-soft); border-color: transparent; color: var(--warn); font-weight: 600; }
 
   footer {
-    max-width: 680px; margin: 16px auto 0; padding: 0 24px;
-    font-size: 11px; line-height: 1.6; color: var(--muted); text-align: center;
-    opacity: 0.8;
+    max-width: 960px; margin: 24px auto 0; padding: 0 24px;
+    font-size: 11px; line-height: 1.6; color: var(--muted); text-align: center; opacity: 0.8;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">每日优选 · 仪表盘</div>
-  <div class="clock-wrap">
-    <span class="live-dot"></span>
-    <span id="clock" class="mono"></span>
+  <div class="header-container">
+    <div class="brand">每日优选 · 仪表盘</div>
+    <div class="clock-wrap">
+      <span class="live-dot"></span>
+      <span id="clock" class="mono"></span>
+    </div>
   </div>
 </header>
 
+<!-- Segments / Nav Tabs -->
+<div class="nav-tabs-wrap">
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('tab-overview', this)">📊 市场概览</button>
+    <button class="tab-btn" onclick="switchTab('tab-stocks', this)">🔥 今日优选</button>
+    <button class="tab-btn" onclick="switchTab('tab-positions', this)">💼 我的持仓</button>
+    <button class="tab-btn" onclick="switchTab('tab-fortune', this)">🔮 玄学运势</button>
+  </nav>
+</div>
+
 <main>
 
-  <!-- 今日运势(等出生日期时间提供后接入真实数据) -->
-  <section class="card" id="fortune-card">
-    <div class="date-line" id="date-line">加载中...</div>
-    <h1 class="fortune-title">今日运势</h1>
-    <div id="fortune-body">
-      <p class="placeholder">运势数据还没有接入,配置好之后这里会显示八字与今日黄历的对照分析。</p>
+  <!-- Page 1: 市场概览 (首页) -->
+  <div class="tab-page active" id="tab-overview">
+    <div class="grid-2col">
+      <!-- 市场概览卡片 -->
+      <section class="card" id="market-card">
+        <div class="card-label">市场指标</div>
+        <div class="market-top">
+          <div class="market-score mono" id="market-score">--</div>
+          <div class="market-score-unit">/ 100</div>
+        </div>
+        <div id="market-status-wrap" class="market-sub">
+          <span class="status-badge" id="status-badge">--</span>
+          建议仓位 <b id="suggested-position">--</b>
+        </div>
+        <div class="breadth-grid" id="breadth-grid"></div>
+      </section>
+
+      <!-- 风险提示与回测卡片组 -->
+      <div>
+        <section class="card risk-card ok" id="risk-card">
+          <div class="risk-title" id="risk-title">风险提示</div>
+          <div id="risk-body"><p class="risk-note">加载中...</p></div>
+        </section>
+
+        <section class="card" id="backtest-card">
+          <div class="card-label">策略回测<span class="backtest-tag">尚未接入</span></div>
+          <p class="backtest-empty">
+            回测引擎 (<code>scripts/backtest.py</code>) 已就绪，待接入历史数据。
+          </p>
+        </section>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- 市场概览 -->
-  <section class="card" id="market-card">
-    <div class="card-label">市场概览</div>
-    <div class="market-top">
-      <div class="market-score" id="market-score">--</div>
-      <div class="market-score-unit">/ 100</div>
-    </div>
-    <div id="market-status-wrap" class="market-sub">
-      <span class="status-badge" id="status-badge">--</span>
-      建议仓位 <b id="suggested-position">--</b>
-    </div>
-    <div class="breadth-grid" id="breadth-grid"></div>
-  </section>
+  <!-- Page 2: 今日优选股票 -->
+  <div class="tab-page" id="tab-stocks">
+    <p class="status-line" id="stock-status">加载中...</p>
+    <section class="card" id="stock-card" style="padding: 8px 20px;">
+      <div id="stock-list"></div>
+    </section>
+  </div>
 
-  <!-- 风险提示 -->
-  <section class="card risk-card ok" id="risk-card">
-    <div class="risk-title" id="risk-title">风险提示</div>
-    <div id="risk-body"><p class="risk-note">加载中...</p></div>
-  </section>
+  <!-- Page 3: 我的持仓 -->
+  <div class="tab-page" id="tab-positions">
+    <p class="status-line">数据存储于当前浏览器本地；卖出规则与 scripts/backtest.py 同步。</p>
+    <section class="card" id="position-card">
+      <div class="position-form">
+        <input type="text" id="pos-input-name" placeholder="股票名称">
+        <input type="text" id="pos-input-code" placeholder="代码,如 600000">
+        <input type="number" id="pos-input-cost" placeholder="成本价" step="0.01">
+        <input type="number" id="pos-input-shares" placeholder="数量(股)" step="100">
+        <input type="date" id="pos-input-date">
+        <button onclick="addPosition()">添加持仓</button>
+      </div>
+      <div id="position-list"></div>
+    </section>
+  </div>
 
-  <!-- 策略回测(诚实占位,不编数字) -->
-  <section class="card" id="backtest-card">
-    <div class="card-label">策略回测<span class="backtest-tag">尚未接入</span></div>
-    <p class="backtest-empty">
-      回测引擎(<code>scripts/backtest.py</code>)已经写好了,但还没接入真实历史数据、也还没有对应的
-      JSON 输出喂给这张卡片,所以这里暂时留空,不展示编造的数字。下方的"操作建议"标签只是当日
-      筛选规则里的相对排名,不代表历史表现。
-    </p>
-  </section>
-
-  <div class="section-title">今日优选股票</div>
-  <p class="status-line" id="stock-status">加载中...</p>
-  <section class="card" id="stock-card" style="padding: 8px 20px;">
-    <div id="stock-list"></div>
-  </section>
-
-  <div class="section-title">我的持仓</div>
-  <p class="status-line">数据存在这台设备的浏览器里,换设备或清缓存会丢失;卖出规则参数和 scripts/backtest.py 的 SellRules 保持一致,如果之后改了那边的参数,记得也来改这里(两边不会自动同步)</p>
-  <section class="card" id="position-card">
-    <div class="position-form">
-      <input type="text" id="pos-input-name" placeholder="股票名称">
-      <input type="text" id="pos-input-code" placeholder="代码,如 600000">
-      <input type="number" id="pos-input-cost" placeholder="成本价" step="0.01">
-      <input type="number" id="pos-input-shares" placeholder="数量(股)" step="100">
-      <input type="date" id="pos-input-date">
-      <button onclick="addPosition()">添加持仓</button>
-    </div>
-    <div id="position-list"></div>
-  </section>
+  <!-- Page 4: 玄学运势 -->
+  <div class="tab-page" id="tab-fortune">
+    <section class="card" id="fortune-card">
+      <div class="date-line" id="date-line">加载中...</div>
+      <h1 class="fortune-title">今日运势</h1>
+      <div id="fortune-body">
+        <p class="placeholder">运势数据未接入，配置后展示八字与黄历分析。</p>
+      </div>
+    </section>
+  </div>
 
 </main>
 
 <footer>
-  数据每 15 分钟自动更新一次 · 市场评分基于全市场涨跌家数计算,操作建议为规则标签,均不构成投资建议
+  数据每 15 分钟自动更新一次 · 市场评分基于全市场涨跌家数计算，不构成投资建议
 </footer>
 
 <script>
+  // ---------- Tab 切换逻辑 ----------
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+  }
+
   // ---------- 实时时钟(北京时间)----------
   function updateClock() {
     const now = new Date();
@@ -649,16 +665,12 @@
     fetch('data/fortune.json', { cache: 'no-store' })
       .then(res => { if (!res.ok) throw new Error('status ' + res.status); return res.json(); })
       .then(renderFortune)
-      .catch(() => { /* 数据还没生成之前保持占位提示,不打扰用户 */ });
+      .catch(() => { /* 数据还没生成之前保持占位提示 */ });
   }
 
-  // ---------- 我的持仓(存在浏览器 localStorage,只在这台设备/浏览器有效)----------
+  // ---------- 我的持仓 ----------
   const POSITIONS_KEY = 'myPositions';
 
-  // 卖出规则参数,和 scripts/backtest.py 里 SellRules 的默认值保持一致,手动同步,
-  // 这边改了记得那边也改,反过来也一样,两边没有自动同步机制。
-  // "趋势走弱(跌破10日均线)"那条规则这里没做——需要历史K线数据,静态网页拿不到,
-  // 只实现了止损、分批止盈、最长持有天数这三条。
   const SELL_RULES = {
     stopLossPct: -0.05,
     takeProfitTier1Pct: 0.08,
@@ -761,7 +773,6 @@
     }
 
     listEl.innerHTML = positions.map(pos => {
-      // 如果这只股票今天正好在优选列表里,自动带出最新价(用户仍可手动覆盖)
       const liveMatch = latestStocksByCode[pos.code];
       if (liveMatch && pos.currentPrice == null) {
         pos.currentPrice = parseFloat(liveMatch['最新价']);
@@ -793,7 +804,7 @@
         </div>`;
     }).join('');
 
-    savePositions(positions); // 把自动带出的现价写回存储,下次打开还在
+    savePositions(positions);
   }
 
   document.getElementById('pos-input-date').valueAsDate = new Date();
@@ -820,9 +831,9 @@
 
   renderPositions();
   loadAll();
-  setInterval(loadAll, 15 * 60 * 1000); // 每 15 分钟自动刷新一次数据
+  setInterval(loadAll, 15 * 60 * 1000);
 </script>
 
 </body>
 </html>
-
+  
