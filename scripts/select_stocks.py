@@ -4,8 +4,7 @@ import numpy as np
 import json
 import os
 import re
-import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone, time as dtime
 
 
 def to_json_safe(obj):
@@ -109,6 +108,36 @@ def compute_market_overview(raw_df: pd.DataFrame) -> dict:
     }
 
 
+def get_beijing_now() -> datetime:
+    # GitHub Actions 跑在 UTC,这里统一转换成北京时间
+    return datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(hours=8)
+
+
+def trading_minutes_elapsed(now: datetime) -> float:
+    """
+    返回"用于折算换手率的已交易分钟数",不是字面意义上"现在几点"。
+    交易时段:09:30-11:30(120分钟)+ 13:00-15:00(120分钟),全天共240分钟。
+
+    开盘前(< 9:30)单独返回 240,而不是 0——因为这个时间点快照里的换手率其实是
+    "昨天收盘的最终值",不是"今天才过了0分钟的部分数据",如果按0分钟折算会把
+    一个已经是完整全天的数字硬乘几十倍,数值会离谱地虚高。
+    """
+    t = now.time()
+    open_am, close_am = dtime(9, 30), dtime(11, 30)
+    open_pm, close_pm = dtime(13, 0), dtime(15, 0)
+
+    if t < open_am:
+        return 240.0  # 开盘前:数据是昨天收盘的最终值,不折算
+    if t <= close_am:
+        elapsed = (datetime.combine(now.date(), t) - datetime.combine(now.date(), open_am)).total_seconds() / 60
+        return elapsed
+    if t < open_pm:
+        return 120.0  # 午休:按上午收盘时的累计分钟数算,是今天的部分数据
+    if t <= close_pm:
+        return 120.0 + (datetime.combine(now.date(), t) - datetime.combine(now.date(), open_pm)).total_seconds() / 60
+    return 240.0  # 收盘后:今天已经是完整一天的数据,不折算
+
+
 def robust_strategy_logic(stock_list: pd.DataFrame) -> pd.DataFrame:
     """
     选股逻辑(相对上一版的改动说明):
@@ -117,10 +146,16 @@ def robust_strategy_logic(stock_list: pd.DataFrame) -> pd.DataFrame:
          维度七呼应)。
       2. 涨跌幅收窄到 2%~7%:回避一字涨停(想买也买不进)和刚起步、趋势尚不明朗的
          弱势股,聚焦"温和放量上涨"这种相对健康的短线形态。
-      3. 换手率下限提到 5%(原 3%),量比下限提到 1.8(原 1.5):提高"资金确实在
-         活跃换手"的门槛,过滤掉无量空涨的伪强势股。
-      4. 打分权重从"涨跌幅/量比各半"改为"换手率0.6 + 涨跌幅0.4":短线里资金活跃度
-         (换手率)比单纯涨幅更能反映当下的关注度和参与意愿。
+      3. 量比下限 1.8:提高"资金确实在活跃换手"的门槛,过滤掉无量空涨的伪强势股。
+      4. 换手率改用"按已交易时长折算的全天预估值"而不是原始累计值(v3 新增)——
+         换手率是全天累计指标,开盘不久天然就低,如果直接卡"换手率≥5%"这种绝对
+         阈值,早盘几乎选不出票,得等到真实累计值爬到5%以上才会出结果,这会导致
+         选股结果集中出现在下午,错过早盘的进场时机。折算公式:
+         预估全天换手率 = 当前换手率 ×(240 / 已交易分钟数)。已交易分钟数低于10分钟
+         时按10分钟算,避免开盘头几分钟样本太小,折算出离谱的数字;同时保留原始
+         换手率 ≥0.5% 的地板,过滤纯噪音。
+      5. 打分权重"换手率0.6 + 涨跌幅0.4"不变,但换手率部分换成折算后的预估值,
+         和筛选口径保持一致,避免"筛选用折算值、排序用原始值"这种自相矛盾。
     """
     df = stock_list.copy()
 
@@ -137,56 +172,87 @@ def robust_strategy_logic(stock_list: pd.DataFrame) -> pd.DataFrame:
     # 2. 涨跌幅区间:2%~7%,剔除一字板(买不进)和涨幅不足的弱势股(zdf = 涨跌幅,单位 %)
     df = df[(df["zdf"] >= 2.0) & (df["zdf"] <= 7.0)]
 
-    # 3. 换手率区间:5%~15%,说明有持续增量资金参与换手,而非无量空涨(hsl = 换手率,单位 %)
-    df = df[(df["hsl"] >= 5.0) & (df["hsl"] <= 15.0)]
+    # 3. 换手率按已交易时长折算成全天预估值,不用原始累计值(见函数说明第4点)
+    elapsed = max(trading_minutes_elapsed(get_beijing_now()), 10.0)
+    projection_factor = 240.0 / elapsed
+    df["hsl_projected"] = df["hsl"] * projection_factor
 
-    # 4. 量比 > 1.8:今日成交量相对近期明显放大,说明确有资金在动(lb = 量比)
+    df = df[(df["hsl"] >= 0.5) & (df["hsl_projected"] >= 5.0) & (df["hsl_projected"] <= 15.0)]
+
+    # 4. 量比 > 1.8:量比的官方定义本身已经按同一时段历史均值折算过,不需要再处理(lb = 量比)
     df = df[df["lb"] > 1.8]
 
-    # 5. 综合打分:换手率为主、涨跌幅为辅,取分数最高的 15 只
-    df["score"] = df["hsl"] * 0.6 + df["zdf"] * 0.4
+    # 5. 综合打分:换手率(折算后)为主、涨跌幅为辅,取分数最高的 15 只
+    df["score"] = df["hsl_projected"] * 0.6 + df["zdf"] * 0.4
     selected = df.sort_values("score", ascending=False).head(15)
 
-    return selected[["code", "name", "zxj", "zdf", "hsl", "lb", "score"]].rename(
+    return selected[["code", "name", "zxj", "zdf", "hsl", "hsl_projected", "lb", "score"]].rename(
         columns={
             "code": "代码",
             "name": "名称",
             "zxj": "最新价",
             "zdf": "涨跌幅",
             "hsl": "换手率",
+            "hsl_projected": "预估全天换手率",
             "lb": "量比",
         }
     )
 
 
+def guess_exchange_prefix(code_clean: str) -> str:
+    """从6位代码猜交易所前缀,给雪球接口用(它要 SH600000 这种带前缀的格式)。"""
+    if code_clean.startswith(("60", "68", "90")):
+        return "SH"
+    if code_clean.startswith(("8", "43", "92")):
+        return "BJ"
+    return "SZ"
+
+
+def fetch_industry_live(code_clean: str) -> str:
+    """
+    尝试雪球的接口——和东方财富是不同公司的数据源,东方财富被墙不代表这个也被墙,
+    但我这边同样没法离线验证这个接口现在是否可用、字段名是否还准确,失败很正常,
+    失败了会自动落到本地静态映射表兜底,不影响整体流程。
+    """
+    try:
+        code_prefixed = guess_exchange_prefix(code_clean) + code_clean
+        info = ak.stock_individual_basic_info_xq(symbol=code_prefixed)
+        row = info.loc[info["item"].astype(str).str.contains("行业|industry", case=False, na=False), "value"]
+        if not row.empty and str(row.values[0]).strip():
+            return str(row.values[0])
+    except Exception:
+        pass
+    return ""
+
+
 def enrich_with_industry(selected_df: pd.DataFrame) -> pd.DataFrame:
     """
-    给入选股票逐个查行业分类。
-    之前连续请求没有间隔,被数据源限流导致好几只股票直接拿到空响应
-    (Expecting value: line 1 column 1 (char 0)),现在加了请求间隔 + 重试。
-    如果加了间隔后行业还是大面积变成"未分类",大概率是接口字段名或代码格式对不上,
-    把 except 里的 print 输出发我看一下就行。
+    给入选股票查行业分类,三层兜底:
+      1. 先试雪球接口(fetch_industry_live)—— 不同数据源,值得试,但没把握一定能用
+      2. 雪球失败就查本地静态映射表 site/data/industry_map.json(用
+         scripts/build_industry_map.py 在国内网络生成、手动提交更新)
+      3. 都没有就标"未分类"(不会导致脚本崩溃)
+
+    背景:实测 ak.stock_individual_info_em()(东方财富)在 GitHub Actions 环境里
+    15/15 全部查询失败,加了重试、请求间隔也没救回来任何一个,更像是东方财富把
+    GitHub Actions 用的海外 IP 段整体限制/屏蔽了,所以不再单独依赖它。
     """
+    map_path = "site/data/industry_map.json"
+    industry_map = {}
+    if os.path.exists(map_path):
+        with open(map_path, "r", encoding="utf-8") as f:
+            industry_map = json.load(f)
+    else:
+        print(f"提示: {map_path} 不存在,雪球接口如果也失败,行业会显示为未分类。"
+              f"可以在本地跑一遍 python scripts/build_industry_map.py 再提交进仓库作为兜底。")
+
     industries = []
     for code in selected_df["代码"]:
-        industry = "未分类"
         code_clean = re.sub(r"[^0-9]", "", str(code))[-6:]
-
-        for attempt in range(1, 3):  # 最多重试1次
-            try:
-                info = ak.stock_individual_info_em(symbol=code_clean)
-                row = info.loc[info["item"] == "行业", "value"]
-                if not row.empty:
-                    industry = str(row.values[0])
-                break
-            except Exception as e:
-                if attempt == 1:
-                    time.sleep(1.0)  # 大概率是限流,退避一下再试一次
-                else:
-                    print(f"查询行业失败 code={code}: {e}")
-
+        industry = fetch_industry_live(code_clean)
+        if not industry:
+            industry = industry_map.get(code_clean, "未分类")
         industries.append(industry)
-        time.sleep(0.3)  # 请求间隔,避免连续请求触发限流
 
     selected_df = selected_df.copy()
     selected_df["行业"] = industries
