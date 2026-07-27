@@ -195,11 +195,6 @@
     align-items: start;
   }
 
-  @media (max-width: 768px) {
-    .grid-2col { grid-template-columns: 1fr; }
-    .nav-tabs { grid-template-columns: repeat(2, 1fr); }
-  }
-
   /* 卡片基类 */
   .card {
     background: var(--surface);
@@ -298,88 +293,105 @@
   .risk-card.warn .risk-title { color: var(--warn); }
   .risk-card.ok .risk-title { color: var(--down); }
   .risk-note { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 4px 0; }
-
   .backtest-empty { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6; }
 
-  /* 股票列表表头与行 (对齐优化) */
+  /* =========================================
+     🔥 股票列表重构 (Flex响应式对齐修复)
+     ========================================= */
   .stock-header {
-    display: grid;
-    grid-template-columns: 40px 1fr 100px 120px;
-    padding: 0 8px 10px 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 4px 10px 4px;
     border-bottom: 1px solid var(--hairline);
     font-size: 11px;
     font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    gap: 12px;
   }
 
   .stock-row {
-    display: grid;
-    grid-template-columns: 40px 1fr 100px 120px;
+    display: flex;
     align-items: center;
-    padding: 12px 8px;
+    padding: 14px 4px;
     border-bottom: 1px solid var(--hairline);
+    gap: 12px;
   }
   .stock-row:last-child { border-bottom: none; }
 
+  /* 固定宽度的序号列 */
   .stock-rank {
-    font-size: 12px;
+    flex: 0 0 24px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--muted);
   }
 
+  /* 核心信息列 (允许自动缩放，保证文字不折行) */
   .stock-info {
+    flex: 1;
+    min-width: 0; /* 必须包含，防止子元素文字过长撑破 Flex 容器 */
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
   }
+
   .stock-info .name-line {
     display: flex;
     align-items: baseline;
     gap: 8px;
+    white-space: nowrap; /* 强制不换行 */
+    overflow: hidden;    
+    text-overflow: ellipsis; 
   }
+  
   .stock-info .name {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--ink);
   }
+  
   .stock-info .code {
     font-size: 12px;
     color: var(--muted);
   }
+
+  .stock-info .meta-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+  
   .stock-info .meta {
     font-size: 11px;
     color: var(--muted);
   }
 
   .action-tag {
-    display: inline-block;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    padding: 2px 8px;
+    padding: 2px 6px;
     border-radius: var(--radius-sm);
-    text-align: center;
-    width: fit-content;
   }
   .action-tag.focus { background: var(--up-soft); color: var(--up); }
   .action-tag.watch { background: var(--surface-subtle); border: 1px solid var(--hairline); color: var(--muted); }
   .action-tag.caution { background: var(--warn-soft); color: var(--warn); }
 
+  /* 固定宽度的价格列 */
   .stock-price-col {
+    flex: 0 0 85px; /* 给予充足宽度以容纳数字 */
     text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
-  .stock-price {
-    font-size: 14px;
-    font-weight: 700;
-  }
-  .stock-change {
-    font-size: 12px;
-    font-weight: 600;
-    margin-top: 2px;
-  }
+  .stock-price { font-size: 15px; font-weight: 700; }
+  .stock-change { font-size: 12px; font-weight: 600; }
   .stock-change.up { color: var(--up); }
   .stock-change.down { color: var(--down); }
+
 
   /* 持仓管理 */
   .position-form {
@@ -391,11 +403,6 @@
     padding: 12px;
     border-radius: var(--radius-md);
     border: 1px solid var(--hairline);
-  }
-
-  @media (max-width: 768px) {
-    .position-form { grid-template-columns: repeat(2, 1fr); }
-    .position-form button { grid-column: span 2; }
   }
 
   .position-form input {
@@ -463,10 +470,6 @@
     font-size: 12px;
   }
 
-  @media (max-width: 600px) {
-    .position-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
   .pos-cell-label { color: var(--muted); margin-bottom: 2px; font-size: 11px; }
   .pos-cell-value { font-weight: 700; }
 
@@ -502,91 +505,53 @@
     border-bottom: 1px solid var(--hairline);
   }
 
-  .bazi-grid { 
-    display: grid; 
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 8px; 
-    margin-bottom: 16px; 
-  }
+  .bazi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
   .pillar {
-    text-align: center; 
-    padding: 12px 4px; 
-    border-radius: var(--radius-md);
-    background: var(--surface-subtle); 
-    border: 1px solid var(--hairline);
+    text-align: center; padding: 12px 4px; border-radius: var(--radius-md);
+    background: var(--surface-subtle); border: 1px solid var(--hairline);
   }
-  .pillar.day-master { 
-    border-color: var(--accent);
-    background: var(--accent-soft);
-  }
+  .pillar.day-master { border-color: var(--accent); background: var(--accent-soft); }
   .pillar-label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
   .pillar-char { display: block; font-size: 18px; font-weight: 700; line-height: 1.3; }
 
-  .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-bottom: 16px;
-  }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
   .stat-card {
-    background: var(--surface-subtle);
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--hairline);
-    font-size: 12px;
+    background: var(--surface-subtle); padding: 8px 12px;
+    border-radius: var(--radius-sm); border: 1px solid var(--hairline); font-size: 12px;
   }
   .stat-card .label { color: var(--muted); font-size: 11px; }
   .stat-card .val { font-weight: 700; margin-top: 2px; }
 
-  .yiji-grid { 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px; 
-    margin-bottom: 16px; 
-  }
-  .yiji-block {
-    background: var(--surface-subtle);
-    padding: 12px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--hairline);
-  }
-  .yiji-header { 
-    font-size: 11px; 
-    font-weight: 700; 
-    margin-bottom: 8px; 
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+  .yiji-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .yiji-block { background: var(--surface-subtle); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--hairline); }
+  .yiji-header { font-size: 11px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
   .yiji-header.yi { color: var(--down); }
   .yiji-header.ji { color: var(--up); }
-  
   .tag-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag { 
-    font-size: 11px; 
-    padding: 2px 6px; 
-    border-radius: var(--radius-sm); 
-  }
+  .tag { font-size: 11px; padding: 2px 6px; border-radius: var(--radius-sm); }
   .tag.yi { background: var(--down-soft); color: var(--down); }
   .tag.ji { background: var(--up-soft); color: var(--up); }
 
   .fortune-summary {
-    font-size: 13px; 
-    line-height: 1.6; 
-    color: var(--ink); 
-    background: var(--surface-subtle);
-    border-left: 3px solid var(--accent); 
-    padding: 12px 14px;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 13px; line-height: 1.6; color: var(--ink); background: var(--surface-subtle);
+    border-left: 3px solid var(--accent); padding: 12px 14px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
 
   .status-line { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
-  .placeholder { font-size: 13px; color: var(--muted); padding: 12px 0; }
+  .placeholder { font-size: 13px; color: var(--muted); padding: 12px 0; text-align: center; }
 
-  footer {
-    font-size: 11px; 
-    color: var(--muted); 
-    text-align: center; 
-    margin-top: 32px;
+  footer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 32px; }
+
+  /* 针对移动端屏幕的媒体查询优化 */
+  @media (max-width: 768px) {
+    .grid-2col { grid-template-columns: 1fr; }
+    .nav-tabs { grid-template-columns: repeat(2, 1fr); }
+    .container { padding: 0 16px; }
+    .card { padding: 20px 16px; }
+    
+    .position-form { grid-template-columns: repeat(2, 1fr); }
+    .position-form button { grid-column: span 2; }
+    .position-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -663,12 +628,13 @@
     <!-- 视图 2: 今日优选 -->
     <div class="tab-page" id="tab-stocks">
       <div class="status-line" id="stock-status">加载中...</div>
-      <section class="card" style="padding: 16px 20px;">
+      
+      <!-- 这里调宽了移动端 Padding，给予更多展示空间 -->
+      <section class="card" style="padding: 16px 12px;">
         <div class="stock-header">
-          <span>NO.</span>
-          <span>标的 / 代码</span>
-          <span>策略建议</span>
-          <span style="text-align: right;">最新价 / 涨跌幅</span>
+          <div style="flex: 0 0 24px;">NO.</div>
+          <div style="flex: 1;">标的 / 代码</div>
+          <div style="flex: 0 0 85px; text-align: right;">最新价 / 涨幅</div>
         </div>
         <div id="stock-list"></div>
       </section>
@@ -769,7 +735,7 @@
     }
   }
 
-  // 股票列表渲染 (网格对齐)
+  // 股票列表渲染 (Flex响应式对齐优化版)
   function renderStocks(data) {
     const stocks = data.stocks || [];
     const statusEl = document.getElementById('stock-status');
@@ -791,6 +757,7 @@
       const action = s['操作建议'] || '观察';
       const indexStr = (i + 1).toString().padStart(2, '0');
 
+      // 重构 HTML 结构：将 Action Tag 与行业 Meta 放在同一行，释放水平空间
       return `
         <div class="stock-row">
           <div class="stock-rank mono">${indexStr}</div>
@@ -799,10 +766,10 @@
               <span class="name">${s['名称'] ?? ''}</span>
               <span class="code mono">${s['代码'] ?? ''}</span>
             </div>
-            <div class="meta">${s['行业'] ?? '未分类'}</div>
-          </div>
-          <div>
-            <span class="action-tag ${actionCls[action] || 'watch'}">${action}</span>
+            <div class="meta-line">
+              <span class="meta">${s['行业'] ?? '未分类'}</span>
+              <span class="action-tag ${actionCls[action] || 'watch'}">${action}</span>
+            </div>
           </div>
           <div class="stock-price-col">
             <div class="stock-price mono">${s['最新价'] ?? '--'}</div>
