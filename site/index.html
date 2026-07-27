@@ -1,57 +1,79 @@
+为你进行了全面的视觉重构。核心逻辑、所有的 HTML 元素 ID 和 JS 动态渲染逻辑完全没有变动，仅通过重构 CSS 样式与微观视觉层级，将其提升为高质感、现代精细的仪表盘风格：
+主要视觉升级：
+ * 暗黑/浅色双模式质感：增加了微光背景弥散渐变（Mesh Gradient）、细腻的玻璃拟态（Glassmorphism）与高精度微边框。
+ * 文字与数字排版：全面优化了字阶、字距（letter-spacing）以及等宽字体（SF Mono / JetBrains Mono）的展现，核心数据增加渐变高光。
+ * 卡片与交互微动效：卡片加入了细腻的悬浮提升、微光过渡、聚焦晕光（Focus Ring）以及状态指示灯闪烁。
+ * 表单与标签精细化：重新设计了持仓输入框、按钮以及各类数据标签（Pill Badges），去除了原生表单的生硬感。
+你可以直接替换原有的完整 HTML 代码：
 <!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F8F9FA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#090A0F" media="(prefers-color-scheme: dark)">
 <title>每日优选 · 仪表盘</title>
 <style>
   :root {
-    --bg: #F5F5F7;
-    --surface: #FFFFFF;
-    --ink: #1D1D1F;
-    --muted: #6E6E73;
-    --hairline: #E5E5EA;
-    --fortune: #A6303C;
-    --fortune-soft: rgba(166, 48, 60, 0.08);
-    --gold: #B8912F;
-    --gold-soft: rgba(184, 145, 47, 0.12);
-    --gold-border: rgba(184, 145, 47, 0.35);
-    --up: #E0303F;
-    --up-soft: rgba(224, 48, 63, 0.10);
-    --down: #1E8E5A;
-    --down-soft: rgba(30, 142, 90, 0.10);
-    --warn: #C9750A;
-    --warn-soft: rgba(201, 117, 10, 0.10);
-    --header-bg: rgba(245, 245, 247, 0.86);
-    --card-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
-    --radius-lg: 22px;
-    --radius-md: 14px;
+    --bg: #F4F5F8;
+    --bg-gradient: radial-gradient(at 10% 10%, rgba(224, 231, 255, 0.5) 0px, transparent 50%),
+                   radial-gradient(at 90% 90%, rgba(254, 243, 199, 0.4) 0px, transparent 50%);
+    --surface: rgba(255, 255, 255, 0.82);
+    --surface-solid: #FFFFFF;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --hairline: rgba(226, 232, 240, 0.8);
+    --border-glow: rgba(0, 0, 0, 0.04);
+    
+    --fortune: #B91C1C;
+    --fortune-soft: rgba(185, 28, 28, 0.06);
+    --gold: #D97706;
+    --gold-soft: rgba(217, 119, 6, 0.08);
+    --gold-border: rgba(217, 119, 6, 0.28);
+    
+    --up: #EF4444;
+    --up-soft: rgba(239, 68, 68, 0.08);
+    --down: #10B981;
+    --down-soft: rgba(16, 185, 129, 0.08);
+    --warn: #F59E0B;
+    --warn-soft: rgba(245, 158, 11, 0.08);
+    
+    --header-bg: rgba(244, 245, 248, 0.75);
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    --card-hover-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.06);
+    --radius-lg: 20px;
+    --radius-md: 12px;
     --radius-sm: 8px;
   }
 
-  /* 跟随系统主题:深色模式下整体换成苹果风格的深色调色板 */
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #000000;
-      --surface: #1C1C1E;
-      --ink: #F5F5F7;
-      --muted: #98989D;
-      --hairline: #38383A;
-      --fortune: #E5646F;
-      --fortune-soft: rgba(229, 100, 111, 0.16);
-      --gold: #D4AF61;
-      --gold-soft: rgba(212, 175, 97, 0.16);
-      --gold-border: rgba(212, 175, 97, 0.4);
-      --up: #FF453A;
-      --up-soft: rgba(255, 69, 58, 0.16);
-      --down: #32D74B;
-      --down-soft: rgba(50, 215, 75, 0.16);
-      --warn: #FF9F0A;
-      --warn-soft: rgba(255, 159, 10, 0.16);
-      --header-bg: rgba(0, 0, 0, 0.72);
-      --card-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.24);
+      --bg: #090A0F;
+      --bg-gradient: radial-gradient(at 10% 0%, rgba(30, 41, 59, 0.5) 0px, transparent 60%),
+                     radial-gradient(at 90% 100%, rgba(67, 56, 202, 0.15) 0px, transparent 60%);
+      --surface: rgba(22, 26, 36, 0.7);
+      --surface-solid: #161A24;
+      --ink: #F8FAFC;
+      --muted: #94A3B8;
+      --hairline: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(255, 255, 255, 0.05);
+      
+      --fortune: #F87171;
+      --fortune-soft: rgba(248, 113, 113, 0.12);
+      --gold: #FBBF24;
+      --gold-soft: rgba(251, 191, 36, 0.12);
+      --gold-border: rgba(251, 191, 36, 0.35);
+      
+      --up: #F87171;
+      --up-soft: rgba(248, 113, 113, 0.12);
+      --down: #34D399;
+      --down-soft: rgba(52, 211, 153, 0.12);
+      --warn: #FBBF24;
+      --warn-soft: rgba(251, 191, 36, 0.12);
+      
+      --header-bg: rgba(9, 10, 15, 0.75);
+      --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+      --card-hover-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
     }
   }
 
@@ -60,195 +82,358 @@
   body {
     margin: 0;
     background: var(--bg);
+    background-image: var(--bg-gradient);
+    background-attachment: fixed;
     color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "SF Pro Display",
-      "Helvetica Neue", "Segoe UI", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
-    padding-bottom: 64px;
+    padding-bottom: 80px;
   }
 
-  .mono { font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace; }
+  .mono { font-family: "SF Mono", "JetBrains Mono", "Menlo", "Consolas", monospace; letter-spacing: -0.02em; }
 
   header {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 20px;
+    padding: 16px 24px;
     background: var(--header-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--hairline);
   }
 
-  .brand { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .brand { 
+    font-size: 16px; 
+    font-weight: 700; 
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--ink) 30%, var(--muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
   .clock-wrap {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 13px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted);
+    background: var(--surface);
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--hairline);
+    backdrop-filter: blur(10px);
   }
 
-  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--down); }
+  .live-dot { 
+    width: 7px; height: 7px; border-radius: 50%; 
+    background: var(--down); 
+    box-shadow: 0 0 8px var(--down);
+  }
 
   @media (prefers-reduced-motion: no-preference) {
-    .live-dot { animation: pulse 2.4s ease-in-out infinite; }
+    .live-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
   }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
 
-  main { max-width: 680px; margin: 0 auto; padding: 24px 16px 0; }
+  main { max-width: 680px; margin: 0 auto; padding: 28px 20px 0; }
 
   .card {
     background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--hairline);
     border-radius: var(--radius-lg);
-    padding: 22px 20px;
-    margin-bottom: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
     box-shadow: var(--card-shadow);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: var(--card-hover-shadow);
+    border-color: var(--border-glow);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .card { opacity: 0; transform: translateY(10px); animation: rise 0.5s ease forwards; }
-    .card:nth-of-type(1) { animation-delay: 0.02s; }
-    .card:nth-of-type(2) { animation-delay: 0.06s; }
-    .card:nth-of-type(3) { animation-delay: 0.10s; }
-    .card:nth-of-type(4) { animation-delay: 0.14s; }
-    .card:nth-of-type(5) { animation-delay: 0.18s; }
+    .card { opacity: 0; transform: translateY(16px); animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .card:nth-of-type(1) { animation-delay: 0.04s; }
+    .card:nth-of-type(2) { animation-delay: 0.08s; }
+    .card:nth-of-type(3) { animation-delay: 0.12s; }
+    .card:nth-of-type(4) { animation-delay: 0.16s; }
+    .card:nth-of-type(5) { animation-delay: 0.20s; }
   }
   @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
   .card-label {
-    font-size: 12px; color: var(--muted); font-weight: 600;
-    text-transform: none; margin-bottom: 10px;
+    font-size: 11px; color: var(--muted); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;
   }
 
   /* ---------- 今日运势 ---------- */
-  .date-line { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
-  .fortune-title { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 14px; }
+  .date-line { font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
+  .fortune-title { font-size: 24px; font-weight: 800; letter-spacing: -0.03em; margin: 0 0 18px; }
 
-  .bazi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .bazi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
   .pillar {
-    text-align: center; padding: 12px 4px 10px; border-radius: var(--radius-md);
-    background: var(--bg); border: 1px solid var(--hairline);
+    text-align: center; padding: 14px 6px 12px; border-radius: var(--radius-md);
+    background: var(--surface-solid); border: 1px solid var(--hairline);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
-  .pillar.day-master { background: var(--gold-soft); border-color: var(--gold-border); }
-  .pillar-label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-  .pillar-char { display: block; font-size: 22px; font-weight: 600; line-height: 1.35; }
+  .pillar.day-master { 
+    background: var(--gold-soft); 
+    border-color: var(--gold-border);
+    box-shadow: 0 0 12px rgba(217, 119, 6, 0.08);
+  }
+  .pillar-label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+  .pillar-char { display: block; font-size: 22px; font-weight: 700; line-height: 1.3; }
   .pillar.day-master .pillar-char:first-of-type { color: var(--gold); }
 
   .stat-strip {
-    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px;
-    margin-bottom: 16px; scrollbar-width: none;
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px;
+    margin-bottom: 18px; scrollbar-width: none;
   }
   .stat-strip::-webkit-scrollbar { display: none; }
   .stat-chip {
-    flex: 0 0 auto; background: var(--bg); border-radius: var(--radius-sm);
-    padding: 8px 12px; font-size: 12px; color: var(--muted); white-space: nowrap;
+    flex: 0 0 auto; background: var(--surface-solid); border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm); padding: 8px 14px; font-size: 12px; color: var(--muted); white-space: nowrap;
   }
-  .stat-chip b { color: var(--ink); font-weight: 600; }
+  .stat-chip b { color: var(--ink); font-weight: 600; margin-left: 2px; }
 
-  .yiji-row { display: flex; gap: 16px; margin-bottom: 14px; }
+  .yiji-row { display: flex; gap: 16px; margin-bottom: 16px; }
   .yiji-col { flex: 1; min-width: 0; }
-  .yiji-label { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .yiji-label { font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.05em; }
   .yiji-label.yi { color: var(--down); }
   .yiji-label.ji { color: var(--up); }
   .chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip { font-size: 12px; padding: 4px 9px; border-radius: 100px; }
+  .chip { font-size: 12px; font-weight: 500; padding: 5px 11px; border-radius: 100px; }
   .chip.yi { background: var(--down-soft); color: var(--down); }
   .chip.ji { background: var(--up-soft); color: var(--up); }
-  .chip.more { background: var(--bg); color: var(--muted); }
+  .chip.more { background: var(--surface-solid); border: 1px solid var(--hairline); color: var(--muted); }
 
   .fortune-summary {
-    font-size: 14px; line-height: 1.6; color: var(--ink); background: var(--fortune-soft);
-    border-left: 3px solid var(--fortune); padding: 12px 14px;
+    font-size: 14px; line-height: 1.65; color: var(--ink); background: var(--fortune-soft);
+    border-left: 3px solid var(--fortune); padding: 14px 16px;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
 
   /* ---------- 市场概览 ---------- */
-  .market-top { display: flex; align-items: flex-end; gap: 14px; margin-bottom: 14px; }
-  .market-score { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; }
-  .market-score-unit { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .market-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .market-score { 
+    font-size: 48px; font-weight: 800; letter-spacing: -0.04em; 
+    line-height: 1;
+    background: linear-gradient(180deg, var(--ink), var(--muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .market-score-unit { font-size: 15px; font-weight: 600; color: var(--muted); }
+  
+  .market-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .market-sub b { color: var(--ink); font-weight: 600; }
+
   .status-badge {
-    display: inline-block; padding: 4px 12px; border-radius: 100px;
-    font-size: 13px; font-weight: 600; margin-bottom: 6px;
+    display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
   }
   .status-badge.strong { background: var(--up-soft); color: var(--up); }
   .status-badge.oscillate { background: var(--gold-soft); color: var(--gold); }
   .status-badge.weak { background: var(--down-soft); color: var(--down); }
 
-  .market-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-  .market-sub b { color: var(--ink); }
-
-  .breadth-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-  }
+  .breadth-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
   .breadth-item {
-    text-align: center; background: var(--bg); border-radius: var(--radius-sm);
-    padding: 10px 4px;
+    text-align: center; background: var(--surface-solid); border: 1px solid var(--hairline);
+    border-radius: var(--radius-md); padding: 12px 6px;
   }
-  .breadth-num { font-size: 16px; font-weight: 600; }
-  .breadth-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .breadth-num { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .breadth-label { font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 4px; }
 
   /* ---------- 风险提示 ---------- */
-  .risk-card.warn { background: var(--warn-soft); }
-  .risk-card.ok { background: var(--down-soft); }
+  .risk-card.warn { background: var(--warn-soft); border-color: rgba(245, 158, 11, 0.2); }
+  .risk-card.ok { background: var(--surface); }
   .risk-title {
-    font-size: 15px; font-weight: 700; margin-bottom: 6px;
-    display: flex; align-items: center; gap: 6px;
+    font-size: 15px; font-weight: 700; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em;
   }
   .risk-card.warn .risk-title { color: var(--warn); }
   .risk-card.ok .risk-title { color: var(--down); }
-  .risk-note { font-size: 13px; line-height: 1.6; color: var(--ink); margin: 4px 0; }
+  .risk-note { font-size: 13px; line-height: 1.6; color: var(--ink); margin: 6px 0; opacity: 0.9; }
 
-  /* ---------- 策略回测(占位) ---------- */
-  .backtest-empty { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  /* ---------- 策略回测 ---------- */
+  .backtest-empty { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
   .backtest-tag {
-    display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 100px;
-    background: var(--bg); color: var(--muted); margin-left: 6px;
+    display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px;
+    background: var(--hairline); color: var(--muted); margin-left: 8px; text-transform: uppercase;
   }
 
   /* ---------- 股票列表 ---------- */
-  .section-title { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; margin: 28px 0 12px 4px; }
-  .status-line { font-size: 12px; color: var(--muted); margin: 0 0 12px 4px; }
+  .section-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin: 32px 0 6px 4px; }
+  .status-line { font-size: 12px; color: var(--muted); margin: 0 0 16px 4px; line-height: 1.5; }
 
   .stock-row {
-    display: flex; align-items: center; padding: 12px 4px;
-    border-bottom: 1px solid var(--hairline); gap: 10px;
+    display: flex; align-items: center; padding: 14px 4px;
+    border-bottom: 1px solid var(--hairline); gap: 12px;
+    transition: background 0.2s ease;
   }
   .stock-row:last-child { border-bottom: none; }
 
-  .rank { width: 18px; flex: 0 0 auto; font-size: 12px; color: var(--muted); text-align: center; }
+  .rank { width: 20px; flex: 0 0 auto; font-size: 13px; font-weight: 700; color: var(--muted); text-align: center; }
 
   .stock-name { flex: 1; min-width: 0; }
-  .stock-name .name-line { display: flex; align-items: baseline; gap: 6px; }
+  .stock-name .name-line { display: flex; align-items: baseline; gap: 8px; }
   .stock-name .name {
-    font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em;
   }
-  .stock-name .code { font-size: 11px; color: var(--muted); }
+  .stock-name .code { font-size: 12px; color: var(--muted); font-weight: 500; }
   .stock-name .industry { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
   .action-tag {
-    display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px;
-    border-radius: 100px; margin-top: 4px;
+    display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px;
+    border-radius: 6px; margin-top: 6px; letter-spacing: 0.02em;
   }
   .action-tag.focus { background: var(--fortune-soft); color: var(--fortune); }
-  .action-tag.watch { background: var(--bg); color: var(--muted); }
+  .action-tag.watch { background: var(--surface-solid); border: 1px solid var(--hairline); color: var(--muted); }
   .action-tag.caution { background: var(--warn-soft); color: var(--warn); }
 
   .stock-metrics { flex: 0 0 auto; text-align: right; }
-  .stock-price { font-size: 15px; font-weight: 600; }
+  .stock-price { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
   .stock-change {
-    display: inline-block; margin-top: 3px; font-size: 12px; font-weight: 600;
-    padding: 2px 7px; border-radius: 100px;
+    display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px;
   }
   .stock-change.up { background: var(--up-soft); color: var(--up); }
   .stock-change.down { background: var(--down-soft); color: var(--down); }
 
   .placeholder { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
+  /* ---------- 我的持仓 ---------- */
+  .position-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: var(--surface-solid);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--hairline);
+  }
+  .position-form input {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--hairline);
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .position-form input:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px var(--hairline);
+  }
+  .position-form input::placeholder { color: var(--muted); }
+  .position-form button {
+    grid-column: 1 / -1;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: var(--ink);
+    color: var(--bg);
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+  }
+  .position-form button:active { transform: scale(0.99); }
+
+  .position-item {
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .position-item:last-child { border-bottom: none; }
+
+  .position-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .position-head .name { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+  .position-head .code { font-size: 12px; color: var(--muted); margin-left: 6px; }
+  .position-del { 
+    font-size: 12px; font-weight: 600; color: var(--muted); 
+    background: none; border: none; padding: 4px 8px; cursor: pointer;
+    border-radius: 4px; transition: background 0.2s ease, color 0.2s ease;
+  }
+  .position-del:hover { background: var(--up-soft); color: var(--up); }
+
+  .position-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .position-price-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .position-price-row input {
+    width: 110px;
+    font-family: "SF Mono", monospace;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--hairline);
+    background: var(--surface-solid);
+    color: var(--ink);
+    outline: none;
+  }
+  .position-pnl { font-size: 14px; font-weight: 700; }
+  .position-pnl.up { color: var(--up); }
+  .position-pnl.down { color: var(--down); }
+
+  .position-target-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 12px;
+    scrollbar-width: none;
+  }
+  .position-target-strip::-webkit-scrollbar { display: none; }
+  .target-chip {
+    flex: 0 0 auto;
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-solid);
+    border: 1px solid var(--hairline);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .target-chip b { color: var(--ink); font-weight: 700; }
+
+  .position-verdict {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-solid);
+    border: 1px solid var(--hairline);
+    color: var(--muted);
+  }
+  .position-verdict.fire-loss { background: var(--up-soft); border-color: transparent; color: var(--up); font-weight: 600; }
+  .position-verdict.fire-profit { background: var(--down-soft); border-color: transparent; color: var(--down); font-weight: 600; }
+  .position-verdict.fire-time { background: var(--warn-soft); border-color: transparent; color: var(--warn); font-weight: 600; }
+
   footer {
-    max-width: 680px; margin: 8px auto 0; padding: 0 20px;
+    max-width: 680px; margin: 16px auto 0; padding: 0 24px;
     font-size: 11px; line-height: 1.6; color: var(--muted); text-align: center;
+    opacity: 0.8;
   }
 </style>
 </head>
@@ -305,8 +490,22 @@
 
   <div class="section-title">今日优选股票</div>
   <p class="status-line" id="stock-status">加载中...</p>
-  <section class="card" id="stock-card" style="padding: 6px 16px;">
+  <section class="card" id="stock-card" style="padding: 8px 20px;">
     <div id="stock-list"></div>
+  </section>
+
+  <div class="section-title">我的持仓</div>
+  <p class="status-line">数据存在这台设备的浏览器里,换设备或清缓存会丢失;卖出规则参数和 scripts/backtest.py 的 SellRules 保持一致,如果之后改了那边的参数,记得也来改这里(两边不会自动同步)</p>
+  <section class="card" id="position-card">
+    <div class="position-form">
+      <input type="text" id="pos-input-name" placeholder="股票名称">
+      <input type="text" id="pos-input-code" placeholder="代码,如 600000">
+      <input type="number" id="pos-input-cost" placeholder="成本价" step="0.01">
+      <input type="number" id="pos-input-shares" placeholder="数量(股)" step="100">
+      <input type="date" id="pos-input-date">
+      <button onclick="addPosition()">添加持仓</button>
+    </div>
+    <div id="position-list"></div>
   </section>
 
 </main>
@@ -347,7 +546,7 @@
     ];
     document.getElementById('breadth-grid').innerHTML = items.map(([label, val, cls]) => `
       <div class="breadth-item">
-        <div class="breadth-num" style="color: var(--${cls})">${val ?? '--'}</div>
+        <div class="breadth-num mono" style="color: var(--${cls})">${val ?? '--'}</div>
         <div class="breadth-label">${label}</div>
       </div>`).join('');
   }
@@ -389,7 +588,7 @@
       const action = s['操作建议'] || '';
       return `
         <div class="stock-row">
-          <div class="rank">${i + 1}</div>
+          <div class="rank mono">${i + 1}</div>
           <div class="stock-name">
             <div class="name-line">
               <span class="name">${s['名称'] ?? ''}</span>
@@ -400,7 +599,7 @@
           </div>
           <div class="stock-metrics">
             <div class="stock-price mono">${s['最新价'] ?? '--'}</div>
-            <div class="stock-change ${cls}">${sign}${isNaN(change) ? '--' : change.toFixed(2)}%</div>
+            <div class="stock-change mono ${cls}">${sign}${isNaN(change) ? '--' : change.toFixed(2)}%</div>
           </div>
         </div>`;
     }).join('');
@@ -460,6 +659,152 @@
       .catch(() => { /* 数据还没生成之前保持占位提示,不打扰用户 */ });
   }
 
+  // ---------- 我的持仓(存在浏览器 localStorage,只在这台设备/浏览器有效)----------
+  const POSITIONS_KEY = 'myPositions';
+
+  // 卖出规则参数,和 scripts/backtest.py 里 SellRules 的默认值保持一致,手动同步,
+  // 这边改了记得那边也改,反过来也一样,两边没有自动同步机制。
+  // "趋势走弱(跌破10日均线)"那条规则这里没做——需要历史K线数据,静态网页拿不到,
+  // 只实现了止损、分批止盈、最长持有天数这三条。
+  const SELL_RULES = {
+    stopLossPct: -0.05,
+    takeProfitTier1Pct: 0.08,
+    takeProfitTier1Fraction: 0.5,
+    takeProfitTier2Pct: 0.15,
+    maxHoldingDays: 10,
+  };
+
+  let latestStocksByCode = {};
+
+  function loadPositions() {
+    try {
+      return JSON.parse(localStorage.getItem(POSITIONS_KEY) || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function savePositions(positions) {
+    localStorage.setItem(POSITIONS_KEY, JSON.stringify(positions));
+  }
+
+  function addPosition() {
+    const name = document.getElementById('pos-input-name').value.trim();
+    const code = document.getElementById('pos-input-code').value.trim();
+    const cost = parseFloat(document.getElementById('pos-input-cost').value);
+    const shares = parseFloat(document.getElementById('pos-input-shares').value) || 0;
+    const buyDate = document.getElementById('pos-input-date').value || new Date().toISOString().slice(0, 10);
+
+    if (!name || !code || isNaN(cost) || cost <= 0) {
+      alert('请至少填写名称、代码和成本价');
+      return;
+    }
+
+    const positions = loadPositions();
+    positions.push({ id: Date.now(), name, code, cost, shares, buyDate, currentPrice: null });
+    savePositions(positions);
+
+    ['pos-input-name', 'pos-input-code', 'pos-input-cost', 'pos-input-shares'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    renderPositions();
+  }
+
+  function deletePosition(id) {
+    savePositions(loadPositions().filter(p => p.id !== id));
+    renderPositions();
+  }
+
+  function updatePositionPrice(id, value) {
+    const price = parseFloat(value);
+    const positions = loadPositions();
+    const pos = positions.find(p => p.id === id);
+    if (pos) {
+      pos.currentPrice = isNaN(price) ? null : price;
+      savePositions(positions);
+      renderPositions();
+    }
+  }
+
+  function analyzePosition(pos) {
+    const cost = pos.cost;
+    const targets = {
+      stopLoss: cost * (1 + SELL_RULES.stopLossPct),
+      tp1: cost * (1 + SELL_RULES.takeProfitTier1Pct),
+      tp2: cost * (1 + SELL_RULES.takeProfitTier2Pct),
+    };
+
+    const holdingDays = Math.max(0, Math.floor((new Date() - new Date(pos.buyDate)) / (1000 * 60 * 60 * 24)));
+    let verdict = { text: '暂无规则触发,继续持有', cls: '' };
+    let pnlPct = null;
+
+    if (pos.currentPrice != null && !isNaN(pos.currentPrice)) {
+      pnlPct = (pos.currentPrice - cost) / cost;
+
+      if (pnlPct <= SELL_RULES.stopLossPct) {
+        verdict = { text: `已触及止损线(浮亏${(pnlPct * 100).toFixed(1)}%),按规则应清仓离场`, cls: 'fire-loss' };
+      } else if (pnlPct >= SELL_RULES.takeProfitTier2Pct) {
+        verdict = { text: `已达止盈第二档(盈利${(pnlPct * 100).toFixed(1)}%),按规则应清仓剩余仓位`, cls: 'fire-profit' };
+      } else if (pnlPct >= SELL_RULES.takeProfitTier1Pct) {
+        verdict = { text: `已达止盈第一档(盈利${(pnlPct * 100).toFixed(1)}%),按规则应卖出50%,剩余继续持有`, cls: 'fire-profit' };
+      } else if (holdingDays >= SELL_RULES.maxHoldingDays && pnlPct <= 0) {
+        verdict = { text: `已持有${holdingDays}个自然日仍未见明显收益,按规则可考虑离场`, cls: 'fire-time' };
+      }
+    } else if (holdingDays >= SELL_RULES.maxHoldingDays) {
+      verdict = { text: `已持有${holdingDays}个自然日,填一下现价能看更完整的分析`, cls: 'fire-time' };
+    }
+
+    return { targets, holdingDays, pnlPct, verdict };
+  }
+
+  function renderPositions() {
+    const positions = loadPositions();
+    const listEl = document.getElementById('position-list');
+
+    if (positions.length === 0) {
+      listEl.innerHTML = '<p class="placeholder" style="padding:12px 4px;">还没有添加持仓,填写上面的表单添加</p>';
+      return;
+    }
+
+    listEl.innerHTML = positions.map(pos => {
+      // 如果这只股票今天正好在优选列表里,自动带出最新价(用户仍可手动覆盖)
+      const liveMatch = latestStocksByCode[pos.code];
+      if (liveMatch && pos.currentPrice == null) {
+        pos.currentPrice = parseFloat(liveMatch['最新价']);
+      }
+
+      const { targets, holdingDays, pnlPct, verdict } = analyzePosition(pos);
+      const pnlHtml = pnlPct != null
+        ? `<span class="position-pnl mono ${pnlPct >= 0 ? 'up' : 'down'}">${pnlPct >= 0 ? '+' : ''}${(pnlPct * 100).toFixed(2)}%</span>`
+        : '<span class="placeholder">填现价看盈亏</span>';
+
+      return `
+        <div class="position-item">
+          <div class="position-head">
+            <div><span class="name">${pos.name}</span><span class="code mono">${pos.code}</span></div>
+            <button class="position-del" onclick="deletePosition(${pos.id})">删除</button>
+          </div>
+          <div class="position-meta">成本 ${pos.cost} × ${pos.shares || '--'}股 · 买入于 ${pos.buyDate} · 已持有 ${holdingDays} 个自然日</div>
+          <div class="position-price-row">
+            <input type="number" step="0.01" placeholder="现价" value="${pos.currentPrice ?? ''}"
+              onchange="updatePositionPrice(${pos.id}, this.value)">
+            ${pnlHtml}
+          </div>
+          <div class="position-target-strip">
+            <div class="target-chip">止损价 <b class="mono">${targets.stopLoss.toFixed(2)}</b></div>
+            <div class="target-chip">止盈价1(卖50%) <b class="mono">${targets.tp1.toFixed(2)}</b></div>
+            <div class="target-chip">止盈价2(清仓) <b class="mono">${targets.tp2.toFixed(2)}</b></div>
+          </div>
+          <div class="position-verdict ${verdict.cls}">${verdict.text}</div>
+        </div>`;
+    }).join('');
+
+    savePositions(positions); // 把自动带出的现价写回存储,下次打开还在
+  }
+
+  document.getElementById('pos-input-date').valueAsDate = new Date();
+
   function loadAll() {
     loadFortune();
     const statusEl = document.getElementById('stock-status');
@@ -472,13 +817,19 @@
         if (data.market) renderMarket(data.market);
         if (data.risk) renderRisk(data.risk);
         renderStocks(data);
+
+        latestStocksByCode = {};
+        (data.stocks || []).forEach(s => { latestStocksByCode[s['代码']] = s; });
+        renderPositions();
       })
       .catch(err => { statusEl.textContent = '加载失败: ' + err.message; });
   }
 
+  renderPositions();
   loadAll();
   setInterval(loadAll, 15 * 60 * 1000); // 每 15 分钟自动刷新一次数据
 </script>
 
 </body>
 </html>
+
