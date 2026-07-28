@@ -81,14 +81,12 @@
     letter-spacing: -0.01em;
   }
 
-  /* 通用容器宽度控制 */
   .container {
     max-width: 960px;
     margin: 0 auto;
     padding: 0 24px;
   }
 
-  /* 顶部导航 */
   header {
     position: sticky;
     top: 0;
@@ -148,7 +146,6 @@
   }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-  /* 标签页切换器 */
   .nav-tabs-wrap {
     margin-top: 24px;
     margin-bottom: 24px;
@@ -183,11 +180,9 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   }
 
-  /* 视图划分 */
   .tab-page { display: none; }
   .tab-page.active { display: block; }
 
-  /* 布局网格 */
   .grid-2col {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -195,7 +190,6 @@
     align-items: start;
   }
 
-  /* 卡片基类 */
   .card {
     background: var(--surface);
     border: 1px solid var(--hairline);
@@ -225,7 +219,6 @@
     color: var(--muted);
   }
 
-  /* 市场指标视图 */
   .market-score-wrap {
     display: flex;
     align-items: baseline;
@@ -281,7 +274,6 @@
   .breadth-num { font-size: 16px; font-weight: 700; }
   .breadth-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-  /* 风险与回测卡片 */
   .risk-card.warn { border-left: 3px solid var(--warn); }
   .risk-card.ok { border-left: 3px solid var(--down); }
   
@@ -295,9 +287,6 @@
   .risk-note { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 4px 0; }
   .backtest-empty { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6; }
 
-  /* =========================================
-     🔥 股票列表重构 (Flex响应式对齐修复)
-     ========================================= */
   .stock-header {
     display: flex;
     align-items: center;
@@ -320,7 +309,6 @@
   }
   .stock-row:last-child { border-bottom: none; }
 
-  /* 固定宽度的序号列 */
   .stock-rank {
     flex: 0 0 24px;
     font-size: 13px;
@@ -328,10 +316,9 @@
     color: var(--muted);
   }
 
-  /* 核心信息列 (允许自动缩放，保证文字不折行) */
   .stock-info {
     flex: 1;
-    min-width: 0; /* 必须包含，防止子元素文字过长撑破 Flex 容器 */
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -341,7 +328,7 @@
     display: flex;
     align-items: baseline;
     gap: 8px;
-    white-space: nowrap; /* 强制不换行 */
+    white-space: nowrap;
     overflow: hidden;    
     text-overflow: ellipsis; 
   }
@@ -379,9 +366,8 @@
   .action-tag.watch { background: var(--surface-subtle); border: 1px solid var(--hairline); color: var(--muted); }
   .action-tag.caution { background: var(--warn-soft); color: var(--warn); }
 
-  /* 固定宽度的价格列 */
   .stock-price-col {
-    flex: 0 0 85px; /* 给予充足宽度以容纳数字 */
+    flex: 0 0 85px;
     text-align: right;
     display: flex;
     flex-direction: column;
@@ -392,7 +378,6 @@
   .stock-change.up { color: var(--up); }
   .stock-change.down { color: var(--down); }
 
-  /* 持仓管理 */
   .position-form {
     display: grid;
     grid-template-columns: repeat(5, 1fr) 100px;
@@ -495,7 +480,6 @@
   .position-verdict.fire-profit { background: var(--down-soft); color: var(--down); font-weight: 600; }
   .position-verdict.fire-time { background: var(--warn-soft); color: var(--warn); font-weight: 600; }
 
-  /* 八字/运势视图对齐 */
   .fortune-date {
     font-size: 13px;
     color: var(--muted);
@@ -541,7 +525,6 @@
 
   footer { font-size: 11px; color: var(--muted); text-align: center; margin-top: 32px; }
 
-  /* 针对移动端屏幕的媒体查询优化 */
   @media (max-width: 768px) {
     .grid-2col { grid-template-columns: 1fr; }
     .nav-tabs { grid-template-columns: repeat(2, 1fr); }
@@ -572,7 +555,6 @@
 </header>
 
 <div class="container">
-  <!-- 视图导航标签 -->
   <div class="nav-tabs-wrap">
     <nav class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('tab-overview', this)">市场概览</button>
@@ -583,7 +565,6 @@
   </div>
 
   <main>
-    <!-- 视图 1: 市场概览 -->
     <div class="tab-page active" id="tab-overview">
       <div class="grid-2col">
         <section class="card">
@@ -624,11 +605,9 @@
       </div>
     </div>
 
-    <!-- 视图 2: 今日优选 -->
     <div class="tab-page" id="tab-stocks">
       <div class="status-line" id="stock-status">加载中...</div>
       
-      <!-- 这里调宽了移动端 Padding，给予更多展示空间 -->
       <section class="card" style="padding: 16px 12px;">
         <div class="stock-header">
           <div style="flex: 0 0 24px;">NO.</div>
@@ -639,7 +618,6 @@
       </section>
     </div>
 
-    <!-- 视图 3: 我的持仓 -->
     <div class="tab-page" id="tab-positions">
       <div class="status-line">持仓记录保存在本地浏览器，风控规则与回测脚本保持同步。</div>
       <section class="card">
@@ -655,7 +633,6 @@
       </section>
     </div>
 
-    <!-- 视图 4: 玄学运势 -->
     <div class="tab-page" id="tab-fortune">
       <section class="card">
         <div class="fortune-date" id="date-line">加载中...</div>
@@ -672,13 +649,15 @@
 </div>
 
 <script>
-  // Tab 切换逻辑
+  // Tab 切换逻辑（只刷新当前激活的 Tab）
   function switchTab(tabId, btn) {
     document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     
     document.getElementById(tabId).classList.add('active');
     btn.classList.add('active');
+
+    loadCurrentTab();
   }
 
   // 实时时钟
@@ -734,7 +713,7 @@
     }
   }
 
-  // 股票列表渲染 (Flex响应式对齐优化版)
+  // 股票列表渲染
   function renderStocks(data) {
     const stocks = data.stocks || [];
     const statusEl = document.getElementById('stock-status');
@@ -756,7 +735,6 @@
       const action = s['操作建议'] || '观察';
       const indexStr = (i + 1).toString().padStart(2, '0');
 
-      // 重构 HTML 结构：将 Action Tag 与行业 Meta 放在同一行，释放水平空间
       return `
         <div class="stock-row">
           <div class="stock-rank mono">${indexStr}</div>
@@ -986,29 +964,48 @@
 
   document.getElementById('pos-input-date').valueAsDate = new Date();
 
-  function loadAll() {
-    loadFortune();
-    const statusEl = document.getElementById('stock-status');
+  // 🎯 关键修改点：仅刷新当前处于 active 状态的 Tab 页面
+  function loadCurrentTab() {
+    const activeTab = document.querySelector('.tab-page.active');
+    if (!activeTab) return;
+    const activeId = activeTab.id;
+
+    // 如果当前处于玄学运势视图，只请求并渲染运势数据
+    if (activeId === 'tab-fortune') {
+      loadFortune();
+      return;
+    }
+
+    // 针对依赖 latest.json 的页面视图
     fetch('data/latest.json', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) throw new Error('网络请求异常 ' + res.status);
         return res.json();
       })
       .then(data => {
-        if (data.market) renderMarket(data.market);
-        if (data.risk) renderRisk(data.risk);
-        renderStocks(data);
-
         latestStocksByCode = {};
         (data.stocks || []).forEach(s => { latestStocksByCode[s['代码']] = s; });
-        renderPositions();
+
+        // 只更新当前展示的视图
+        if (activeId === 'tab-overview') {
+          if (data.market) renderMarket(data.market);
+          if (data.risk) renderRisk(data.risk);
+        } else if (activeId === 'tab-stocks') {
+          renderStocks(data);
+        } else if (activeId === 'tab-positions') {
+          renderPositions();
+        }
       })
-      .catch(err => { statusEl.textContent = '数据获取失败: ' + err.message; });
+      .catch(err => {
+        const statusEl = document.getElementById('stock-status');
+        if (statusEl) statusEl.textContent = '数据获取失败: ' + err.message;
+      });
   }
 
+  // 首次初始化与定时刷新
   renderPositions();
-  loadAll();
-  setInterval(loadAll, 15 * 60 * 1000);
+  loadCurrentTab();
+  setInterval(loadCurrentTab, 15 * 60 * 1000);
 </script>
 
 </body>
