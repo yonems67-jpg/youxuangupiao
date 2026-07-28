@@ -1,1023 +1,202 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpha 智能交易驾驶舱</title>
-    <style>
-        /* =========================================
-           1. 全局变量与 Apple Dark / Bloomberg 极简主题
-           ========================================= */
-        :root {
-            --bg-base: #0b0c10;
-            --bg-card: rgba(22, 24, 33, 0.75);
-            --bg-card-hover: rgba(30, 33, 46, 0.85);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --card-border-active: rgba(10, 132, 255, 0.4);
-            
-            --text-primary: #f5f5f7;
-            --text-secondary: #98989d;
-            --text-muted: #636366;
-            
-            --accent-blue: #0a84ff;
-            --accent-purple: #bf5af2;
-            
-            --color-up: #30d158;         /* 涨/胜/买/盈 */
-            --color-up-bg: rgba(48, 209, 88, 0.12);
-            --color-up-border: rgba(48, 209, 88, 0.25);
-            
-            --color-down: #ff453a;       /* 跌/风险/卖/亏 */
-            --color-down-bg: rgba(255, 69, 58, 0.12);
-            --color-down-border: rgba(255, 69, 58, 0.25);
-            
-            --color-warning: #ff9f0a;    /* 预警/减仓/注意 */
-            --color-warning-bg: rgba(255, 159, 10, 0.12);
-            
-            --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            --font-mono: "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* =========================================
-           2. 侧边导航栏 (Sidebar Navigation)
-           ========================================= */
-        .sidebar {
-            width: 230px;
-            background: rgba(16, 17, 23, 0.9);
-            border-right: 1px solid var(--card-border);
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            backdrop-filter: blur(20px);
-            z-index: 100;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0 8px 24px 8px;
-            border-bottom: 1px solid var(--card-border);
-            margin-bottom: 20px;
-        }
-
-        .brand-logo {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 14px;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(10, 132, 255, 0.3);
-        }
-
-        .brand-title {
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            background: linear-gradient(90deg, #fff, var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 10px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 13.5px;
-            font-weight: 500;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-primary);
-        }
-
-        .nav-item.active {
-            background: var(--accent-blue);
-            color: #ffffff;
-            font-weight: 600;
-            box-shadow: 0 4px 16px rgba(10, 132, 255, 0.35);
-        }
-
-        .nav-item svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-            opacity: 0.85;
-        }
-
-        .sidebar-footer {
-            padding-top: 16px;
-            border-top: 1px solid var(--card-border);
-            font-size: 11px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* =========================================
-           3. 主内容区域 (Main Content)
-           ========================================= */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.05), transparent 60%);
-        }
-
-        /* 全局顶部状态栏 */
-        .top-header {
-            height: 60px;
-            border-bottom: 1px solid var(--card-border);
-            padding: 0 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(11, 12, 16, 0.6);
-            backdrop-filter: blur(15px);
-        }
-
-        .header-status {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .live-pulse {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            background: rgba(48, 209, 88, 0.1);
-            border: 1px solid var(--color-up-border);
-            border-radius: 20px;
-            color: var(--color-up);
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--color-up);
-            border-radius: 50%;
-            animation: pulse 1.8s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(48, 209, 88, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(48, 209, 88, 0); }
-        }
-
-        .header-opportunity {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .views-container {
-            flex: 1;
-            padding: 24px 32px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        /* 页面切换控制 */
-        .view-section {
-            display: none;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 0.25s ease, transform 0.25s ease;
-        }
-
-        .view-section.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* =========================================
-           4. Bento Grid (便当盒布局体系)
-           ========================================= */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: minmax(130px, auto);
-            gap: 18px;
-        }
-
-        /* 卡片基础类 */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 20px;
-            backdrop-filter: blur(20px);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: var(--bg-card-hover);
-        }
-
-        /* Bento 跨度控制 */
-        .col-12 { grid-column: span 12; }
-        .col-8  { grid-column: span 8; }
-        .col-6  { grid-column: span 6; }
-        .col-4  { grid-column: span 4; }
-        .col-3  { grid-column: span 3; }
-
-        .row-span-2 { grid-row: span 2; }
-
-        /* 卡片内部组件化排版 */
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .card-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* 文本与数值样式 */
-        .num-hero { font-size: 36px; font-weight: 800; font-family: var(--font-mono); letter-spacing: -1px; }
-        .num-lg   { font-size: 26px; font-weight: 700; font-family: var(--font-mono); letter-spacing: -0.5px; }
-        .num-md   { font-size: 18px; font-weight: 700; font-family: var(--font-mono); }
-
-        .text-up { color: var(--color-up); }
-        .text-down { color: var(--color-down); }
-        .text-warning { color: var(--color-warning); }
-
-        /* 彩色 Tag Pills (行业与特征) */
-        .tag-pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 11.5px;
-            font-weight: 600;
-            margin-right: 6px;
-        }
-        .pill-blue   { background: rgba(10, 132, 255, 0.15); color: #64d2ff; border: 1px solid rgba(10, 132, 255, 0.3); }
-        .pill-purple { background: rgba(191, 90, 242, 0.15); color: #d783ff; border: 1px solid rgba(191, 90, 242, 0.3); }
-        .pill-green  { background: var(--color-up-bg); color: var(--color-up); border: 1px solid var(--color-up-border); }
-        .pill-red    { background: var(--color-down-bg); color: var(--color-down); border: 1px solid var(--color-down-border); }
-        .pill-amber  { background: var(--color-warning-bg); color: var(--color-warning); border: 1px solid rgba(255, 159, 10, 0.3); }
-
-        /* =========================================
-           5. 今日总结（主卡片）组件强化
-           ========================================= */
-        .hero-summary-card {
-            background: linear-gradient(135deg, rgba(22, 26, 38, 0.9), rgba(15, 20, 32, 0.95));
-            border: 1px solid rgba(10, 132, 255, 0.25);
-            position: relative;
-        }
-
-        .hero-summary-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, var(--accent-blue), var(--color-up), var(--accent-purple));
-        }
-
-        .hero-headline {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .macro-box {
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 10px;
-            padding: 12px 14px;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #d2d2d7;
-            margin-bottom: 16px;
-            border-left: 3px solid var(--accent-blue);
-        }
-
-        .action-directives-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        .directive-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .directive-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
-        .directive-val { font-size: 13.5px; font-weight: 700; }
-
-        /* Sparkline 容器 */
-        .sparkline-wrapper {
-            margin-top: auto;
-            padding-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .sparkline-svg {
-            width: 100%;
-            height: 48px;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 0;
-            overflow: visible;
-        }
-
-        /* =========================================
-           6. 表格与高级数据面板
-           ========================================= */
-        .terminal-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: 13px;
-            text-align: left;
-        }
-
-        .terminal-table th {
-            padding: 12px 14px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 12px;
-            border-bottom: 1px solid var(--card-border);
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .terminal-table td {
-            padding: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            vertical-align: middle;
-        }
-
-        .terminal-table tr:hover td {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        /* 进度条与指标条 */
-        .progress-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 4px;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        /* 决策操作按钮 */
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: transform 0.1s ease, filter 0.2s ease;
-        }
-
-        .btn-action:active { transform: scale(0.96); }
-        .btn-sell-part { background: var(--color-warning); color: #000; }
-        .btn-hold      { background: rgba(10, 132, 255, 0.2); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
-
-        /* 响应式适配 */
-        @media (max-width: 1200px) {
-            .col-8, .col-6, .col-4, .col-3 { grid-column: span 12; }
-            .action-directives-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpha 交易驾驶舱</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
 
-    <!-- 侧边导航栏 -->
-    <aside class="sidebar">
-        <div>
-            <div class="brand">
-                <div class="brand-logo">α</div>
-                <div class="brand-title">Alpha 交易驾驶舱</div>
-            </div>
+  <!-- 顶部移动端导航条 -->
+  <header class="lg:hidden flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800 sticky top-0 z-30">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleSidebar()" class="text-slate-300 hover:text-white p-1 focus:outline-none">
+        <i class="fa-solid fa-bars text-xl"></i>
+      </button>
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">α</div>
+        <span class="font-semibold text-slate-100 text-sm">Alpha 交易驾驶舱</span>
+      </div>
+    </div>
+    <div class="text-xs text-emerald-400 font-mono">
+      上证 3,284.15 (+0.72%)
+    </div>
+  </header>
 
-            <nav class="nav-menu">
-                <a href="#dashboard" class="nav-item" id="nav-dashboard">
-                    <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-                    决策驾驶舱
-                </a>
-                <a href="#picks" class="nav-item" id="nav-picks">
-                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    今日深度优选
-                </a>
-                <a href="#portfolio" class="nav-item" id="nav-portfolio">
-                    <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                    持仓交易管理
-                </a>
-                <a href="#market" class="nav-item" id="nav-market">
-                    <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-                    龙虎榜与资金
-                </a>
-            </nav>
+  <div class="flex flex-1 relative overflow-hidden">
+    
+    <!-- 移动端背景遮罩 (点击可关闭侧边栏) -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden backdrop-blur-sm transition-opacity"></div>
+
+    <!-- 侧边导航栏 (移动端默认 -translate-x-full 隐藏，大屏静态显示) -->
+    <aside id="sidebar" class="fixed lg:static top-0 left-0 h-full w-64 bg-slate-900 border-r border-slate-800 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col justify-between">
+      <div>
+        <!-- 侧边栏 Header (PC端显示) -->
+        <div class="p-4 border-b border-slate-800 hidden lg:flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white">α</div>
+            <span class="font-bold text-slate-100">Alpha 交易驾驶舱</span>
+          </div>
         </div>
 
-        <div class="sidebar-footer">
-            <div>终端版本: v2.4.0 (Professional)</div>
-            <div>数据推演: 2026-07-29 Live</div>
-        </div>
+        <!-- 导航菜单列表 -->
+        <nav class="p-3 space-y-1">
+          <a href="#dashboard" onclick="closeSidebarOnMobile()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-600 text-white font-medium text-sm transition">
+            <i class="fa-solid fa-chart-line"></i> 决策驾驶舱
+          </a>
+          <a href="#bazi" onclick="closeSidebarOnMobile()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 font-medium text-sm transition">
+            <i class="fa-solid fa-[#f59e0b] fa-yin-yang text-amber-400"></i> 八字运程与择日
+          </a>
+          <a href="#depth" onclick="closeSidebarOnMobile()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 font-medium text-sm transition">
+            <i class="fa-solid fa-star"></i> 今日深度优选
+          </a>
+          <a href="#positions" onclick="closeSidebarOnMobile()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 font-medium text-sm transition">
+            <i class="fa-solid fa-wallet"></i> 持仓交易管理
+          </a>
+          <a href="#capital" onclick="closeSidebarOnMobile()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-slate-200 font-medium text-sm transition">
+            <i class="fa-solid fa-fire"></i> 龙虎榜与资金
+          </a>
+        </nav>
+      </div>
+
+      <!-- 底部关闭按钮 (移动端专有) -->
+      <div class="p-4 border-t border-slate-800 lg:hidden">
+        <button onclick="toggleSidebar()" class="w-full py-2 bg-slate-800 text-slate-300 text-xs rounded-lg hover:bg-slate-700">
+          <i class="fa-solid fa-xmark mr-1"></i> 收起侧边栏
+        </button>
+      </div>
     </aside>
 
-    <!-- 主内容区域 -->
-    <main class="main-content">
-        
-        <!-- 顶部全局信息栏 -->
-        <header class="top-header">
-            <div class="header-status">
-                <span class="live-pulse"><span class="pulse-dot"></span> 2026-07-29 周三 09:32 · A股实时交易中</span>
-                <span>上证指数: <strong class="text-up">3,284.15 (+0.72%)</strong></span>
-                <span>创业板指: <strong class="text-up">2,142.80 (+1.15%)</strong></span>
-            </div>
-            <div class="header-opportunity">
-                <span>今日总体盈利胜率评分：</span>
-                <span class="pill-green" style="font-size: 13px; font-weight: 700;">★★★★☆ (极佳)</span>
-            </div>
-        </header>
+    <!-- 主内容区域 (占据完整剩余宽度) -->
+    <main class="flex-1 overflow-y-auto p-4 lg:p-6 space-y-6 w-full">
 
-        <div class="views-container">
+      <!-- 宏观环境评估卡片 -->
+      <section class="bg-slate-900 border border-slate-800 rounded-2xl p-4 lg:p-5">
+        <h2 class="text-base font-semibold text-slate-200 mb-2 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 宏观与资金面共振
+        </h2>
+        <p class="text-xs lg:text-sm text-slate-400 leading-relaxed">
+          基于中国经济走出下行周期的初步信号（社融数据企稳回升、M1拐点初现），机构资金做多情绪加速修复。主力资金由防御转向攻守兼备的成长与金融龙头。
+        </p>
+      </section>
 
-            <!-- ====================================================
-                 视图 1：决策驾驶舱 (Market Dashboard)
-                 ==================================================== -->
-            <section id="view-dashboard" class="view-section">
-                <div class="bento-grid">
-                    
-                    <!-- 1. 今日总结与宏观推演 (Hero 核心卡片) -->
-                    <div class="card col-8 row-span-2 hero-summary-card">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <svg width="16" height="16" fill="var(--accent-blue)" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2 .9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                                今日总结与宏观推演
-                            </div>
-                            <span class="pill-blue">模型评估结论：建议执行开仓</span>
-                        </div>
-
-                        <div class="hero-headline">
-                            震荡偏强行情 · 底部买点确认
-                        </div>
-
-                        <div class="macro-box">
-                            <strong>宏观与资金面共振：</strong>基于中国经济走出下行周期的初步信号（社融数据企稳回升、M1拐点初现），机构资金做多情绪加速修复。主力资金由防御转向攻守兼备的成长与金融龙头。
-                        </div>
-
-                        <!-- 交易指令矩阵 -->
-                        <div class="action-directives-grid">
-                            <div class="directive-box">
-                                <div class="directive-label">开仓指令</div>
-                                <div class="directive-val text-up">✔ 可以开仓</div>
-                            </div>
-                            <div class="directive-box">
-                                <div class="directive-label">建议仓位</div>
-                                <div class="directive-val text-up" style="font-family: var(--font-mono);">60% (中高)</div>
-                            </div>
-                            <div class="directive-box">
-                                <div class="directive-label">最佳手法</div>
-                                <div class="directive-val text-up">✔ 优先低吸</div>
-                            </div>
-                            <div class="directive-box">
-                                <div class="directive-label">风控警戒</div>
-                                <div class="directive-val text-down">✘ 避免追高</div>
-                            </div>
-                        </div>
-
-                        <!-- 推荐与避坑板块 -->
-                        <div style="font-size: 12.5px; display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06);">
-                            <div>
-                                <span style="color: var(--text-secondary); margin-right: 8px;">主线做多方向:</span>
-                                <span class="tag-pill pill-blue">AI硬件/算力</span>
-                                <span class="tag-pill pill-purple">机器人</span>
-                                <span class="tag-pill pill-green">大金融/证券</span>
-                            </div>
-                            <div>
-                                <span style="color: var(--text-secondary); margin-right: 8px;">回避方向:</span>
-                                <span class="tag-pill pill-red">高位泛医药</span>
-                                <span class="tag-pill pill-amber">传统煤炭</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 2. 今日市场评分 + 15天走势 (Sparkline) -->
-                    <div class="card col-4">
-                        <div class="card-header">
-                            <div class="card-title">今日市场环境评分</div>
-                            <span class="pill-green">上升通道</span>
-                        </div>
-                        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
-                            <div class="num-hero text-up">86</div>
-                            <div style="font-size: 12px; color: var(--color-up);">▲ 较昨日 +4 分 (多头主导)</div>
-                        </div>
-
-                        <!-- 15天 Sparkline 走势图 -->
-                        <div class="sparkline-wrapper">
-                            <div style="font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between;">
-                                <span>15日历史轨迹</span>
-                                <span>最低: 72 | 最高: 91</span>
-                            </div>
-                            <svg class="sparkline-svg" viewBox="0 0 200 40">
-                                <defs>
-                                    <linearGradient id="scoreGrad" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stop-color="#30d158" stop-opacity="0.4"/>
-                                        <stop offset="100%" stop-color="#30d158" stop-opacity="0.0"/>
-                                    </linearGradient>
-                                </defs>
-                                <path d="M 0,28 L 14,32 L 28,30 L 42,25 L 56,22 L 70,28 L 84,20 L 98,18 L 112,24 L 126,15 L 140,12 L 154,18 L 168,10 L 182,14 L 200,6" 
-                                      fill="none" stroke="#30d158" stroke-width="2.5" stroke-linecap="round"/>
-                                <path d="M 0,28 L 14,32 L 28,30 L 42,25 L 56,22 L 70,28 L 84,20 L 98,18 L 112,24 L 126,15 L 140,12 L 154,18 L 168,10 L 182,14 L 200,6 L 200,40 L 0,40 Z" 
-                                      fill="url(#scoreGrad)"/>
-                                <circle cx="200" cy="6" r="3.5" fill="#30d158"/>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- 3. 模型胜率 & 风险控制面板 -->
-                    <div class="card col-4">
-                        <div class="card-header">
-                            <div class="card-title">模型预测胜率</div>
-                            <span class="pill-blue">高置信度</span>
-                        </div>
-                        <div style="display: flex; align-items: baseline; justify-content: space-between;">
-                            <div class="num-lg text-up">84%</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">风险等级: <span class="text-up">低风险</span></div>
-                        </div>
-                        <div class="progress-bar-bg" style="margin-top: 12px; height: 8px;">
-                            <div class="progress-bar-fill" style="width: 84%; background: linear-gradient(90deg, var(--accent-blue), var(--color-up));"></div>
-                        </div>
-                        <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 10px; display: flex; justify-content: space-between;">
-                            <span>止损研判保护: 严密</span>
-                            <span>平均盈亏比: 3.2 : 1</span>
-                        </div>
-                    </div>
-
-                    <!-- 4. 今日核心优选快报 (宽卡片) -->
-                    <div class="card col-12">
-                        <div class="card-header">
-                            <div class="card-title">今日核心高胜率标的速览</div>
-                            <a href="#picks" style="font-size: 12px; color: var(--accent-blue); text-decoration: none;">查看完整清单与具体买卖位 →</a>
-                        </div>
-                        <table class="terminal-table">
-                            <thead>
-                                <tr>
-                                    <th>标的代码 / 名称</th>
-                                    <th>板块标签</th>
-                                    <th>综合评分</th>
-                                    <th>第一买点</th>
-                                    <th>止损位</th>
-                                    <th>目标压力位</th>
-                                    <th>预期收益</th>
-                                    <th>胜率</th>
-                                    <th>驱动逻辑</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <strong style="font-size: 14px;">贵州茅台</strong>
-                                        <div style="font-size: 11px; color: var(--text-muted);">600519.SH</div>
-                                    </td>
-                                    <td><span class="tag-pill pill-purple">白酒龙头</span></td>
-                                    <td><strong class="text-up" style="font-size: 16px;">93</strong> <span style="font-size: 10px; color: var(--color-warning);">★★★★★</span></td>
-                                    <td><span class="pill-green">1,452.00</span></td>
-                                    <td><span class="text-down">1,418.00</span></td>
-                                    <td><span class="text-up">1,498.00</span></td>
-                                    <td><strong class="text-up">+4.1%</strong></td>
-                                    <td><strong class="text-up">81%</strong></td>
-                                    <td style="font-size: 12px; color: var(--text-secondary);">放量突破支撑位 + 机构净流入3.2亿</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong style="font-size: 14px;">汇川技术</strong>
-                                        <div style="font-size: 11px; color: var(--text-muted);">300124.SZ</div>
-                                    </td>
-                                    <td><span class="tag-pill pill-blue">具身智能/机器人</span></td>
-                                    <td><strong class="text-up" style="font-size: 16px;">89</strong> <span style="font-size: 10px; color: var(--color-warning);">★★★★☆</span></td>
-                                    <td><span class="pill-green">58.40</span></td>
-                                    <td><span class="text-down">56.20</span></td>
-                                    <td><span class="text-up">63.80</span></td>
-                                    <td><strong class="text-up">+9.2%</strong></td>
-                                    <td><strong class="text-up">78%</strong></td>
-                                    <td style="font-size: 12px; color: var(--text-secondary);">行业政策利好共振 + 主力控盘度极高</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </section>
-
-
-            <!-- ====================================================
-                 视图 2：今日深度优选 (#picks)
-                 ==================================================== -->
-            <section id="view-picks" class="view-section">
-                <div class="card" style="margin-bottom: 20px;">
-                    <div class="card-header">
-                        <div class="card-title">今日深度优选标的库 (算法精选)</div>
-                        <span class="pill-blue">已过滤 5000+ 标的 · 仅展示 Top 1%</span>
-                    </div>
-                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
-                        基于突破形态、机构筹码集中度、主力资金净流入及行业催化剂多维打分。精确算出建仓位、止损位与目标止盈位。
-                    </p>
-                </div>
-
-                <div class="bento-grid">
-                    <!-- 标的卡片 1 -->
-                    <div class="card col-6">
-                        <div class="card-header">
-                            <div>
-                                <span class="tag-pill pill-purple">消费龙头 / 白酒</span>
-                                <strong style="font-size: 18px; margin-left: 6px;">贵州茅台 (600519)</strong>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="num-md text-up">综合评分: 93</div>
-                                <div style="font-size: 11px; color: var(--color-warning);">★★★★★</div>
-                            </div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 10px; margin: 12px 0;">
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">第一买点</div>
-                                <div style="font-size: 14px; font-weight: 700;" class="text-up">1,452.00</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">第二买点</div>
-                                <div style="font-size: 14px; font-weight: 700; color: #fff;">1,438.00</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">建议止损</div>
-                                <div style="font-size: 14px; font-weight: 700;" class="text-down">1,418.00</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">目标压力</div>
-                                <div style="font-size: 14px; font-weight: 700;" class="text-up">1,498.00</div>
-                            </div>
-                        </div>
-
-                        <div style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;">
-                            <strong>选股核心逻辑：</strong><br>
-                            1. 放量突破 20 日均线压制，大资金右侧建仓迹象明显。<br>
-                            2. 机构连续 3 日净买入超过 8.5 亿元，筹码锁定良好。<br>
-                            3. 预计成功率 <strong>81%</strong>，盈亏比 <strong>2.85 : 1</strong>。
-                        </div>
-                    </div>
-
-                    <!-- 标的卡片 2 -->
-                    <div class="card col-6">
-                        <div class="card-header">
-                            <div>
-                                <span class="tag-pill pill-blue">具身智能 / 机器人</span>
-                                <strong style="font-size: 18px; margin-left: 6px;">汇川技术 (300124)</strong>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="num-md text-up">综合评分: 89</div>
-                                <div style="font-size: 11px; color: var(--color-warning);">★★★★☆</div>
-                            </div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 10px; margin: 12px 0;">
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">第一买点</div>
-                                <div style="font-size: 14px; font-weight: 700;" class="text-up">58.40</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">第二买点</div>
-                                <div style="font-size: 14px; font-weight: 700; color: #fff;">57.10</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">建议止损</div>
-                                <div style="font-size: 14px; font-weight: 700;" class="text-down">56.20</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: var(--text-muted);">目标压力</div>
-                                <div style="font-size: 14px; font-weight: 700;" class="text-up">63.80</div>
-                            </div>
-                        </div>
-
-                        <div style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;">
-                            <strong>选股核心逻辑：</strong><br>
-                            1. 机器人核心部件订单激增，基本面迎来拐点。<br>
-                            2. 龙虎榜显示深股通与两家知名游资同时大幅加仓。<br>
-                            3. 预计成功率 <strong>78%</strong>，预期收益 <strong>+9.2%</strong>。
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            <!-- ====================================================
-                 视图 3：持仓交易管理 (#portfolio)
-                 ==================================================== -->
-            <section id="view-portfolio" class="view-section">
-                
-                <!-- 资产总览 Bar -->
-                <div class="bento-grid" style="margin-bottom: 20px;">
-                    <div class="card col-3">
-                        <div class="card-title">总资产市值</div>
-                        <div class="num-lg" style="margin-top: 4px;">￥1,280,400</div>
-                        <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 6px;">可用资金: ￥512,160</div>
-                    </div>
-                    <div class="card col-3">
-                        <div class="card-title">总浮动盈亏</div>
-                        <div class="num-lg text-up" style="margin-top: 4px;">+￥68,400</div>
-                        <div style="font-size: 11.5px; color: var(--color-up); margin-top: 6px;">收益率: +5.65%</div>
-                    </div>
-                    <div class="card col-3">
-                        <div class="card-title">今日动能盈亏</div>
-                        <div class="num-lg text-up" style="margin-top: 4px;">+￥12,300</div>
-                        <div style="font-size: 11.5px; color: var(--color-up); margin-top: 6px;">跑赢沪深300 +0.8%</div>
-                    </div>
-                    <div class="card col-3">
-                        <div class="card-title">当前仓位控制</div>
-                        <div class="num-lg text-up" style="margin-top: 4px;">60%</div>
-                        <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px;">完全符合今日建议仓位</div>
-                    </div>
-                </div>
-
-                <!-- 交互式持仓交易管理表格 -->
-                <div class="card col-12">
-                    <div class="card-header">
-                        <div class="card-title">
-                            持仓调仓与止盈止损实时监控
-                        </div>
-                        <span class="pill-green">系统持续监控中 · 实时触发指令</span>
-                    </div>
-
-                    <table class="terminal-table">
-                        <thead>
-                            <tr>
-                                <th>持仓标的</th>
-                                <th>持仓成本 / 当前价</th>
-                                <th>当前盈亏</th>
-                                <th>距离第一止盈</th>
-                                <th>距离风控止损</th>
-                                <th>系统决策指令</th>
-                                <th>调仓 / 执行原因</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- 持仓 1 -->
-                            <tr>
-                                <td>
-                                    <strong style="font-size: 14px;">平安银行</strong>
-                                    <div style="font-size: 11px; color: var(--text-muted);">000001.SZ · 20,000股</div>
-                                </td>
-                                <td>
-                                    <div>成本: 10.20</div>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">现价: <strong class="text-up">11.05</strong></div>
-                                </td>
-                                <td>
-                                    <div class="num-md text-up">+8.33%</div>
-                                    <div style="font-size: 11px; color: var(--color-up);">+￥17,000</div>
-                                </td>
-                                <td>
-                                    <div style="font-size: 12px;" class="text-warning">仅差 0.8% (11.14)</div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 92%; background: var(--color-warning);"></div></div>
-                                </td>
-                                <td>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">安全距 8.3% (10.00)</div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 15%; background: var(--color-down);"></div></div>
-                                </td>
-                                <td>
-                                    <button class="btn-action btn-sell-part">建议减仓 30%</button>
-                                </td>
-                                <td style="font-size: 12px; color: var(--text-secondary);">
-                                    已逼近第一阻力位 (11.14)，建议锁定部分利润，落袋为安。
-                                </td>
-                            </tr>
-
-                            <!-- 持仓 2 -->
-                            <tr>
-                                <td>
-                                    <strong style="font-size: 14px;">立讯精密</strong>
-                                    <div style="font-size: 11px; color: var(--text-muted);">002475.SZ · 10,000股</div>
-                                </td>
-                                <td>
-                                    <div>成本: 32.50</div>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">现价: <strong class="text-up">34.20</strong></div>
-                                </td>
-                                <td>
-                                    <div class="num-md text-up">+5.23%</div>
-                                    <div style="font-size: 11px; color: var(--color-up);">+￥17,000</div>
-                                </td>
-                                <td>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">还差 4.5% (35.80)</div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 55%; background: var(--accent-blue);"></div></div>
-                                </td>
-                                <td>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">安全距 5.2% (32.50)</div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 20%; background: var(--color-down);"></div></div>
-                                </td>
-                                <td>
-                                    <button class="btn-action btn-hold">继续持有</button>
-                                </td>
-                                <td style="font-size: 12px; color: var(--text-secondary);">
-                                    处于主升浪形态，成交量配合良好，移动止损提升至保本价。
-                                </td>
-                            </tr>
-
-                            <!-- 持仓 3 -->
-                            <tr>
-                                <td>
-                                    <strong style="font-size: 14px;">北方华创</strong>
-                                    <div style="font-size: 11px; color: var(--text-muted);">002371.SZ · 1,000股</div>
-                                </td>
-                                <td>
-                                    <div>成本: 285.00</div>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">现价: <strong class="text-down">280.50</strong></div>
-                                </td>
-                                <td>
-                                    <div class="num-md text-down">-1.58%</div>
-                                    <div style="font-size: 11px; color: var(--color-down);">-￥4,500</div>
-                                </td>
-                                <td>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">距离止盈 6.9%</div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 20%; background: var(--accent-blue);"></div></div>
-                                </td>
-                                <td>
-                                    <div style="font-size: 12px;" class="text-warning">剩余 2.1% 缓冲 (274.50)</div>
-                                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 75%; background: var(--color-warning);"></div></div>
-                                </td>
-                                <td>
-                                    <button class="btn-action" style="background: rgba(255,255,255,0.1); color: #fff;">持股观望</button>
-                                </td>
-                                <td style="font-size: 12px; color: var(--text-secondary);">
-                                    洗盘缩量，未破核心支撑位 (274.50)，触及止损线前暂不盲目平仓。
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-
-            <!-- ====================================================
-                 视图 4：龙虎榜与资金雷达 (#market)
-                 ==================================================== -->
-            <section id="view-market" class="view-section">
-                <div class="bento-grid">
-                    <div class="card col-6">
-                        <div class="card-header">
-                            <div class="card-title">北向与主力资金实时流向</div>
-                            <span class="pill-green">今日净流入 +48.2亿</span>
-                        </div>
-                        <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.8; margin-top: 10px;">
-                            • <strong>北向资金：</strong>沪股通净买入 +29.5 亿，深股通净买入 +18.7 亿。<br>
-                            • <strong>机构加仓主力：</strong>电子半导体 (+14.2亿)、高端装备 (+9.8亿)、证券 (+7.5亿)。<br>
-                            • <strong>主力减仓抛售：</strong>高位中药 (-6.1亿)、公用事业 (-4.3亿)。
-                        </div>
-                    </div>
-
-                    <div class="card col-6">
-                        <div class="card-header">
-                            <div class="card-title">今日龙虎榜机构抢筹 Top 3</div>
-                            <span class="pill-purple">机构净买入榜</span>
-                        </div>
-                        <table class="terminal-table" style="margin-top: 8px;">
-                            <thead>
-                                <tr>
-                                    <th>股票</th>
-                                    <th>净买入额</th>
-                                    <th>买方席位构成</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>中科创达</strong></td>
-                                    <td><strong class="text-up">+2.45亿</strong></td>
-                                    <td>3家机构 + 深股通</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>三花智控</strong></td>
-                                    <td><strong class="text-up">+1.82亿</strong></td>
-                                    <td>2家机构 + 知名游资</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
+      <!-- 核心指标网格 -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+          <div class="text-xs text-slate-400 mb-1">开仓指令</div>
+          <div class="text-emerald-400 font-bold text-sm lg:text-base flex items-center gap-1">
+            <i class="fa-solid fa-check text-xs"></i> 可以开仓
+          </div>
         </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+          <div class="text-xs text-slate-400 mb-1">建议仓位</div>
+          <div class="text-emerald-400 font-bold text-sm lg:text-base">
+            60% <span class="text-xs font-normal text-slate-400">(中高)</span>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+          <div class="text-xs text-slate-400 mb-1">最佳手法</div>
+          <div class="text-emerald-400 font-bold text-sm lg:text-base flex items-center gap-1">
+            <i class="fa-solid fa-check text-xs"></i> 优先低吸
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+          <div class="text-xs text-slate-400 mb-1">风控警戒</div>
+          <div class="text-rose-400 font-bold text-sm lg:text-base flex items-center gap-1">
+            <i class="fa-solid fa-xmark text-xs"></i> 避免追高
+          </div>
+        </div>
+      </section>
+
+      <!-- 主线与回避方向 -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+          <div class="text-xs font-medium text-slate-400 mb-3">主线做多方向:</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 bg-blue-950 text-blue-300 border border-blue-800 text-xs rounded-lg">AI硬件/算力</span>
+            <span class="px-2.5 py-1 bg-purple-950 text-purple-300 border border-purple-800 text-xs rounded-lg">机器人</span>
+            <span class="px-2.5 py-1 bg-emerald-950 text-emerald-300 border border-emerald-800 text-xs rounded-lg">大金融/证券</span>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+          <div class="text-xs font-medium text-slate-400 mb-3">回避方向:</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 bg-rose-950 text-rose-300 border border-rose-800 text-xs rounded-lg">高位泛医药</span>
+            <span class="px-2.5 py-1 bg-amber-950 text-amber-300 border border-amber-800 text-xs rounded-lg">传统煤炭</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 恢复：八字运程与玄学择时模块 -->
+      <section id="bazi" class="bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/30 border border-amber-500/30 rounded-2xl p-4 lg:p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-base font-semibold text-amber-300 flex items-center gap-2">
+            <i class="fa-solid fa-yin-yang text-amber-400"></i> 八字运程与交易择时分析
+          </h2>
+          <span class="text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">个人流年加权</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs lg:text-sm">
+          <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+            <div class="text-slate-400 mb-1">今日财运气场</div>
+            <div class="text-amber-400 font-bold text-base mb-1">偏财显透 · 宜守不宜急</div>
+            <p class="text-slate-400 text-xs">日柱地支呈相生之势，午后 13:30 - 14:30 气场最稳，适合操作尾盘低吸。</p>
+          </div>
+
+          <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+            <div class="text-slate-400 mb-1">五行喜忌指导</div>
+            <div class="text-blue-400 font-bold text-base mb-1">喜【水/木】忌【火过于炽烈】</div>
+            <p class="text-slate-400 text-xs">优先关注科技水象流动（数据/通信）与木象成长（算力基建）板块。</p>
+          </div>
+
+          <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+            <div class="text-slate-400 mb-1">流年特别提醒</div>
+            <div class="text-emerald-400 font-bold text-base mb-1">印星护身 · 逢难成祥</div>
+            <p class="text-slate-400 text-xs">逢大考或决策关键年，交易切忌盲目冲动追高，依规依律操作即获护佑。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 今日市场环境评估 -->
+      <section class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+        <span class="text-xs lg:text-sm text-slate-300 font-medium">今日市场环境评估</span>
+        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-lg flex items-center gap-1">
+          <i class="fa-solid fa-arrow-trend-up"></i> 上升通道
+        </span>
+      </section>
+
     </main>
+  </div>
 
-    <!-- =========================================
-         单页应用 Hash 路由状态持久化脚本
-         ========================================= -->
-    <script>
-        function handleRouting() {
-            // 1. 获取 URL 中的 Hash (#dashboard, #picks, #portfolio, #market)
-            let currentHash = window.location.hash || '#dashboard';
-            
-            // 2. 隐藏所有视图，重置所有导航链接状态
-            document.querySelectorAll('.view-section').forEach(view => {
-                view.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
+  <script>
+    // 切换侧边栏状态（移动端）
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      
+      const isHidden = sidebar.classList.contains('-translate-x-full');
+      
+      if (isHidden) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
 
-            // 3. 激活当前 Hash 对应的视图
-            const targetViewId = 'view-' + currentHash.replace('#', '');
-            const targetView = document.getElementById(targetViewId);
-            
-            if (targetView) {
-                targetView.classList.add('active');
-            } else {
-                // 若 Hash 无效，默认回退至 dashboard
-                document.getElementById('view-dashboard').classList.add('active');
-                currentHash = '#dashboard';
-            }
-
-            // 4. 高亮当前选中的侧边栏菜单
-            const targetNav = document.querySelector(`.nav-item[href="${currentHash}"]`);
-            if (targetNav) {
-                targetNav.classList.add('active');
-            }
-        }
-
-        // 监听 URL Hash 切换事件
-        window.addEventListener('hashchange', handleRouting);
-
-        // 页面首次加载/刷新时自动初始化路由 (解决 F5 刷新回首页问题)
-        window.addEventListener('DOMContentLoaded', handleRouting);
-    </script>
+    // 点击菜单项后在移动端自动关闭侧边栏
+    function closeSidebarOnMobile() {
+      if (window.innerWidth < 1024) {
+        toggleSidebar();
+      }
+    }
+  </script>
 </body>
 </html>
-
