@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timedelta, timezone
 
 # ---- 出生信息(自用单人网站,硬编码在这里,不会上传到任何第三方)----
-BIRTH_DATETIME = datetime(1997, 3, 22, 23, 4, 45)  # 阳历
+BIRTH_DATETIME = datetime(1997, 3, 22, 23, 29, 00)  # 阳历
 GENDER = "male"  # 乾造(目前的运势逻辑没用到性别,留着给以后大运/流年功能用)
 
 # 地支六冲 / 六合表,用来判断"今日"和八字四柱的互动关系
