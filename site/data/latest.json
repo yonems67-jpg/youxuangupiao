@@ -1,41 +1,22 @@
 {
-  "update_date": "2026-07-28 09:07:39",
+  "update_date": "2026-07-28 09:17:03",
   "market": {
-    "market_score": 94.4,
-    "market_status": "强势",
-    "suggested_position": "6~8成",
-    "up_count": 5195,
-    "down_count": 286,
-    "limit_up_count": 186,
-    "limit_down_count": 10,
-    "total_count": 5533
+    "market_score": 40.0,
+    "market_status": "震荡",
+    "suggested_position": "3~5成",
+    "up_count": 1545,
+    "down_count": 2653,
+    "limit_up_count": 117,
+    "limit_down_count": 93,
+    "total_count": 5523
   },
   "risk": {
-    "top_industry": "{'ind_code': 'BK0026', 'ind_name': '汽车零部件'}",
-    "top_industry_share": 1.0,
-    "industry_concentration_warning": true,
+    "top_industry": null,
+    "top_industry_share": 0,
+    "industry_concentration_warning": false,
     "market_risk_warning": false,
-    "suggest_reduce_position": true,
-    "notes": [
-      "入选股票中「{'ind_code': 'BK0026', 'ind_name': '汽车零部件'}」占比达 100%,行业集中度偏高"
-    ]
+    "suggest_reduce_position": false,
+    "notes": []
   },
-  "stocks": [
-    {
-      "代码": "sh603926",
-      "名称": "铁流股份",
-      "最新价": 15.33,
-      "涨跌幅": 4.0,
-      "换手率": 5.93,
-      "预估全天换手率": 5.93,
-      "量比": 2.02,
-      "振幅": 7.87,
-      "流通市值": 35.39,
-      "相对强度": 0.7873287547442618,
-      "score": 5.1579999999999995,
-      "建议仓位": 10.0,
-      "行业": "{'ind_code': 'BK0026', 'ind_name': '汽车零部件'}",
-      "操作建议": "重点关注"
-    }
-  ]
+  "stocks": []
 }
