@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-07-29 12:28:30",
+  "update_date": "2026-07-29 12:32:07",
   "market": {
     "market_score": 62.9,
     "market_status": "强势",
@@ -15,16 +15,16 @@
     "tier_name": "极度缩量防御模式",
     "target_count": 15,
     "actual_count": 15,
-    "fallback_note": "市场状态「强势」目标选出 15 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 15 只。 已触发降级,说明当前盘面偏冷/缩量,标准有所放宽。"
+    "fallback_note": "市场状态「强势」目标选出 15 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 15 只。 已触发降级,当前盘面偏冷/缩量。"
   },
   "risk": {
-    "top_industry": "未分类",
-    "top_industry_share": 1.0,
-    "industry_concentration_warning": true,
+    "top_industry": null,
+    "top_industry_share": 0,
+    "industry_concentration_warning": false,
     "market_risk_warning": false,
-    "suggest_reduce_position": true,
+    "suggest_reduce_position": false,
     "notes": [
-      "入选股票中「未分类」占比达 100%,行业集中度偏高"
+      "约 100% 的入选股票没有行业分类数据,行业集中度判断仅供参考"
     ]
   },
   "stocks": [
