@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+## -*- coding: utf-8 -*-
 """
 阿里云函数计算 FC 入口文件 (fc_handler.py)
 ==================================================
@@ -135,3 +135,4 @@ def handler(event, context):
             exc_info=True
         )
         raise 
+
