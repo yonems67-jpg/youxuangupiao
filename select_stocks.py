@@ -449,44 +449,65 @@ def compute_risk(selected_df: pd.DataFrame, market: dict) -> dict:
     }
 
 
-def build_result() -> dict:
-    """
-    纯计算逻辑,只返回结果 dict,不碰文件系统/git,供本地和 FC 共用。
-    流程:市场概览 -> 初筛(候选池) -> 并发拉取技术因子 -> 三级降级选出最终名单
-         -> 操作建议 -> 风险提示 -> 组装输出。
-    """
-    stock_list = ak.stock_zh_a_spot_tx()
-    market = compute_market_overview(stock_list)
-
-    candidates = robust_strategy_logic(stock_list)
-    tech_factors = fetch_tech_factors_parallel(candidates["_code6"].tolist())
-    selected_df, fallback_status = select_with_tiered_fallback(candidates, tech_factors, market)
-
-    selected_df = add_action_tag(selected_df)
-    risk = compute_risk(selected_df, market)
-
-    output_cols = [c for c in selected_df.columns if not c.startswith("_")]
+def build_result():
+    # ... 前面计算选股 df 的逻辑 ...
+    
+    # 确保 df 包含了 code, name, industry 列
+    # 强制做一次行业补全映射
+    industry_map = load_industry_map()
+    clean_map = {str(k).zfill(6)[-6:]: v for k, v in industry_map.items()}
+    
+    # 统一提取 6 位股票代码
+    code_col = 'code' if 'code' in df.columns else ('代码' if '代码' in df.columns else df.columns[0])
+    df['clean_code'] = df[code_col].astype(str).str.replace(r"\D", "", regex=True).str.zfill(6).str[-6:]
+    
+    # 映射行业（优先取现有行业列，若无或为未分类则从 clean_map 补全）
+    if 'industry' not in df.columns and '行业' in df.columns:
+        df['industry'] = df['行业']
+    
+    df['industry'] = df['clean_code'].map(clean_map).fillna(df.get('industry', '未分类')).fillna('未分类')
+    
+    # 构造输出列表：同时提供中英文 Key，兼顾前端读取和调试
+    stocks_list = []
+    for _, row in df.iterrows():
+        c_code = str(row.get('clean_code', ''))
+        c_name = str(row.get('name', row.get('名称', '')))
+        c_ind = str(row.get('industry', row.get('行业', '未分类')))
+        
+        stocks_list.append({
+            "code": c_code,
+            "name": c_name,
+            "industry": c_ind,
+            "代码": c_code,
+            "名称": c_name,
+            "行业": c_ind,
+            "zdf": float(row.get('zdf', 0.0)) if pd.notna(row.get('zdf')) else 0.0,
+        })
+        
     result = {
-        "update_date": get_beijing_now().strftime("%Y-%m-%d %H:%M:%S"),
-        "market": market,
-        "fallback_status": fallback_status,
-        "risk": risk,
-        "stocks": selected_df[output_cols].to_dict(orient="records"),
+        "update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "market_score": market_score if 'market_score' in locals() else 50,
+        "stocks": stocks_list
     }
+    
+    return result
 
-    print(f"候选池 {len(candidates)} 只, Tier{fallback_status['used_tier']}({fallback_status['tier_name']}) "
-          f"筛选后最终选出 {len(selected_df)} 只, 市场评分 {market['market_score']}")
-
-    return to_json_safe(result)
 
 
 def select_stocks():
     """本地/GitHub Actions 用的入口:算完直接写本地文件。阿里云 FC 用 fc_handler.py 调 build_result()。"""
     result = build_result()
-    os.makedirs("site/data", exist_ok=True)
-    with open("site/data/latest.json", "w", encoding="utf-8") as f:
+    
+    # 确保目标目录存在
+    out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "site", "data")
+    os.makedirs(out_dir, exist_ok=True)
+    
+    out_file = os.path.join(out_dir, "latest.json")
+    with open(out_file, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
-    print("已写入 site/data/latest.json")
+        
+    print(f"✅ 成功写入 {out_file} (共 {len(result.get('stocks', []))} 只股票)")
+
 
 
 if __name__ == "__main__":
