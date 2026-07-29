@@ -500,9 +500,39 @@ def build_result():
         "update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "market_score": market_score if 'market_score' in locals() else 50,
         "stocks": stocks_list
+            # === 假设原本构造的字典叫 result / ret / res_dict ===
+    # 只要在最终 return 之前，加下面这几行补全行业字段：
+    
+    industry_map = load_industry_map()
+    clean_map = {str(k).zfill(6)[-6:]: v for k, v in industry_map.items()}
+
+    # 遍历已生成的 stocks 列表，修补补全 code、name 和 industry
+    if "stocks" in result and isinstance(result["stocks"], list):
+        for s in result["stocks"]:
+            if isinstance(s, dict):
+                # 1. 提取 6 位代码
+                raw_code = str(s.get("code") or s.get("代码") or "")
+                c_code = "".join(filter(str.isdigit, raw_code)).zfill(6)[-6:]
+                
+                # 2. 如果已有代码，补全字段
+                if c_code:
+                    s["code"] = c_code
+                    s["代码"] = c_code
+                    
+                    # 3. 匹配行业（优先用字典映射，找不到再用原有的）
+                    mapped_ind = clean_map.get(c_code)
+                    existing_ind = s.get("industry") or s.get("行业")
+                    
+                    final_ind = mapped_ind if mapped_ind else (existing_ind if existing_ind and existing_ind != "None" else "未分类")
+                    
+                    s["industry"] = final_ind
+                    s["行业"] = final_ind
+
+    return result
+
     }
     
-    return result
+    
 
 
 
