@@ -450,40 +450,52 @@ def compute_risk(selected_df: pd.DataFrame, market: dict) -> dict:
 
 
 def build_result():
-    # ... 前面计算选股 df 的逻辑 ...
+    # ... 前面原有的选股逻辑 ...
     
-    # 确保 df 包含了 code, name, industry 列
-    # 强制做一次行业补全映射
-    industry_map = load_industry_map()
-    clean_map = {str(k).zfill(6)[-6:]: v for k, v in industry_map.items()}
-    
-    # 统一提取 6 位股票代码
-    code_col = 'code' if 'code' in df.columns else ('代码' if '代码' in df.columns else df.columns[0])
-    df['clean_code'] = df[code_col].astype(str).str.replace(r"\D", "", regex=True).str.zfill(6).str[-6:]
-    
-    # 映射行业（优先取现有行业列，若无或为未分类则从 clean_map 补全）
-    if 'industry' not in df.columns and '行业' in df.columns:
-        df['industry'] = df['行业']
-    
-    df['industry'] = df['clean_code'].map(clean_map).fillna(df.get('industry', '未分类')).fillna('未分类')
-    
-    # 构造输出列表：同时提供中英文 Key，兼顾前端读取和调试
+    # 假设你筛选出的最终股票 DataFrame 变量叫 res_df / df / candidate_df
+    # 这里做个兼容，自动寻找已存在的 DataFrame 变量：
+    target_df = None
+    for var_name in ['df', 'res_df', 'candidate_df', 'selected_df']:
+        if var_name in locals() and isinstance(locals()[var_name], pd.DataFrame):
+            target_df = locals()[var_name]
+            break
+
     stocks_list = []
-    for _, row in df.iterrows():
-        c_code = str(row.get('clean_code', ''))
-        c_name = str(row.get('name', row.get('名称', '')))
-        c_ind = str(row.get('industry', row.get('行业', '未分类')))
+    if target_df is not None and not target_df.empty:
+        # 1. 自动找到代码列
+        code_col = 'code' if 'code' in target_df.columns else ('代码' if '代码' in target_df.columns else target_df.columns[0])
+        target_df['_code6'] = target_df[code_col].astype(str).str.replace(r"\D", "", regex=True).str.zfill(6).str[-6:]
+
+        # 2. 读取并清洗行业字典进行映射
+        industry_map = load_industry_map()
+        clean_map = {str(k).zfill(6)[-6:]: v for k, v in industry_map.items()}
         
-        stocks_list.append({
-            "code": c_code,
-            "name": c_name,
-            "industry": c_ind,
-            "代码": c_code,
-            "名称": c_name,
-            "行业": c_ind,
-            "zdf": float(row.get('zdf', 0.0)) if pd.notna(row.get('zdf')) else 0.0,
-        })
+        target_df['industry_clean'] = target_df['_code6'].map(clean_map)
         
+        # 优先用映射出来的行业，如果没有映射上且原 DataFrame 有行业/industry 列则保留，否则填未分类
+        if 'industry' in target_df.columns:
+            target_df['industry'] = target_df['industry_clean'].fillna(target_df['industry']).fillna('未分类')
+        elif '行业' in target_df.columns:
+            target_df['industry'] = target_df['industry_clean'].fillna(target_df['行业']).fillna('未分类')
+        else:
+            target_df['industry'] = target_df['industry_clean'].fillna('未分类')
+
+        # 3. 构造输出列表
+        for _, row in target_df.iterrows():
+            c_code = str(row.get('_code6', ''))
+            c_name = str(row.get('name', row.get('名称', '')))
+            c_ind = str(row.get('industry', '未分类'))
+            
+            stocks_list.append({
+                "code": c_code,
+                "name": c_name,
+                "industry": c_ind,
+                "代码": c_code,
+                "名称": c_name,
+                "行业": c_ind,
+                "zdf": float(row.get('zdf', 0.0)) if pd.notna(row.get('zdf')) else 0.0,
+            })
+
     result = {
         "update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "market_score": market_score if 'market_score' in locals() else 50,
