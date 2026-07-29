@@ -74,12 +74,24 @@ def trading_minutes_elapsed(now: datetime) -> float:
 
 
 def load_industry_map() -> dict:
-    """读取本地行业映射表(build_industry_map.py 生成)。不存在则返回空字典,后续逻辑自动降级。"""
-    map_path = "site/data/industry_map.json"
+    """读取本地行业映射表(build_industry_map.py 生成)。用绝对路径防止 FC 环境找不到文件。"""
+    # 获取 select_stocks.py 所在的绝对目录
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # 拼接绝对路径：/code/site/data/industry_map.json
+    map_path = os.path.join(base_dir, "site", "data", "industry_map.json")
+    
     if os.path.exists(map_path):
-        with open(map_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    print(f"提示: {map_path} 不存在,行业相对强度将退化为全市场相对强度")
+        try:
+            with open(map_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                print(f"✅ [FC] 成功加载行业字典: {map_path} (共 {len(data)} 条记录)")
+                return data
+        except Exception as e:
+            print(f"❌ [FC] 读取行业字典失败: {e}")
+            return {}
+            
+    print(f"⚠️ [FC] 提示: {map_path} 文件不存在，行业将退化为未分类")
     return {}
 
 
