@@ -1,29 +1,90 @@
 {
-  "update_date": "2026-08-04 09:25:06",
+  "update_date": "2026-08-04 09:30:10",
   "market": {
-    "market_score": 65.3,
+    "market_score": 75.9,
     "market_status": "强势",
     "suggested_position": "6~8成",
-    "up_count": 3189,
-    "down_count": 1496,
-    "limit_up_count": 13,
+    "up_count": 3820,
+    "down_count": 961,
+    "limit_up_count": 11,
     "limit_down_count": 1,
-    "total_count": 5515
+    "total_count": 5523
   },
   "fallback_status": {
     "used_tier": 2,
     "tier_name": "极度缩量防御模式",
     "target_count": 15,
-    "actual_count": 0,
-    "fallback_note": "市场状态「强势」目标选出 15 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 0 只。 已触发降级,当前盘面偏冷/缩量。"
+    "actual_count": 3,
+    "fallback_note": "市场状态「强势」目标选出 15 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 3 只。 已触发降级,当前盘面偏冷/缩量。 入选≤3只,单票仓位已压缩至5.0%上限。"
   },
   "risk": {
-    "top_industry": null,
-    "top_industry_share": 0,
+    "top_industry": "通用设备",
+    "top_industry_share": 0.33,
     "industry_concentration_warning": false,
     "market_risk_warning": false,
     "suggest_reduce_position": false,
     "notes": []
   },
-  "stocks": []
+  "stocks": [
+    {
+      "代码": "sz002438",
+      "名称": "江苏神通",
+      "最新价": 14.6,
+      "涨跌幅": 4.51,
+      "换手率": 0.61,
+      "预估全天换手率": 14.64,
+      "量比": 88.82,
+      "振幅": 2.08,
+      "行业": "通用设备",
+      "行业相对强度": 3.9022435897435894,
+      "流通市值": 68.46,
+      "ma_aligned": false,
+      "volume_spike": true,
+      "breakout": true,
+      "距20日新高比例": 1.0,
+      "score": 75.0,
+      "建议仓位": 5.0,
+      "操作建议": "重点关注"
+    },
+    {
+      "代码": "sz002366",
+      "名称": "融发核电",
+      "最新价": 6.54,
+      "涨跌幅": 3.65,
+      "换手率": 0.6,
+      "预估全天换手率": 14.399999999999999,
+      "量比": 27.61,
+      "振幅": 1.74,
+      "行业": "其他电源设备Ⅲ",
+      "行业相对强度": 2.5555172413793104,
+      "流通市值": 121.01,
+      "ma_aligned": true,
+      "volume_spike": false,
+      "breakout": true,
+      "距20日新高比例": 1.0,
+      "score": 53.5,
+      "建议仓位": 5.0,
+      "操作建议": "观察"
+    },
+    {
+      "代码": "sz001208",
+      "名称": "华菱线缆",
+      "最新价": 15.2,
+      "涨跌幅": 3.68,
+      "换手率": 0.59,
+      "预估全天换手率": 14.16,
+      "量比": 23.05,
+      "振幅": 1.57,
+      "行业": "电力设备",
+      "行业相对强度": 2.992590909090909,
+      "流通市值": 48.45,
+      "ma_aligned": false,
+      "volume_spike": false,
+      "breakout": false,
+      "距20日新高比例": 0.9168230143839899,
+      "score": 6.5,
+      "建议仓位": 5.0,
+      "操作建议": "谨慎"
+    }
+  ]
 }
