@@ -1,31 +1,53 @@
 {
-  "update_date": "2026-08-11 09:25:06",
+  "update_date": "2026-08-11 09:30:08",
   "market": {
-    "market_score": 31.4,
+    "market_score": 29.9,
     "market_status": "弱势",
     "suggested_position": "1~2成或观望",
-    "up_count": 1367,
-    "down_count": 3419,
-    "limit_up_count": 13,
-    "limit_down_count": 8,
-    "total_count": 5530
+    "up_count": 1278,
+    "down_count": 3497,
+    "limit_up_count": 10,
+    "limit_down_count": 6,
+    "total_count": 5533
   },
   "fallback_status": {
     "used_tier": 2,
     "tier_name": "极度缩量防御模式",
     "target_count": 4,
-    "actual_count": 0,
-    "fallback_note": "市场状态「弱势」目标选出 4 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 0 只。 已触发降级,当前盘面偏冷/缩量。"
+    "actual_count": 1,
+    "fallback_note": "市场状态「弱势」目标选出 4 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 1 只。 已触发降级,当前盘面偏冷/缩量。 入选≤3只,单票仓位已压缩至5.0%上限。"
   },
   "risk": {
-    "top_industry": null,
-    "top_industry_share": 0,
-    "industry_concentration_warning": false,
+    "top_industry": "纺织服饰",
+    "top_industry_share": 1.0,
+    "industry_concentration_warning": true,
     "market_risk_warning": true,
     "suggest_reduce_position": true,
     "notes": [
+      "入选股票中「纺织服饰」占比达 100%,行业集中度偏高",
       "当前市场宽度偏弱(下跌家数明显多于上涨家数)"
     ]
   },
-  "stocks": []
+  "stocks": [
+    {
+      "代码": "sz002721",
+      "名称": "金一文化",
+      "最新价": 2.86,
+      "涨跌幅": 3.25,
+      "换手率": 0.59,
+      "预估全天换手率": 14.16,
+      "量比": 19.1,
+      "振幅": 2.17,
+      "行业": "纺织服饰",
+      "行业相对强度": 3.2015384615384614,
+      "流通市值": 76.06,
+      "ma_aligned": true,
+      "volume_spike": true,
+      "breakout": false,
+      "距20日新高比例": 0.8993506493506493,
+      "score": 62.5,
+      "建议仓位": 0.0,
+      "操作建议": "重点关注"
+    }
+  ]
 }
