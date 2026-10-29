@@ -144,6 +144,11 @@ tr.out td{color:var(--ink-faint)}
 .sector-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;margin-top:9px}
 .sector-row>span:first-child{color:var(--ink-faint)}
 .leader{font-weight:600}.leader .num{font-size:15px;margin-left:6px}.leader small.num{font-size:11.5px;margin-left:6px}
+.badge-weak{background:var(--warn-soft);color:var(--warn);margin-left:6px;font-size:10.5px;padding:1px 7px}
+.nav-chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--ink-soft);margin-top:8px}
+.legend i{display:inline-block;width:14px;height:2px;vertical-align:4px;margin-right:6px}
+.pending{border-color:var(--accent);background:var(--accent-soft)}
 footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:var(--ink-faint)}
 </style>
 </head>
@@ -156,6 +161,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
   <nav class="tabs" id="tabs">
     <a href="#radar">市场雷达</a>
     <a href="#picks">选股清单</a>
+    <a href="#lowamt">低成交额组合</a>
     <a href="#timeline">信号时间线</a>
     <a href="#risk">风险提示</a>
     <a href="#fortune">今日运势</a>
@@ -268,6 +274,41 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     </div>
   </section>
 
+  <!-- 低成交额组合 -->
+  <section class="view" id="view-lowamt" hidden>
+    <div class="page-head">
+      <h2 class="page-title">低成交额组合</h2>
+      <p class="page-note">主板非 ST、股价 ≥ 2 元，每个行业内 20 日均成交额最低 20% 为候选，取其中最低的 5 只等权持有；每 20 个交易日换仓，换仓日收盘集合竞价成交。机械执行，不挑票、不止损。</p>
+    </div>
+    <div class="grid cols-4" id="la-stats"></div>
+    <div id="la-pending"></div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">当期持仓</h3><span class="section-meta" id="la-hold-meta"></span></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>名称</th><th>行业</th><th class="right">20日均成交额</th><th class="right">买入价</th><th class="right">现价</th><th class="right">本期涨跌</th></tr></thead>
+        <tbody id="la-rows"></tbody>
+      </table></div></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">净值走势</h3><span class="section-meta">起始为 1，每个交易日收盘记一次</span></div>
+      <div class="card nav-chart"><div id="la-chart"></div>
+        <div class="legend"><span><i style="background:var(--up)"></i>组合</span><span><i style="background:var(--ink-faint)"></i>基准（主板非 ST 等权）</span></div></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">历史各期</h3></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>开始</th><th>结束</th><th class="right">组合</th><th class="right">基准</th><th class="right">超额</th><th>持仓</th></tr></thead>
+        <tbody id="la-hist"></tbody>
+      </table></div></div>
+    </div>
+    <div class="section">
+      <div class="card note">
+        <b>回测参考（2016–2026，成本 0.3%–0.5%）</b>：年化约 16%–19%，相对基准年化超额约 19%；最大回撤约 −49%，最长一次从 2017 年 3 月到 2021 年 5 月才回到前高；最长连续跑输基准约 100 个交易日。收益集中在少数年份（2016、2021、2025），多数时间是小幅跑赢或横盘。<br>
+        实盘与回测的差别：名单在换仓日前一天收盘后生成（回测用的是换仓日当天的数据），这个一天的滞后尚未单独回测。
+      </div>
+    </div>
+  </section>
+
   <!-- 信号时间线 -->
   <section class="view" id="view-timeline" hidden>
     <div class="page-head">
@@ -350,7 +391,7 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 /* ---------- 路由 ---------- */
 function route(){
   const id = (location.hash || "#radar").slice(1);
-  const valid = ["radar","picks","timeline","risk","fortune","health"].includes(id) ? id : "radar";
+  const valid = ["radar","picks","lowamt","timeline","risk","fortune","health"].includes(id) ? id : "radar";
   document.querySelectorAll(".view").forEach(v => v.hidden = v.id !== "view-" + valid);
   document.querySelectorAll("#tabs a").forEach(a => {
     if (a.getAttribute("href") === "#" + valid) a.setAttribute("aria-current", "page");
@@ -436,7 +477,7 @@ function renderLatest(d){
   } else {
     $("rows").innerHTML = sorted.map(s => `
       <tr>
-        <td><div class="name-cell">${esc(s["名称"])}</div><div class="ticker">${esc(s["代码"])}</div></td>
+        <td><div class="name-cell">${esc(s["名称"])}${weakTag(s)}</div><div class="ticker">${esc(s["代码"])}</div></td>
         <td class="right num">${fmt(s["最新价"])}</td>
         <td class="right num ${cls(s["涨跌幅"])}">${pct(s["涨跌幅"])}</td>
         <td class="right num" title="预估全天 ${fmt(s["预估全天换手率"], 1)}%">${fmt(s["换手率"])}%<div class="ticker">全天≈${fmt(s["预估全天换手率"], 1)}%</div></td>
@@ -453,7 +494,7 @@ function renderLatest(d){
     $("cards").innerHTML = sorted.map(s => `
       <div class="scard">
         <div class="scard-head">
-          <div><span class="scard-name">${esc(s["名称"])}</span> <span class="ticker">${esc(s["代码"])}</span></div>
+          <div><span class="scard-name">${esc(s["名称"])}</span>${weakTag(s)} <span class="ticker">${esc(s["代码"])}</span></div>
           <span class="badge ${tagCls[s["操作建议"]] || "badge-care"}">${esc(s["操作建议"] || "—")}</span>
         </div>
         <div><span class="num" style="font-size:18px;font-weight:600">${fmt(s["最新价"])}</span>
@@ -475,6 +516,7 @@ function renderLatest(d){
   costNote(sorted);
   renderSentiment(d.sentiment);
   renderSectors(d.sectors);
+  LA_LATEST = d.lowamt || null; renderLowamt();
 
   // 风险
   const notes = risk.notes || [];
@@ -566,6 +608,79 @@ function renderTimeline(tl){
     </tr>`).join("") : `<tr><td colspan="9" class="empty">今天还没有股票进入过清单</td></tr>`;
 }
 
+function weakTag(s){
+  if (!s["超跌弱势"]) return "";
+  const why = [];
+  if (s["距60日高点回撤"] != null && s["距60日高点回撤"] <= -0.4) why.push("距60日高点 " + (s["距60日高点回撤"] * 100).toFixed(0) + "%");
+  if (s["连跌天数"] >= 5) why.push("此前连跌 " + s["连跌天数"] + " 天");
+  return `<span class="badge badge-weak" title="${esc(why.join("，"))}。回测：超跌是弱势延续信号，后续大概率跑输。">超跌·弱势</span>`;
+}
+
+/* ---------- 低成交额组合 ---------- */
+let LA_LATEST = null, LA_FILE = null;
+function pickLowamt(){
+  const a = LA_LATEST, b = LA_FILE;
+  if (a && b) return (a.updated || "") >= (b.updated || "") ? a : b;
+  return a || b;
+}
+function navChart(nav){
+  if (!nav || nav.length < 2) return `<div class="empty">净值数据不足两天，建仓后开始绘制</div>`;
+  const W = 760, Hh = 220, P = 34;
+  const vals = nav.flatMap(x => [x.nav, x.bench]);
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  if (hi - lo < 0.02) { lo -= 0.01; hi += 0.01; }
+  const X = i => P + (W - P - 8) * i / (nav.length - 1);
+  const Y = v => 8 + (Hh - 30) * (1 - (v - lo) / (hi - lo));
+  const line = (k, color, w) => `<path d="${nav.map((x, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(x[k]).toFixed(1)).join("")}" fill="none" stroke="${color}" stroke-width="${w}"/>`;
+  const ticks = [lo, (lo + hi) / 2, hi].map(v => `<text x="2" y="${Y(v) + 3}" font-size="10" fill="${css("--ink-faint")}" font-family="ui-monospace,monospace">${v.toFixed(3)}</text><line x1="${P}" x2="${W - 8}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css("--line")}"/>`).join("");
+  const one = (1 >= lo && 1 <= hi) ? `<line x1="${P}" x2="${W - 8}" y1="${Y(1)}" y2="${Y(1)}" stroke="${css("--line-strong")}" stroke-dasharray="3 3"/>` : "";
+  const dl = `<text x="${P}" y="${Hh - 4}" font-size="10" fill="${css("--ink-faint")}">${esc(nav[0].date)}</text><text x="${W - 8}" y="${Hh - 4}" font-size="10" text-anchor="end" fill="${css("--ink-faint")}">${esc(nav[nav.length - 1].date)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${Hh}">${ticks}${one}${line("bench", css("--ink-faint"), 1.5)}${line("nav", css("--up"), 2)}${dl}</svg>`;
+}
+function renderLowamt(){
+  const d = pickLowamt();
+  if (!d) { $("la-stats").innerHTML = `<div class="card empty">NAS 尚未推送低成交额组合数据</div>`; return; }
+  if (!d.ok) { $("la-stats").innerHTML = `<div class="card empty">${esc(d.note || "组合尚未初始化")}</div>`; }
+  const c = d.current, wan = v => v == null ? "—" : (v / 1e4).toFixed(0) + " 万";
+  const card = (l, v, sub, k = "") => `<div class="card"><div class="metric-label">${l}</div><div class="metric-value ${k}" style="font-size:24px">${v}</div><div class="metric-sub">${sub}</div></div>`;
+  if (c) {
+    const ex = (c.period_ret != null && c.bench_ret != null) ? c.period_ret - c.bench_ret : null;
+    const cumEx = (c.cum_nav - c.cum_bench) * 100;
+    $("la-stats").innerHTML = [
+      card("本期收益", pct(c.period_ret), `基准 ${pct(c.bench_ret)} · 超额 ${pct(ex)}`, cls(c.period_ret)),
+      card("累计净值", fmt(c.cum_nav, 4), `基准 ${fmt(c.cum_bench, 4)} · 差 ${pct(cumEx)}`, cls(c.cum_nav - 1)),
+      card("换仓进度", `${c.elapsed} / ${d.hold_days}`, "已持有交易日"),
+      card("下次换仓", esc(c.next_rebalance || "—"), "前一交易日收盘后出名单" + (d.calendar !== "sina" ? "（日历为工作日近似）" : "")),
+    ].join("");
+    $("la-hold-meta").textContent = "建仓于 " + c.start + " 收盘";
+    $("la-rows").innerHTML = c.holdings.map(h => `
+      <tr><td><div class="name-cell">${esc(h.name)}</div><div class="ticker">${esc(h.code)}</div></td>
+      <td>${esc(h.industry)}</td><td class="right num">${wan(h.amt20)}</td>
+      <td class="right num">${fmt(h.buy)}</td><td class="right num">${fmt(h.price)}</td>
+      <td class="right num ${cls(h.chg)}">${pct(h.chg)}</td></tr>`).join("");
+  } else if (d.ok) {
+    $("la-stats").innerHTML = card("状态", "等待建仓", "首份名单生成后，下一个交易日收盘建仓");
+    $("la-rows").innerHTML = `<tr><td colspan="6" class="empty">尚未建仓</td></tr>`;
+  }
+  const p = d.pending;
+  $("la-pending").innerHTML = p ? `
+    <div class="section"><div class="card pending">
+      <h3 class="card-title" style="color:var(--accent)">待换仓 · ${esc(p.trade_date)} 收盘集合竞价执行</h3>
+      <div class="note" style="margin-bottom:10px">卖出当期全部持仓，等权买入下面 ${p.stocks.length} 只${p.late_from ? `（原定 ${esc(p.late_from)}，NAS 当天未运行，已顺延）` : ""}。数据截至 ${esc(p.as_of)}，股票池 ${p.pool_size} 只，候选 ${p.candidates} 只${p.failed ? `，${p.failed} 只日线拉取失败` : ""}。</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>名称</th><th>行业</th><th class="right">20日均成交额</th><th class="right">参考价(${esc(p.as_of)}收盘)</th></tr></thead>
+        <tbody>${p.stocks.map(s => `<tr><td><div class="name-cell">${esc(s.name)}</div><div class="ticker">${esc(s.code)}</div></td><td>${esc(s.industry)}</td><td class="right num">${wan(s.amt20)}</td><td class="right num">${fmt(s.ref_price)}</td></tr>`).join("")}</tbody>
+      </table></div></div></div>` : "";
+  $("la-chart").innerHTML = navChart(d.nav);
+  const hist = (d.history || []).slice().reverse();
+  $("la-hist").innerHTML = hist.length ? hist.map(h => `
+    <tr><td class="num mono">${esc(h.start)}</td><td class="num mono">${esc(h.end)}</td>
+    <td class="right num ${cls(h.ret)}">${pct(h.ret)}</td><td class="right num ${cls(h.bench_ret)}">${pct(h.bench_ret)}</td>
+    <td class="right num ${cls(h.ret - h.bench_ret)}">${pct(h.ret - h.bench_ret)}</td>
+    <td style="white-space:normal;min-width:260px;font-size:12.5px;color:var(--ink-soft)">${esc((h.names || []).join("、"))}</td></tr>`).join("")
+    : `<tr><td colspan="6" class="empty">还没有完成的换仓周期</td></tr>`;
+}
+
 function renderSectors(sc){
   const items = (sc && sc.items) || [];
   $("sector-meta").textContent = items.length ? "东方财富行业板块 · 按板块涨幅排序" : "";
@@ -639,6 +754,7 @@ function renderFortune(f){
 }
 
 function load(){
+  fetch("data/lowamt.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(x => { LA_FILE = x; renderLowamt(); }).catch(() => {});
   fetch("data/latest.json", { cache: "no-store" }).then(r => r.json()).then(renderLatest)
     .catch(e => { $("stamp").textContent = "选股数据读取失败：" + e.message; $("stamp").classList.add("stale"); });
   fetch("data/fortune.json", { cache: "no-store" }).then(r => r.json()).then(renderFortune)
