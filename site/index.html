@@ -84,8 +84,8 @@ main{max-width:1180px;margin:0 auto;padding:28px 24px 64px}
 /* table */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:13.5px}
-th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--ink-faint);padding:0 9px 9px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
-td{padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--ink-faint);padding:0 7px 9px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+td{padding:11px 7px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover{background:var(--panel-sunk)}
 th.right,td.right{text-align:right}
@@ -98,7 +98,7 @@ th.right,td.right{text-align:right}
 .badge-care{background:var(--panel-sunk);color:var(--ink-soft);border:1px solid var(--line)}
 .badge-warn{background:var(--warn-soft);color:var(--warn)}
 .badge-ok{background:var(--down-soft);color:var(--down)}
-.chip{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11.5px;font-weight:500;margin:1px 3px 1px 0;border:1px solid var(--line);color:var(--ink-faint)}
+.chip{display:inline-block;padding:1px 5px;border-radius:5px;font-size:11px;font-weight:500;margin:1px 2px 1px 0;border:1px solid var(--line);color:var(--ink-faint)}
 .chip.on{background:var(--accent-soft);color:var(--accent);border-color:transparent}
 /* mobile stock cards */
 .stock-cards{display:none}
@@ -128,6 +128,14 @@ th.right,td.right{text-align:right}
 .tag{display:inline-block;padding:1px 8px;border-radius:5px;font-size:12.5px;margin:0 4px 4px 0}
 .tag.good{background:var(--up-soft);color:var(--up)}
 .tag.bad{background:var(--panel-sunk);color:var(--ink-soft);border:1px solid var(--line)}
+.cost-panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;align-items:end}
+.field label{display:block;font-size:11.5px;color:var(--ink-faint);margin-bottom:4px;letter-spacing:.04em}
+.field input{width:100%;font:inherit;font-family:var(--font-mono);font-size:13px;padding:7px 9px;border:1px solid var(--line-strong);border-radius:6px;background:var(--panel-sunk);color:var(--ink)}
+.field input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.muted{color:var(--ink-faint)}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px;background:var(--down)}
+.status-dot.bad{background:var(--up)}.status-dot.warn{background:var(--warn)}
+tr.out td{color:var(--ink-faint)}
 footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:var(--ink-faint)}
 </style>
 </head>
@@ -140,8 +148,10 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
   <nav class="tabs" id="tabs">
     <a href="#radar">市场雷达</a>
     <a href="#picks">选股清单</a>
+    <a href="#timeline">信号时间线</a>
     <a href="#risk">风险提示</a>
     <a href="#fortune">今日运势</a>
+    <a href="#health">运行状态</a>
   </nav>
 </header>
 
@@ -189,6 +199,18 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     </div>
 
     <div class="section">
+      <div class="section-head"><h3 class="section-title">短线情绪</h3><span class="section-meta">东方财富涨停池 · 全市场</span></div>
+      <div class="grid cols-4" id="senti-stats"></div>
+      <div class="card" style="margin-top:var(--gap)">
+        <h3 class="card-title">连板梯队（3 板及以上）</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>名称</th><th class="right">连板</th><th>行业</th><th class="right">首次封板</th><th class="right">炸板次数</th></tr></thead>
+          <tbody id="ladder"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="section">
       <div class="section-head"><h3 class="section-title">选股档位</h3><span class="section-meta" id="tier-meta"></span></div>
       <div class="card"><div class="note" id="tier-note">—</div></div>
     </div>
@@ -202,6 +224,20 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     </div>
     <div class="grid cols-4" id="pick-stats"></div>
     <div class="section">
+      <div class="section-head"><h3 class="section-title">交易成本</h3><span class="section-meta">按现价买入整手计算，设置保存在本浏览器</span></div>
+      <div class="card">
+        <div class="cost-panel">
+          <div class="field"><label>下单金额（元）</label><input id="c-budget" type="number" min="0" step="1000"></div>
+          <div class="field"><label>佣金率（%）</label><input id="c-comm" type="number" min="0" step="0.001"></div>
+          <div class="field"><label>最低佣金（元）</label><input id="c-min" type="number" min="0" step="0.5"></div>
+          <div class="field"><label>印花税·卖出（%）</label><input id="c-stamp" type="number" min="0" step="0.01"></div>
+          <div class="field"><label>过户费·双边（%）</label><input id="c-tf" type="number" min="0" step="0.0001"></div>
+          <div class="field"><label>目标净收益（%）</label><input id="c-target" type="number" min="0" step="0.5"></div>
+        </div>
+        <div class="note" style="margin-top:12px" id="cost-note"></div>
+      </div>
+    </div>
+    <div class="section">
       <div class="section-head"><h3 class="section-title">入选个股</h3><span class="section-meta" id="pick-meta"></span></div>
       <div class="card stock-table" style="padding:8px 8px 4px">
         <div class="table-wrap">
@@ -209,13 +245,27 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
             <thead><tr>
               <th>名称</th><th class="right">最新价</th><th class="right">涨跌幅</th><th class="right">换手率</th>
               <th class="right">量比</th><th class="right">振幅</th><th class="right">成交额(全天)</th>
-              <th>行业</th><th class="right">行业强度</th><th>技术面</th><th class="right">评分</th><th class="right">建议仓位</th><th>操作建议</th>
+              <th>行业 · 相对强度</th><th>技术面</th><th class="right">评分</th><th class="right">首次入选</th><th class="right">股数</th><th class="right">保本价</th><th class="right" id="th-target">目标价</th><th>操作建议</th>
             </tr></thead>
             <tbody id="rows"></tbody>
           </table>
         </div>
       </div>
       <div class="stock-cards" id="cards"></div>
+    </div>
+  </section>
+
+  <!-- 信号时间线 -->
+  <section class="view" id="view-timeline" hidden>
+    <div class="page-head">
+      <h2 class="page-title">信号时间线</h2>
+      <p class="page-note">今天所有进入过清单的股票。"自入选"以首次入选那一轮的价格为基准，可以看出信号出现后是继续走强还是冲高回落。</p>
+    </div>
+    <div class="card" style="padding:8px 8px 4px">
+      <div class="table-wrap"><table>
+        <thead><tr><th>首次入选</th><th>名称</th><th class="right">入选价</th><th class="right">现价</th><th class="right">自入选涨跌</th><th class="right">自入选最高</th><th class="right">在榜轮数</th><th>状态</th><th>标签</th></tr></thead>
+        <tbody id="tl-rows"></tbody>
+      </table></div>
     </div>
   </section>
 
@@ -255,6 +305,18 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
       </div>
     </div>
   </section>
+  <!-- 运行状态 -->
+  <section class="view" id="view-health" hidden>
+    <div class="page-head">
+      <h2 class="page-title">运行状态</h2>
+      <p class="page-note">NAS 每 5 分钟跑一轮（交易日 9:00–15:55）。失败的那一轮不会推送数据，这里显示的失败记录会在下一次成功推送时带上来。</p>
+    </div>
+    <div class="grid cols-4" id="hl-stats"></div>
+    <div class="grid cols-2" style="margin-top:var(--gap)">
+      <div class="card"><h3 class="card-title">数据源</h3><dl class="kv" id="hl-src" style="grid-template-columns:96px 1fr"></dl></div>
+      <div class="card"><h3 class="card-title">最近错误</h3><div id="hl-err" class="note"></div></div>
+    </div>
+  </section>
 </main>
 <footer>个人自用工具，非投资建议。所有信号由量化规则生成，执行前请自行复核。</footer>
 
@@ -275,7 +337,7 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 /* ---------- 路由 ---------- */
 function route(){
   const id = (location.hash || "#radar").slice(1);
-  const valid = ["radar","picks","risk","fortune"].includes(id) ? id : "radar";
+  const valid = ["radar","picks","timeline","risk","fortune","health"].includes(id) ? id : "radar";
   document.querySelectorAll(".view").forEach(v => v.hidden = v.id !== "view-" + valid);
   document.querySelectorAll("#tabs a").forEach(a => {
     if (a.getAttribute("href") === "#" + valid) a.setAttribute("aria-current", "page");
@@ -309,6 +371,7 @@ function drawGauge(score){
 let LAST = null;
 function renderLatest(d){
   LAST = d;
+  renderTimeline(d.timeline);
   const m = d.market || {}, fs = d.fallback_status || {}, risk = d.risk || {}, stocks = d.stocks || [];
 
   // 更新时间 & 过期提示(交易时段内超过 15 分钟未更新)
@@ -355,7 +418,7 @@ function renderLatest(d){
   const sorted = [...stocks].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 
   if (!sorted.length) {
-    $("rows").innerHTML = `<tr><td colspan="13" class="empty">今天没有满足条件的股票</td></tr>`;
+    $("rows").innerHTML = `<tr><td colspan="15" class="empty">今天没有满足条件的股票</td></tr>`;
     $("cards").innerHTML = `<div class="card empty">今天没有满足条件的股票</div>`;
   } else {
     $("rows").innerHTML = sorted.map(s => `
@@ -367,11 +430,11 @@ function renderLatest(d){
         <td class="right num">${fmt(s["量比"])}</td>
         <td class="right num">${fmt(s["振幅"])}%</td>
         <td class="right num">${yi(amt(s))}<div class="ticker">当前 ${yi(s["当前成交额"])}</div></td>
-        <td>${esc(s["行业"])}</td>
-        <td class="right num ${cls(s["行业相对强度"])}">${pct(s["行业相对强度"])}</td>
+        <td>${esc(s["行业"])}<div class="ticker ${cls(s["行业相对强度"])}">${pct(s["行业相对强度"])}</div></td>
         <td>${tech(s)}</td>
         <td class="right num">${fmt(s.score, 1)}</td>
-        <td class="right num">${fmt(s["建议仓位"], 1)}%</td>
+        <td class="right num">${firstSeen(s)}</td>
+        ${costCells(s)}
         <td><span class="badge ${tagCls[s["操作建议"]] || "badge-care"}">${esc(s["操作建议"] || "—")}</span></td>
       </tr>`).join("");
     $("cards").innerHTML = sorted.map(s => `
@@ -389,11 +452,15 @@ function renderLatest(d){
           <div><span>振幅</span>${fmt(s["振幅"])}%</div>
           <div><span>成交额(全天)</span>${yi(amt(s))}</div>
           <div><span>行业</span>${esc(s["行业"])}</div>
-          <div><span>建议仓位</span>${fmt(s["建议仓位"], 1)}%</div>
+          <div><span>首次入选</span>${firstSeen(s)}</div>
+          ${costMini(s)}
         </div>
         <div style="margin-top:8px">${tech(s)}</div>
       </div>`).join("");
   }
+
+  costNote(sorted);
+  renderSentiment(d.sentiment);
 
   // 风险
   const notes = risk.notes || [];
@@ -411,6 +478,116 @@ function renderLatest(d){
       <div class="meter-track"><div class="meter-fill" style="width:${n / stocks.length * 100}%;${n / stocks.length > 0.4 ? "background:var(--warn)" : ""}"></div></div>
     </div>`).join("") + `<div class="note" style="margin-top:14px">单一行业占比超过 40% 时触发集中度提示。</div>`
     : `<div class="empty">暂无入选股</div>`;
+  renderHealth(d.health, d);
+}
+
+/* ---------- 交易成本 ---------- */
+const COST_DEFAULT = { budget: 10000, comm: 0.025, min: 5, stamp: 0.05, tf: 0.001, target: 2 };
+let COST = { ...COST_DEFAULT };
+try { Object.assign(COST, JSON.parse(localStorage.getItem("yone-cost") || "{}")); } catch (e) {}
+const costFields = { budget:"c-budget", comm:"c-comm", min:"c-min", stamp:"c-stamp", tf:"c-tf", target:"c-target" };
+Object.entries(costFields).forEach(([k, id]) => {
+  const el = $(id); el.value = COST[k];
+  el.addEventListener("input", () => {
+    const v = parseFloat(el.value); COST[k] = isNaN(v) ? COST_DEFAULT[k] : v;
+    try { localStorage.setItem("yone-cost", JSON.stringify(COST)); } catch (e) {}
+    if (LAST) renderLatest(LAST);
+  });
+});
+function tradeCalc(price){
+  if (!price || price <= 0) return null;
+  const c = COST.comm / 100, st = COST.stamp / 100, tf = COST.tf / 100;
+  const n = Math.floor(COST.budget / (price * 100)) * 100;
+  if (n <= 0) return { n: 0 };
+  const amt = price * n, buyFee = Math.max(c * amt, COST.min) + tf * amt, cost = amt + buyFee;
+  const net = S => S * n - (Math.max(c * S * n, COST.min) + (st + tf) * S * n) - cost;
+  const solve = goal => { let lo = price * 0.5, hi = price * 2; for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2; net(m) < goal ? lo = m : hi = m; } return hi; };
+  const be = solve(0), tg = solve(cost * COST.target / 100);
+  const roundTrip = buyFee + Math.max(c * amt, COST.min) + (st + tf) * amt;
+  return { n, be, tg, bePct: (be / price - 1) * 100, tgPct: (tg / price - 1) * 100, fee: roundTrip };
+}
+function costCells(s){
+  const r = tradeCalc(s["最新价"]);
+  if (!r) return `<td class="right">—</td><td class="right">—</td><td class="right">—</td>`;
+  if (!r.n) return `<td class="right num muted" colspan="3">资金不足一手</td>`;
+  return `<td class="right num">${r.n}</td>
+    <td class="right num">${fmt(r.be, 2)}<div class="ticker">+${fmt(r.bePct, 2)}%</div></td>
+    <td class="right num">${fmt(r.tg, 2)}<div class="ticker">+${fmt(r.tgPct, 2)}%</div></td>`;
+}
+function costMini(s){
+  const r = tradeCalc(s["最新价"]);
+  if (!r || !r.n) return `<div><span>保本价</span>${r && !r.n ? "资金不足一手" : "—"}</div>`;
+  return `<div><span>${r.n} 股 · 保本价</span>${fmt(r.be, 2)} (+${fmt(r.bePct, 2)}%)</div>
+          <div><span>目标 +${COST.target}%</span>${fmt(r.tg, 2)}</div>`;
+}
+function costNote(stocks){
+  const sample = stocks.map(s => tradeCalc(s["最新价"])).filter(r => r && r.n);
+  const minHit = sample.length && sample[0];
+  $("th-target").textContent = "净赚 " + COST.target + "% 价";
+  $("cost-note").innerHTML = sample.length
+    ? `按 ${COST.budget.toLocaleString()} 元下单，一买一卖手续费约 ${fmt(minHit.fee, 1)} 元，保本需上涨约 ${fmt(minHit.bePct, 2)}%（以清单第一只为例）。`
+      + (COST.budget * COST.comm / 100 < COST.min ? ` <b>当前金额下佣金按最低 ${COST.min} 元收取</b>，下单金额越小，保本线越高。` : "")
+    : "下单金额不足以买入清单中任何一只股票的一手。";
+}
+
+/* ---------- 时间线 / 情绪 / 状态 ---------- */
+let TL = {};
+const firstSeen = s => { const r = TL[s["代码"]]; return r ? `${r.first_time}<div class="ticker">${fmt(r.first_price)}</div>` : "—"; };
+const sealTime = t => { t = String(t || "").padStart(6, "0"); return /^\d{6}$/.test(t) ? `${t.slice(0,2)}:${t.slice(2,4)}` : "—"; };
+
+function renderTimeline(tl){
+  TL = {}; (tl || []).forEach(r => TL[r.code] = r);
+  const rows = (tl || []).slice().sort((a, b) => (a.first_time || "").localeCompare(b.first_time || ""));
+  $("tl-rows").innerHTML = rows.length ? rows.map(r => `
+    <tr class="${r.in_list ? "" : "out"}">
+      <td class="num mono">${esc(r.first_time)}</td>
+      <td><div class="name-cell">${esc(r.name)}</div><div class="ticker">${esc(r.code)}</div></td>
+      <td class="right num">${fmt(r.first_price)}</td>
+      <td class="right num">${fmt(r.cur_price)}</td>
+      <td class="right num ${cls(r.chg_since_first)}">${pct(r.chg_since_first)}</td>
+      <td class="right num ${cls(r.max_since_first)}">${pct(r.max_since_first)}</td>
+      <td class="right num">${r.hits ?? "—"}</td>
+      <td>${r.in_list ? '<span class="badge badge-hot">在清单</span>' : `<span class="badge badge-care">${esc(r.left_time || "")} 移出</span>`}</td>
+      <td>${esc(r.tag || "")}</td>
+    </tr>`).join("") : `<tr><td colspan="9" class="empty">今天还没有股票进入过清单</td></tr>`;
+}
+
+function renderSentiment(se){
+  const card = (l, v, sub, c = "") => `<div class="card"><div class="metric-label">${l}</div><div class="metric-value ${c}" style="font-size:24px">${v}</div><div class="metric-sub">${sub}</div></div>`;
+  if (!se) { $("senti-stats").innerHTML = `<div class="card empty">情绪数据本轮未获取到</div>`; $("ladder").innerHTML = ""; return; }
+  $("senti-stats").innerHTML = [
+    card("涨停", se.zt_count ?? "—", se.zt_count != null ? `首板 ${se.first_board} · 连板 ${se.lianban_count}` : "接口未返回", "up"),
+    card("最高连板", se.max_lianban != null ? se.max_lianban + " 板" : "—", (se.lianban_dist || []).slice(0, 4).map(d => `${d.boards}板×${d.count}`).join(" · ") || "无连板"),
+    card("炸板率", se.zb_rate != null ? se.zb_rate + "%" : "—", se.zb_count != null ? `炸板 ${se.zb_count} 只` : "接口未返回", se.zb_rate >= 40 ? "down" : ""),
+    card("昨日涨停今日", se.prev_zt_avg_chg != null ? pct(se.prev_zt_avg_chg) : "—",
+         se.prev_zt_up_ratio != null ? `红盘率 ${se.prev_zt_up_ratio}%` + (se.prev_lianban_avg_chg != null ? ` · 连板股 ${pct(se.prev_lianban_avg_chg)}` : "") : "接口未返回",
+         cls(se.prev_zt_avg_chg)),
+  ].join("") + (se.errors && se.errors.length ? `<div class="card note" style="grid-column:1/-1">部分接口失败：${esc(se.errors.join("；"))}</div>` : "");
+  const lad = se.ladder || [];
+  $("ladder").innerHTML = lad.length ? lad.map(r => `
+    <tr><td><div class="name-cell">${esc(r.name)}</div><div class="ticker">${esc(r.code)}</div></td>
+    <td class="right num up">${r.boards}</td><td>${esc(r.industry || "")}</td>
+    <td class="right num">${sealTime(r.first_seal)}</td><td class="right num">${r.opens}</td></tr>`).join("")
+    : `<tr><td colspan="5" class="empty">今天没有 3 板及以上的股票</td></tr>`;
+}
+
+function renderHealth(h, d){
+  if (!h) { $("hl-stats").innerHTML = `<div class="card empty">NAS 尚未推送运行状态（旧版代码）</div>`; return; }
+  const t = new Date((d.update_date || "").replace(" ", "T") + "+08:00"), mins = (Date.now() - t) / 60000;
+  const st = $("stamp").classList.contains("stale") ? "warn" : "";
+  $("hl-stats").innerHTML = [
+    ["最近推送", `<span class="status-dot ${st}"></span>${esc((d.update_date || "").slice(11, 16))}`, isFinite(mins) ? Math.round(mins) + " 分钟前" : ""],
+    ["今日成功", h.runs_ok_today + 1, "轮（含本轮）"],
+    ["今日失败", `<span class="${h.runs_fail_today ? "up" : ""}">${h.runs_fail_today}</span>`, "轮"],
+    ["上轮耗时", h.prev_duration != null ? h.prev_duration + " s" : "—", "本轮计算 " + h.compute_seconds + " s"],
+  ].map(([l, v, s]) => `<div class="card"><div class="metric-label">${l}</div><div class="metric-value" style="font-size:24px">${v}</div><div class="metric-sub">${s}</div></div>`).join("");
+  $("hl-src").innerHTML = [
+    ["行情快照", "腾讯 stock_zh_a_spot_tx"],
+    ["成交额", esc(h.amount_source || "—")],
+    ["短线情绪", h.sentiment_ok ? '<span class="status-dot"></span>东方财富涨停池正常' : `<span class="status-dot bad"></span>${esc((h.sentiment_errors || []).join("；") || "未获取")}`],
+    ["本轮开始", esc(h.run_started)],
+  ].map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+  $("hl-err").innerHTML = h.last_error ? `<span class="badge badge-warn">${esc(h.last_error.time)}</span> <span class="mono" style="font-size:12.5px">${esc(h.last_error.msg)}</span>` : "今天没有失败记录。";
 }
 
 function renderFortune(f){
