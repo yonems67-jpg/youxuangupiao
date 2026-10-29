@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-10-29 12:05:32",
+  "update_date": "2026-10-29 12:09:46",
   "market": {
     "market_score": 15.1,
     "market_status": "弱势",
@@ -116,5 +116,137 @@
       "建议仓位": 0.0,
       "操作建议": "谨慎"
     }
-  ]
+  ],
+  "timeline": [
+    {
+      "code": "sh603612",
+      "name": "索通发展",
+      "first_time": "12:09",
+      "first_price": 16.65,
+      "hits": 1,
+      "max_price": 16.65,
+      "last_time": "12:09",
+      "in_list": true,
+      "tag": "重点关注",
+      "cur_price": 16.65,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
+    },
+    {
+      "code": "sh603855",
+      "name": "华荣股份",
+      "first_time": "12:09",
+      "first_price": 17.87,
+      "hits": 1,
+      "max_price": 17.87,
+      "last_time": "12:09",
+      "in_list": true,
+      "tag": "谨慎",
+      "cur_price": 17.87,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
+    },
+    {
+      "code": "sz000812",
+      "name": "陕西金叶",
+      "first_time": "12:09",
+      "first_price": 3.57,
+      "hits": 1,
+      "max_price": 3.57,
+      "last_time": "12:09",
+      "in_list": true,
+      "tag": "观察",
+      "cur_price": 3.57,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
+    },
+    {
+      "code": "sz002275",
+      "name": "桂林三金",
+      "first_time": "12:09",
+      "first_price": 13.06,
+      "hits": 1,
+      "max_price": 13.06,
+      "last_time": "12:09",
+      "in_list": true,
+      "tag": "谨慎",
+      "cur_price": 13.06,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
+    }
+  ],
+  "sentiment": {
+    "ok": true,
+    "errors": [],
+    "zt_count": 35,
+    "max_lianban": 4,
+    "first_board": 25,
+    "lianban_count": 10,
+    "lianban_dist": [
+      {
+        "boards": 4,
+        "count": 1
+      },
+      {
+        "boards": 3,
+        "count": 3
+      },
+      {
+        "boards": 2,
+        "count": 6
+      }
+    ],
+    "ladder": [
+      {
+        "code": "001219",
+        "name": "青岛食品",
+        "boards": 4,
+        "industry": "休闲食品",
+        "first_seal": "092500",
+        "opens": 0
+      },
+      {
+        "code": "601956",
+        "name": "东贝集团",
+        "boards": 3,
+        "industry": "家电零部",
+        "first_seal": "092502",
+        "opens": 0
+      },
+      {
+        "code": "600715",
+        "name": "文投控股",
+        "boards": 3,
+        "industry": "游戏Ⅱ",
+        "first_seal": "093011",
+        "opens": 6
+      },
+      {
+        "code": "001400",
+        "name": "江顺科技",
+        "boards": 3,
+        "industry": "专用设备",
+        "first_seal": "102503",
+        "opens": 0
+      }
+    ],
+    "zb_count": 24,
+    "zb_rate": 40.7,
+    "prev_zt_count": 72,
+    "prev_zt_avg_chg": 0.24,
+    "prev_zt_up_ratio": 44.4,
+    "prev_lianban_avg_chg": 6.92
+  },
+  "health": {
+    "run_started": "12:09:15",
+    "compute_seconds": 31.3,
+    "prev_duration": null,
+    "runs_ok_today": 0,
+    "runs_fail_today": 0,
+    "last_error": null,
+    "amount_source": "turnover 字段(与推算值比值 1.00)",
+    "sentiment_ok": true,
+    "sentiment_errors": [],
+    "host": "c3f2d6a89f4b"
+  }
 }
