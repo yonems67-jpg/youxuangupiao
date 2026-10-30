@@ -1,33 +1,85 @@
 {
-  "update_date": "2026-10-30 09:25:08",
+  "update_date": "2026-10-30 09:30:10",
   "market": {
-    "market_score": 10.0,
+    "market_score": 8.5,
     "market_status": "弱势",
     "suggested_position": "1~2成或观望",
-    "up_count": 447,
-    "down_count": 4892,
+    "up_count": 386,
+    "down_count": 5008,
     "limit_up_count": 10,
-    "limit_down_count": 68,
-    "total_count": 5560
+    "limit_down_count": 30,
+    "total_count": 5566
   },
   "fallback_status": {
     "used_tier": 2,
     "tier_name": "极度缩量防御模式",
     "target_count": 4,
-    "actual_count": 0,
-    "fallback_note": "市场状态「弱势」目标选出 4 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 0 只。 已触发降级,当前盘面偏冷/缩量。"
+    "actual_count": 2,
+    "fallback_note": "市场状态「弱势」目标选出 4 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 2 只。 已触发降级,当前盘面偏冷/缩量。 入选≤3只,单票仓位已压缩至5.0%上限。"
   },
   "risk": {
-    "top_industry": null,
-    "top_industry_share": 0,
-    "industry_concentration_warning": false,
+    "top_industry": "食品饮料",
+    "top_industry_share": 0.5,
+    "industry_concentration_warning": true,
     "market_risk_warning": true,
     "suggest_reduce_position": true,
     "notes": [
+      "入选股票中「食品饮料」占比达 50%,行业集中度偏高",
       "当前市场宽度偏弱(下跌家数明显多于上涨家数)"
     ]
   },
-  "stocks": [],
+  "stocks": [
+    {
+      "代码": "sz002582",
+      "名称": "好想你",
+      "最新价": 9.35,
+      "涨跌幅": 3.54,
+      "换手率": 0.57,
+      "预估全天换手率": 13.68,
+      "量比": 49.49,
+      "振幅": 1.44,
+      "行业": "食品饮料",
+      "行业相对强度": 4.2374,
+      "成交额": 445920000.0,
+      "当前成交额": 18580000.0,
+      "流通市值": 32.18,
+      "ma_aligned": false,
+      "volume_spike": false,
+      "breakout": false,
+      "距20日新高比例": 0.9367219917012447,
+      "距60日高点回撤": -0.24687239366138458,
+      "连跌天数": 3,
+      "score": 55.0,
+      "建议仓位": 0.0,
+      "操作建议": "重点关注",
+      "超跌弱势": false
+    },
+    {
+      "代码": "sz000417",
+      "名称": "合百集团",
+      "最新价": 5.52,
+      "涨跌幅": 6.56,
+      "换手率": 0.53,
+      "预估全天换手率": 12.72,
+      "量比": 49.17,
+      "振幅": 2.12,
+      "行业": "商贸零售",
+      "行业相对强度": 7.9979104477611935,
+      "成交额": 537360000.0,
+      "当前成交额": 22390000.0,
+      "流通市值": 43.0,
+      "ma_aligned": false,
+      "volume_spike": false,
+      "breakout": false,
+      "距20日新高比例": 0.8854700854700854,
+      "距60日高点回撤": -0.27552447552447557,
+      "连跌天数": 2,
+      "score": 20.0,
+      "建议仓位": 0.0,
+      "操作建议": "谨慎",
+      "超跌弱势": false
+    }
+  ],
   "timeline": [
     {
       "code": "sh600727",
@@ -39,8 +91,8 @@
       "last_time": "09:10",
       "in_list": false,
       "tag": "观察",
-      "cur_price": 6.8,
-      "chg_since_first": -2.16,
+      "cur_price": 6.84,
+      "chg_since_first": -1.58,
       "max_since_first": 0.0,
       "left_time": "09:15"
     },
@@ -84,10 +136,38 @@
       "last_time": "09:10",
       "in_list": false,
       "tag": "谨慎",
-      "cur_price": 7.26,
-      "chg_since_first": -2.42,
+      "cur_price": 7.2,
+      "chg_since_first": -3.23,
       "max_since_first": 0.0,
       "left_time": "09:15"
+    },
+    {
+      "code": "sz000417",
+      "name": "合百集团",
+      "first_time": "09:30",
+      "first_price": 5.52,
+      "hits": 1,
+      "max_price": 5.52,
+      "last_time": "09:30",
+      "in_list": true,
+      "tag": "谨慎",
+      "cur_price": 5.52,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
+    },
+    {
+      "code": "sz002582",
+      "name": "好想你",
+      "first_time": "09:30",
+      "first_price": 9.35,
+      "hits": 1,
+      "max_price": 9.35,
+      "last_time": "09:30",
+      "in_list": true,
+      "tag": "重点关注",
+      "cur_price": 9.35,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
     }
   ],
   "sectors": {
@@ -104,27 +184,57 @@
   "sentiment": {
     "ok": true,
     "errors": [],
-    "zt_count": 0,
-    "max_lianban": 0,
-    "first_board": 0,
-    "lianban_count": 0,
-    "lianban_dist": [],
-    "ladder": [],
+    "zt_count": 9,
+    "max_lianban": 5,
+    "first_board": 5,
+    "lianban_count": 4,
+    "lianban_dist": [
+      {
+        "boards": 5,
+        "count": 1
+      },
+      {
+        "boards": 3,
+        "count": 1
+      },
+      {
+        "boards": 2,
+        "count": 2
+      }
+    ],
+    "ladder": [
+      {
+        "code": "001219",
+        "name": "青岛食品",
+        "boards": 5,
+        "industry": "休闲食品",
+        "first_seal": "093000",
+        "opens": 0
+      },
+      {
+        "code": "603131",
+        "name": "上海沪工",
+        "boards": 3,
+        "industry": "通用设备",
+        "first_seal": "092502",
+        "opens": 0
+      }
+    ],
     "zb_count": 0,
-    "zb_rate": null,
+    "zb_rate": 0.0,
     "prev_zt_count": 39,
-    "prev_zt_avg_chg": 1.01,
-    "prev_zt_up_ratio": 51.3,
-    "prev_lianban_avg_chg": -1.76
+    "prev_zt_avg_chg": 1.36,
+    "prev_zt_up_ratio": 59.0,
+    "prev_lianban_avg_chg": -1.26
   },
   "health": {
-    "run_started": "09:25:01",
-    "compute_seconds": 13.6,
-    "prev_duration": 17.5,
-    "runs_ok_today": 5,
+    "run_started": "09:30:01",
+    "compute_seconds": 15.6,
+    "prev_duration": 18.0,
+    "runs_ok_today": 6,
     "runs_fail_today": 0,
     "last_error": null,
-    "amount_source": "换手率×流通市值推算",
+    "amount_source": "turnover 字段(与推算值比值 1.00)",
     "sentiment_ok": true,
     "sentiment_errors": [],
     "host": "3d892ff88fde"
