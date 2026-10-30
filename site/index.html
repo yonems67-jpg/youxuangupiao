@@ -280,7 +280,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
   <section class="view" id="view-obspool" hidden>
     <div class="page-head">
       <h2 class="page-title">观察池</h2>
-      <p class="page-note">主板非 ST、股价 ≥ 2 元、20 日均成交额 ≥ 5000 万。三个因子（理想振幅、成交量波动、量价相关性，都是越小越好）的排名平均作为综合分；特质波动率或近 20 日暴涨程度排在最高 20% 的剔除。每个交易日收盘后更新，列出综合分最高的 30 只。</p>
+      <p class="page-note">主板非 ST、股价 ≥ 2 元、20 日均成交额 ≥ 5000 万。</p>
     </div>
     <div class="grid cols-4" id="op-stats"></div>
     <div class="section">
@@ -289,7 +289,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
         <thead><tr><th>#</th><th>名称</th><th>行业</th><th class="right">收盘价</th><th class="right">当日涨跌</th><th class="right">现价较收盘</th><th class="right">20日均成交额</th><th class="right">综合分</th><th class="right">理想振幅</th><th class="right">量波动</th><th class="right">量价相关</th><th>标记</th></tr></thead>
         <tbody id="op-rows"></tbody>
       </table></div></div>
-      <div class="note" style="margin-top:8px">三个因子列是该股在股票池里的排名百分位，<b>越小越好</b>（例如 5 表示排在最好的 5%）。"低成交额候选"表示它同时属于低成交额组合的候选范围。</div>
+      <div class="note" style="margin-top:8px">三个因子列是该股在股票池里的排名百分位.<b>越小越好</b>"低成交额候选"表示它同时属于低成交额组合的候选范围。</div>
     </div>
     <div class="section">
       <div class="section-head"><h3 class="section-title">历史名单跟踪</h3><span class="section-meta">各日名单从当天收盘至今的平均涨跌 vs 主板非 ST 等权</span></div>
@@ -299,8 +299,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
       </table></div></div>
     </div>
     <div class="section"><div class="card note">
-      <b>回测参考（2016–2026，同样的 5000 万门槛）</b>：每天买综合分最好的 20%（约 300 只），持有 5 天平均跑赢大盘 0.29%，2023 年后 0.21%（t=3.7）；持有 20 天在 2023 年后不再显著。三个因子在 11 个年份里方向都一致。<br>
-      <b>定位是参考名单，不是交易信号</b>：超额来自几百只股票的平均，只挑几只时单只结果波动很大；5 天 0.2–0.3% 的超额扣掉一买一卖成本后所剩不多。
+    
     </div></div>
   </section>
 
@@ -333,8 +332,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     </div>
     <div class="section">
       <div class="card note">
-        <b>回测参考（2016–2026，成本 0.3%–0.5%）</b>：年化约 16%–19%，相对基准年化超额约 19%；最大回撤约 −49%，最长一次从 2017 年 3 月到 2021 年 5 月才回到前高；最长连续跑输基准约 100 个交易日。收益集中在少数年份（2016、2021、2025），多数时间是小幅跑赢或横盘。<br>
-        实盘与回测的差别：名单在换仓日前一天收盘后生成（回测用的是换仓日当天的数据），这个一天的滞后尚未单独回测。
+    
       </div>
     </div>
   </section>
@@ -402,7 +400,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     </div>
   </section>
 </main>
-<footer>个人自用工具，非投资建议。所有信号由量化规则生成，执行前请自行复核。</footer>
+<footer>所有信号由量化规则生成，执行前请自行复核。</footer>
 
 <script>
 const REGIMES = [
