@@ -149,6 +149,14 @@ tr.out td{color:var(--ink-faint)}
 .legend{display:flex;gap:16px;font-size:12px;color:var(--ink-soft);margin-top:8px}
 .legend i{display:inline-block;width:14px;height:2px;vertical-align:4px;margin-right:6px}
 .pending{border-color:var(--accent);background:var(--accent-soft)}
+.badge-hot2{background:transparent;color:var(--up);border:1px dashed var(--up)}
+.wave-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.wave{border:1px solid var(--line);border-left:4px solid var(--up);border-radius:8px;padding:12px 14px;background:var(--panel)}
+.wave.warn{border-left-color:var(--warn)}.wave.live{border-left-color:var(--accent)}
+.wave-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.wave-name{font-weight:600}.wave-sub{font-size:12.5px;color:var(--ink-soft);margin-top:6px;line-height:1.7}
+.held{font-size:10.5px;padding:1px 6px;border-radius:4px;background:var(--ink);color:var(--paper);margin-left:6px;vertical-align:1px}
+.op-sell{color:var(--down);font-weight:600}.op-buy{color:var(--up);font-weight:600}
 footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:var(--ink-faint)}
 </style>
 </head>
@@ -163,6 +171,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     <a href="#picks">选股清单</a>
     <a href="#obspool">观察池</a>
     <a href="#lowamt">低成交额组合</a>
+    <a href="#potential">潜力翻倍</a>
     <a href="#timeline">信号时间线</a>
     <a href="#risk">风险提示</a>
     <a href="#fortune">今日运势</a>
@@ -280,7 +289,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
   <section class="view" id="view-obspool" hidden>
     <div class="page-head">
       <h2 class="page-title">观察池</h2>
-      <p class="page-note">主板非 ST、股价 ≥ 2 元、20 日均成交额 ≥ 5000 万。</p>
+      <p class="page-note">主板非 ST、股价 ≥ 2 元、20 日均成交额 ≥ 5000 万。三个因子（理想振幅、成交量波动、量价相关性，都是越小越好）的排名平均作为综合分；特质波动率或近 20 日暴涨程度排在最高 20% 的剔除。每个交易日收盘后更新，列出综合分最高的 30 只。</p>
     </div>
     <div class="grid cols-4" id="op-stats"></div>
     <div class="section">
@@ -289,7 +298,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
         <thead><tr><th>#</th><th>名称</th><th>行业</th><th class="right">收盘价</th><th class="right">当日涨跌</th><th class="right">现价较收盘</th><th class="right">20日均成交额</th><th class="right">综合分</th><th class="right">理想振幅</th><th class="right">量波动</th><th class="right">量价相关</th><th>标记</th></tr></thead>
         <tbody id="op-rows"></tbody>
       </table></div></div>
-      <div class="note" style="margin-top:8px">三个因子列是该股在股票池里的排名百分位.<b>越小越好</b>"低成交额候选"表示它同时属于低成交额组合的候选范围。</div>
+      <div class="note" style="margin-top:8px">三个因子列是该股在股票池里的排名百分位，<b>越小越好</b>（例如 5 表示排在最好的 5%）。"低成交额候选"表示它同时属于低成交额组合的候选范围。</div>
     </div>
     <div class="section">
       <div class="section-head"><h3 class="section-title">历史名单跟踪</h3><span class="section-meta">各日名单从当天收盘至今的平均涨跌 vs 主板非 ST 等权</span></div>
@@ -299,7 +308,8 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
       </table></div></div>
     </div>
     <div class="section"><div class="card note">
-    
+      <b>回测参考（2016–2026，同样的 5000 万门槛）</b>：每天买综合分最好的 20%（约 300 只），持有 5 天平均跑赢大盘 0.29%，2023 年后 0.21%（t=3.7）；持有 20 天在 2023 年后不再显著。三个因子在 11 个年份里方向都一致。<br>
+      <b>定位是参考名单，不是交易信号</b>：超额来自几百只股票的平均，只挑几只时单只结果波动很大；5 天 0.2–0.3% 的超额扣掉一买一卖成本后所剩不多。
     </div></div>
   </section>
 
@@ -332,9 +342,74 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     </div>
     <div class="section">
       <div class="card note">
-    
+        <b>回测参考（2016–2026，成本 0.3%–0.5%）</b>：年化约 16%–19%，相对基准年化超额约 19%；最大回撤约 −49%，最长一次从 2017 年 3 月到 2021 年 5 月才回到前高；最长连续跑输基准约 100 个交易日。收益集中在少数年份（2016、2021、2025），多数时间是小幅跑赢或横盘。<br>
+        实盘与回测的差别：名单在换仓日前一天收盘后生成（回测用的是换仓日当天的数据），这个一天的滞后尚未单独回测。
       </div>
     </div>
+  </section>
+
+  <!-- 潜力翻倍 -->
+  <section class="view" id="view-potential" hidden>
+    <div class="page-head">
+      <h2 class="page-title">潜力翻倍组合 · 主升浪观察</h2>
+      <p class="page-note">潜力分前 50 只当候选（剔除类ST、股价&lt;2元），最多 10 只，先买底仓；60 天还亏超 10% 就走；出现放量涨停（S1）补到满仓；持仓翻倍卖一半，之后出见顶信号卖光。所有指令都是收盘后生成、<b>第二天开盘执行</b>。这是模拟盘，用来跟踪和观察。</p>
+    </div>
+    <div class="section" style="margin-top:0">
+      <div class="section-head"><h3 class="section-title">主升浪提醒</h3><span class="section-meta" id="pt-wave-meta"></span></div>
+      <div id="pt-live"></div>
+      <div class="wave-grid" id="pt-waves"></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">明天开盘要做的</h3><span class="section-meta" id="pt-order-meta"></span></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>操作</th><th>名称</th><th>原因</th></tr></thead><tbody id="pt-orders"></tbody>
+      </table></div></div>
+    </div>
+    <div class="grid cols-4" id="pt-stats" style="margin-top:32px"></div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">模拟持仓</h3><span class="section-meta" id="pt-pos-meta"></span></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>名称</th><th>持仓阶段</th><th>主升浪观察</th><th class="right">持有天数</th><th class="right">底仓价</th><th class="right">成本</th><th class="right">现价</th><th class="right">收益</th><th class="right">最高涨过</th><th class="right">仓位</th><th class="right">量比</th></tr></thead>
+        <tbody id="pt-pos"></tbody>
+      </table></div></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">候选池</h3><span class="section-meta" id="pt-cand-meta"></span></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>名称</th><th>主升浪观察</th><th class="right">潜力分</th><th class="right">收盘</th><th class="right">涨跌</th><th class="right">盘中</th><th class="right">离120日低点</th><th class="right">量比</th><th class="right">20日涨幅</th><th class="right">20日涨停</th><th class="right">偏离20日线</th></tr></thead>
+        <tbody id="pt-cands"></tbody>
+      </table></div></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">净值走势</h3><span class="section-meta">起始为 1，每个交易日收盘记一次</span></div>
+      <div class="card nav-chart"><div id="pt-chart"></div>
+        <div class="legend"><span><i style="background:var(--up)"></i>模拟盘</span><span><i style="background:var(--ink-faint)"></i>基准（主板等权）</span></div></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">已完成的交易</h3></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>名称</th><th>买入</th><th>卖出</th><th class="right">天数</th><th>加仓</th><th class="right">收益</th><th class="right">最高涨过</th><th>卖出原因</th></tr></thead>
+        <tbody id="pt-trades"></tbody>
+      </table></div></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">操作日志</h3></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>日期</th><th>操作</th><th>名称</th><th class="right">价格</th><th>原因</th></tr></thead>
+        <tbody id="pt-log"></tbody>
+      </table></div></div>
+    </div>
+    <div class="section"><div class="card note">
+      <b>主升浪观察怎么看</b>：
+      <span class="badge badge-hot">主升浪启动</span> 今天放量涨停（涨幅 ≥9.8% 且成交额 ≥ 前 60 日均额 3 倍）·
+      <span class="badge badge-hot2">主升浪中</span> 20 天内出过启动信号、还没跌破信号当天开盘价 ·
+      <span class="badge badge-watch">启动区</span> 离 120 日低点 +20%~60%（回测里主升浪中位在离低点 +35% 时开始）·
+      <span class="badge badge-care">底部</span> 离低点不到 +20% ·
+      <span class="badge badge-care">高位</span> 已离低点 +60% 以上、近期没有启动信号 ·
+      <span class="badge badge-warn">见顶预警</span> 已经翻倍（≥ 250 日最低 2 倍）又出现偏离 20 日线 40%+ / 炸板 / 天量。<br>
+      量比 = 当天成交额 ÷ 前 60 日日均成交额；盘中那一列每 5 分钟更新，<b>盘中放量涨停要等收盘确认</b>，收盘没封住就不算。<br>
+      <b>回测参考（2023 起，4 个起点平均，成本 0.3%）</b>：底仓 70% 时年化约 13.6%，最大回撤约 −41%，最差起点 +8.7%；同期主板等权 5.7%。启动信号本身假信号很多：潜力股出 S1 后 20 天内涨到 +50% 的约 17%，但 20 天后亏钱的约 61%，所以加仓配了"跌破信号日开盘价就撤"。2023 年前的回测用到了模型拟合的数据，不作参考。
+    </div></div>
   </section>
 
   <!-- 信号时间线 -->
@@ -400,7 +475,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
     </div>
   </section>
 </main>
-<footer>所有信号由量化规则生成，执行前请自行复核。</footer>
+<footer>个人自用工具，非投资建议。所有信号由量化规则生成，执行前请自行复核。</footer>
 
 <script>
 const REGIMES = [
@@ -419,7 +494,7 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 /* ---------- 路由 ---------- */
 function route(){
   const id = (location.hash || "#radar").slice(1);
-  const valid = ["radar","picks","obspool","lowamt","timeline","risk","fortune","health"].includes(id) ? id : "radar";
+  const valid = ["radar","picks","obspool","lowamt","potential","timeline","risk","fortune","health"].includes(id) ? id : "radar";
   document.querySelectorAll(".view").forEach(v => v.hidden = v.id !== "view-" + valid);
   document.querySelectorAll("#tabs a").forEach(a => {
     if (a.getAttribute("href") === "#" + valid) a.setAttribute("aria-current", "page");
@@ -546,6 +621,7 @@ function renderLatest(d){
   renderSectors(d.sectors);
   LA_LATEST = d.lowamt || null; renderLowamt();
   OP_LATEST = d.obspool || null; renderObspool();
+  PT_LIVE = d.potential_live || null; renderPotential();
 
   // 风险
   const notes = risk.notes || [];
@@ -744,6 +820,86 @@ function renderLowamt(){
     : `<tr><td colspan="6" class="empty">还没有完成的换仓周期</td></tr>`;
 }
 
+/* ---------- 潜力翻倍 ---------- */
+let PT_FILE = null, PT_LIVE = null;
+const STAGE_CLS = { hot: "badge-hot", hot2: "badge-hot2", warn: "badge-warn", watch: "badge-watch", care: "badge-care" };
+const stageBadge = x => x && x.stage ? `<span class="badge ${STAGE_CLS[x.style] || "badge-care"}">${esc(x.stage)}</span>` : "—";
+const OPN = { buy: ["建底仓", "op-buy"], add: ["加仓", "op-buy"], sell_all: ["全部卖出", "op-sell"], sell_half: ["卖一半", "op-sell"], sell_add: ["卖掉加仓部分", "op-sell"] };
+function renderPotential(){
+  const d = PT_FILE;
+  if (!d || !d.ok) {
+    $("pt-stats").innerHTML = `<div class="card empty">${esc((d && d.note) || "NAS 尚未推送潜力翻倍数据")}</div>`;
+    ["pt-waves", "pt-orders", "pt-pos", "pt-cands", "pt-trades", "pt-log", "pt-live"].forEach(k => $(k).innerHTML = "");
+    return;
+  }
+  const LV = (PT_LIVE && PT_LIVE.updated) ? PT_LIVE : d.live;
+  const live = (LV && LV.items) || {}, liveOn = !!(LV && LV.updated && LV.updated.slice(0, 10) === new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10) && LV.updated.slice(11, 16) <= "15:05");
+  const held = new Set((d.positions || []).map(p => p.code));
+  // 盘中提醒
+  const lv = Object.entries(live).filter(([c, v]) => v.flag);
+  $("pt-live").innerHTML = liveOn && lv.length ? `<div class="wave-grid" style="margin-bottom:12px">${lv.map(([c, v]) => {
+      const o = (d.cands || []).concat(d.positions || []).find(x => x.code === c) || {};
+      return `<div class="wave live"><div class="wave-head"><span class="wave-name">${esc(o.name || c)}${held.has(c) ? '<span class="held">持仓</span>' : ""}</span><span class="badge badge-watch">盘中</span></div>
+      <div class="wave-sub"><b class="up">${esc(v.flag)}</b><br>涨跌 <span class="${cls(v.zdf)}">${pct(v.zdf)}</span> · 量比 ${fmt(v.vx, 1)} · 现价 ${fmt(v.price)}</div></div>`; }).join("")}</div>` : "";
+  $("pt-wave-meta").textContent = `收盘数据 ${d.as_of}` + (liveOn ? ` · 盘中 ${LV.updated.slice(11, 16)}` : "");
+  const al = d.alerts || [];
+  $("pt-waves").innerHTML = al.length ? al.map(x => `
+    <div class="wave ${x.style === "warn" ? "warn" : ""}"><div class="wave-head"><span class="wave-name">${esc(x.name)}${x.held ? '<span class="held">持仓</span>' : ""} <span class="ticker">${esc(x.code)}</span></span>${stageBadge(x)}</div>
+    <div class="wave-sub">今天 <span class="${cls(x.chg)}">${pct(x.chg)}</span> · 量比 ${fmt(x.vx, 1)} · 离120日低点 ${pct(x.up120, 0)}<br>
+    潜力分排名 ${x.rank ?? "—"} · 20日涨停 ${x.lu20} 次 · 偏离20日线 ${pct(x.dev20, 0)}${x.top && x.top.length ? `<br><b style="color:var(--warn)">见顶信号：${esc(x.top.join("、"))}</b>` : ""}</div></div>`).join("")
+    : `<div class="card empty" style="grid-column:1/-1">今天候选和持仓里没有启动、进行中或见顶预警的股票</div>`;
+  // 明日指令
+  const od = d.orders || [];
+  $("pt-order-meta").textContent = od.length ? `${od.length} 条，生成于 ${d.as_of} 收盘后` : "";
+  $("pt-orders").innerHTML = od.length ? od.map(o => `<tr><td class="${(OPN[o.type] || [])[1] || ""}">${(OPN[o.type] || [o.type])[0]}</td>
+    <td><div class="name-cell">${esc(o.name)}</div><div class="ticker">${esc(o.code)}</div></td><td style="white-space:normal">${esc(o.why)}${o.created && o.created < d.as_of ? "（顺延）" : ""}</td></tr>`).join("")
+    : `<tr><td colspan="3" class="empty">明天没有操作</td></tr>`;
+  // 概况
+  const nav = d.nav || [], last = nav[nav.length - 1] || { nav: 1, bench: 1 };
+  const card = (l, v, sub, k = "") => `<div class="card"><div class="metric-label">${l}</div><div class="metric-value ${k}" style="font-size:24px">${v}</div><div class="metric-sub">${sub}</div></div>`;
+  $("pt-stats").innerHTML = [
+    card("模拟盘净值", fmt(last.nav, 4), `基准 ${fmt(last.bench, 4)} · 差 ${pct((last.nav - last.bench) * 100)}`, cls(last.nav - 1)),
+    card("持仓", `${(d.positions || []).length} / ${d.rules.slots}`, `现金 ${fmt(d.cash_pct, 0)}%`),
+    card("下次选股", esc(d.next_sel || "—"), `上次 ${esc(d.sel_date || "—")} · 每 ${d.rules.step} 个交易日`),
+    card("股票池", d.pool ?? "—", `可入选 ${d.eligible ?? "—"} 只` + (d.model ? ` · 模型 ${esc(d.model.created || "")}` : "")),
+  ].join("");
+  // 持仓
+  const ps = d.positions || [];
+  $("pt-pos-meta").textContent = `底仓 = 满仓的 ${Math.round(d.rules.init * 100)}% · 满 ${d.rules.stop_day} 天做时间验证`;
+  $("pt-pos").innerHTML = ps.length ? ps.map(p => `<tr>
+    <td><div class="name-cell">${esc(p.name)}</div><div class="ticker">${esc(p.code)} · ${esc(p.t_in)}</div></td>
+    <td>${esc(p.phase)}${p.to_check != null ? `<div class="ticker">${p.to_check} 天后时间验证</div>` : ""}</td>
+    <td>${stageBadge(p)}${p.top && p.top.length ? `<div class="ticker" style="color:var(--warn)">${esc(p.top.join("、"))}</div>` : ""}</td>
+    <td class="right num">${p.days}</td><td class="right num">${fmt(p.px_in)}</td><td class="right num">${fmt(p.avg)}</td>
+    <td class="right num">${fmt(p.last)}</td><td class="right num ${cls(p.ret)}">${pct(p.ret)}</td>
+    <td class="right num">${pct(p.peak, 0)}</td><td class="right num">${fmt(p.weight, 1)}%</td><td class="right num">${fmt(p.vx, 1)}</td></tr>`).join("")
+    : `<tr><td colspan="11" class="empty">还没有持仓：选股日收盘后出名单，第二天开盘建底仓</td></tr>`;
+  // 候选
+  const cs = d.cands || [];
+  $("pt-cand-meta").textContent = `${esc(d.sel_date || d.as_of)} 选出 · 观察数据为 ${d.as_of} 收盘`;
+  $("pt-cands").innerHTML = cs.length ? cs.map(x => { const L = live[x.code];
+    return `<tr><td class="num muted">${x.rank ?? "—"}</td>
+    <td><div class="name-cell">${esc(x.name)}${held.has(x.code) ? '<span class="held">持仓</span>' : ""}</div><div class="ticker">${esc(x.code)}</div></td>
+    <td>${stageBadge(x)}</td><td class="right num">${fmt(x.score, 1)}</td><td class="right num">${fmt(x.close)}</td>
+    <td class="right num ${cls(x.chg)}">${pct(x.chg)}</td>
+    <td class="right num ${L ? cls(L.zdf) : ""}">${liveOn && L ? pct(L.zdf) + (L.flag ? " ●" : "") : "—"}</td>
+    <td class="right num">${pct(x.up120, 0)}</td><td class="right num">${fmt(x.vx, 1)}</td><td class="right num ${cls(x.ret20)}">${pct(x.ret20, 1)}</td>
+    <td class="right num">${x.lu20}</td><td class="right num">${pct(x.dev20, 0)}</td></tr>`; }).join("")
+    : `<tr><td colspan="12" class="empty">还没有候选名单</td></tr>`;
+  $("pt-chart").innerHTML = navChart(nav);
+  const tr = d.trades || [];
+  $("pt-trades").innerHTML = tr.length ? tr.map(t => `<tr><td><div class="name-cell">${esc(t.name)}</div><div class="ticker">${esc(t.code)}</div></td>
+    <td class="num mono">${esc(t.buy_date)}</td><td class="num mono">${esc(t.sell_date)}</td><td class="right num">${t.days}</td>
+    <td>${t.added ? "是" : "—"}</td><td class="right num ${cls(t.ret)}">${pct(t.ret)}</td><td class="right num">${pct(t.peak, 0)}</td>
+    <td style="white-space:normal;font-size:12.5px">${esc(t.why)}</td></tr>`).join("")
+    : `<tr><td colspan="8" class="empty">还没有完成的交易</td></tr>`;
+  const lg = d.log || [];
+  $("pt-log").innerHTML = lg.length ? lg.map(x => `<tr><td class="num mono">${esc(x.date)}</td>
+    <td class="${x.act === "卖出" ? "op-sell" : "op-buy"}">${esc(x.act)}${x.frac && x.frac < 1 ? ` ${Math.round(x.frac * 100)}%` : ""}</td>
+    <td>${esc(x.name || x.code)}</td><td class="right num">${fmt(x.price)}</td><td style="white-space:normal;font-size:12.5px">${esc(x.why)}</td></tr>`).join("")
+    : `<tr><td colspan="5" class="empty">还没有操作</td></tr>`;
+}
+
 function renderSectors(sc){
   const items = (sc && sc.items) || [];
   $("sector-meta").textContent = items.length ? `${sc.source || "东方财富"}行业板块 · 按板块涨幅排序` : "";
@@ -819,6 +975,7 @@ function renderFortune(f){
 function load(){
   fetch("data/obspool.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(x => { OP_FILE = x; renderObspool(); }).catch(() => {});
   fetch("data/lowamt.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(x => { LA_FILE = x; renderLowamt(); }).catch(() => {});
+  fetch("data/potential.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(x => { PT_FILE = x; renderPotential(); }).catch(() => {});
   fetch("data/latest.json", { cache: "no-store" }).then(r => r.json()).then(renderLatest)
     .catch(e => { $("stamp").textContent = "选股数据读取失败：" + e.message; $("stamp").classList.add("stale"); });
   fetch("data/fortune.json", { cache: "no-store" }).then(r => r.json()).then(renderFortune)
