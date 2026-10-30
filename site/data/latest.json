@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-10-29 15:30:15",
+  "update_date": "2026-10-30 09:00:15",
   "market": {
     "market_score": 14.6,
     "market_status": "弱势",
@@ -44,11 +44,14 @@
       "流通市值": 82.83,
       "ma_aligned": false,
       "volume_spike": true,
-      "breakout": false,
-      "距20日新高比例": 0.941315945465323,
+      "breakout": true,
+      "距20日新高比例": 1.0,
+      "距60日高点回撤": -0.06677890011223353,
+      "连跌天数": 0,
       "score": 74.5,
       "建议仓位": 0.0,
-      "操作建议": "重点关注"
+      "操作建议": "重点关注",
+      "超跌弱势": false
     },
     {
       "代码": "sh600727",
@@ -65,12 +68,15 @@
       "当前成交额": 308190000.0,
       "流通市值": 36.74,
       "ma_aligned": false,
-      "volume_spike": false,
+      "volume_spike": true,
       "breakout": false,
-      "距20日新高比例": 0.8416347381864623,
-      "score": 41.9,
+      "距20日新高比例": 0.8876117496807152,
+      "距60日高点回撤": -0.1387856257744734,
+      "连跌天数": 0,
+      "score": 42.2,
       "建议仓位": 0.0,
-      "操作建议": "观察"
+      "操作建议": "观察",
+      "超跌弱势": false
     },
     {
       "代码": "sz002413",
@@ -87,12 +93,15 @@
       "当前成交额": 791930000.0,
       "流通市值": 96.38,
       "ma_aligned": false,
-      "volume_spike": false,
+      "volume_spike": true,
       "breakout": false,
-      "距20日新高比例": 0.7843137254901961,
-      "score": 13.5,
+      "距20日新高比例": 0.8104575163398694,
+      "距60日高点回撤": -0.22257053291536044,
+      "连跌天数": 0,
+      "score": 13.3,
       "建议仓位": 0.0,
-      "操作建议": "谨慎"
+      "操作建议": "谨慎",
+      "超跌弱势": false
     },
     {
       "代码": "sh601218",
@@ -109,337 +118,109 @@
       "当前成交额": 393090000.0,
       "流通市值": 44.87,
       "ma_aligned": false,
-      "volume_spike": false,
+      "volume_spike": true,
       "breakout": false,
-      "距20日新高比例": 0.7357259380097879,
+      "距20日新高比例": 0.7553017944535073,
+      "距60日高点回撤": -0.29848484848484846,
+      "连跌天数": 3,
       "score": 12.6,
       "建议仓位": 0.0,
-      "操作建议": "谨慎"
+      "操作建议": "谨慎",
+      "超跌弱势": false
     }
   ],
   "timeline": [
     {
-      "code": "sh603612",
-      "name": "索通发展",
-      "first_time": "12:09",
-      "first_price": 16.65,
-      "hits": 37,
-      "max_price": 16.77,
-      "last_time": "15:30",
-      "in_list": true,
-      "tag": "重点关注",
-      "cur_price": 16.63,
-      "chg_since_first": -0.12,
-      "max_since_first": 0.72
-    },
-    {
-      "code": "sh603855",
-      "name": "华荣股份",
-      "first_time": "12:09",
-      "first_price": 17.87,
-      "hits": 12,
-      "max_price": 17.97,
-      "last_time": "13:25",
-      "in_list": false,
-      "tag": "谨慎",
-      "cur_price": 17.84,
-      "chg_since_first": -0.17,
-      "max_since_first": 0.56,
-      "left_time": "13:30"
-    },
-    {
-      "code": "sz000812",
-      "name": "陕西金叶",
-      "first_time": "12:09",
-      "first_price": 3.57,
-      "hits": 15,
-      "max_price": 3.57,
-      "last_time": "13:40",
-      "in_list": false,
-      "tag": "观察",
-      "cur_price": 3.52,
-      "chg_since_first": -1.4,
-      "max_since_first": 0.0,
-      "left_time": "13:45"
-    },
-    {
-      "code": "sz002275",
-      "name": "桂林三金",
-      "first_time": "12:09",
-      "first_price": 13.06,
-      "hits": 7,
-      "max_price": 13.62,
-      "last_time": "13:00",
-      "in_list": false,
-      "tag": "谨慎",
-      "cur_price": 13.62,
-      "chg_since_first": 4.29,
-      "max_since_first": 4.29,
-      "left_time": "13:05"
-    },
-    {
-      "code": "sz002636",
-      "name": "金安国纪",
-      "first_time": "13:05",
-      "first_price": 60.78,
-      "hits": 7,
-      "max_price": 60.78,
-      "last_time": "13:35",
-      "in_list": false,
-      "tag": "谨慎",
-      "cur_price": 57.89,
-      "chg_since_first": -4.75,
-      "max_since_first": 0.0,
-      "left_time": "13:40"
-    },
-    {
-      "code": "sh601033",
-      "name": "永兴股份",
-      "first_time": "13:30",
-      "first_price": 15.22,
-      "hits": 7,
-      "max_price": 15.23,
-      "last_time": "14:00",
-      "in_list": false,
-      "tag": "观察",
-      "cur_price": 15.16,
-      "chg_since_first": -0.39,
-      "max_since_first": 0.07,
-      "left_time": "14:05"
-    },
-    {
-      "code": "sz002342",
-      "name": "巨力索具",
-      "first_time": "13:40",
-      "first_price": 6.97,
-      "hits": 5,
-      "max_price": 6.97,
-      "last_time": "14:00",
-      "in_list": false,
-      "tag": "谨慎",
-      "cur_price": 6.92,
-      "chg_since_first": -0.72,
-      "max_since_first": 0.0,
-      "left_time": "14:05"
-    },
-    {
-      "code": "sz000901",
-      "name": "航天科技",
-      "first_time": "13:45",
-      "first_price": 13.88,
-      "hits": 3,
-      "max_price": 13.89,
-      "last_time": "13:55",
-      "in_list": false,
-      "tag": "谨慎",
-      "cur_price": 13.79,
-      "chg_since_first": -0.65,
-      "max_since_first": 0.07,
-      "left_time": "14:00"
-    },
-    {
-      "code": "sz000551",
-      "name": "创元科技",
-      "first_time": "14:00",
-      "first_price": 11.61,
-      "hits": 9,
-      "max_price": 11.71,
-      "last_time": "14:40",
-      "in_list": false,
-      "tag": "谨慎",
-      "cur_price": 11.6,
-      "chg_since_first": -0.09,
-      "max_since_first": 0.86,
-      "left_time": "14:45"
-    },
-    {
-      "code": "sh603601",
-      "name": "再升科技",
-      "first_time": "14:05",
-      "first_price": 7.92,
-      "hits": 4,
-      "max_price": 7.93,
-      "last_time": "14:20",
-      "in_list": false,
-      "tag": "谨慎",
-      "cur_price": 7.89,
-      "chg_since_first": -0.38,
-      "max_since_first": 0.13,
-      "left_time": "14:25"
-    },
-    {
-      "code": "sz002413",
-      "name": "雷科防务",
-      "first_time": "14:05",
-      "first_price": 7.43,
-      "hits": 16,
-      "max_price": 7.45,
-      "last_time": "15:30",
-      "in_list": true,
-      "tag": "谨慎",
-      "cur_price": 7.44,
-      "chg_since_first": 0.13,
-      "max_since_first": 0.27,
-      "left_time": "14:15"
-    },
-    {
       "code": "sh600727",
       "name": "鲁北化工",
-      "first_time": "14:15",
-      "first_price": 7.03,
-      "hits": 16,
-      "max_price": 7.03,
-      "last_time": "15:30",
+      "first_time": "09:00",
+      "first_price": 6.95,
+      "hits": 1,
+      "max_price": 6.95,
+      "last_time": "09:00",
       "in_list": true,
       "tag": "观察",
       "cur_price": 6.95,
-      "chg_since_first": -1.14,
+      "chg_since_first": 0.0,
       "max_since_first": 0.0
     },
     {
       "code": "sh601218",
       "name": "吉鑫科技",
-      "first_time": "15:00",
+      "first_time": "09:00",
       "first_price": 4.63,
-      "hits": 7,
+      "hits": 1,
       "max_price": 4.63,
-      "last_time": "15:30",
+      "last_time": "09:00",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 4.63,
       "chg_since_first": 0.0,
       "max_since_first": 0.0
+    },
+    {
+      "code": "sh603612",
+      "name": "索通发展",
+      "first_time": "09:00",
+      "first_price": 16.63,
+      "hits": 1,
+      "max_price": 16.63,
+      "last_time": "09:00",
+      "in_list": true,
+      "tag": "重点关注",
+      "cur_price": 16.63,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
+    },
+    {
+      "code": "sz002413",
+      "name": "雷科防务",
+      "first_time": "09:00",
+      "first_price": 7.44,
+      "hits": 1,
+      "max_price": 7.44,
+      "last_time": "09:00",
+      "in_list": true,
+      "tag": "谨慎",
+      "cur_price": 7.44,
+      "chg_since_first": 0.0,
+      "max_since_first": 0.0
     }
   ],
   "sectors": {
-    "ok": true,
-    "errors": [],
-    "items": [
-      {
-        "name": "纺织鞋类制造",
-        "chg": 6.17,
-        "up": 1,
-        "down": 0,
-        "leader": "华利集团",
-        "leader_chg": 6.17,
-        "leader_price": 38.55,
-        "net_inflow": 434985.0
-      },
-      {
-        "name": "航天装备Ⅲ",
-        "chg": 3.54,
-        "up": 7,
-        "down": 2,
-        "leader": "中国卫星",
-        "leader_chg": 10.0,
-        "leader_price": 55.9,
-        "net_inflow": 1000102768.0
-      },
-      {
-        "name": "航天装备Ⅱ",
-        "chg": 3.54,
-        "up": 7,
-        "down": 2,
-        "leader": "中国卫星",
-        "leader_chg": 10.0,
-        "leader_price": 55.9,
-        "net_inflow": 1000102768.0
-      },
-      {
-        "name": "院线",
-        "chg": 3.37,
-        "up": 4,
-        "down": 0,
-        "leader": "横店影视",
-        "leader_chg": 10.03,
-        "leader_price": 17.44,
-        "net_inflow": 85665214.0
-      },
-      {
-        "name": "核力发电",
-        "chg": 2.91,
-        "up": 2,
-        "down": 1,
-        "leader": "中国广核",
-        "leader_chg": 7.22,
-        "leader_price": 4.9,
-        "net_inflow": 105791728.0
-      }
+    "ok": false,
+    "errors": [
+      "行业板块行情: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
     ],
-    "flow_match_ratio": 100.0
+    "items": []
+  },
+  "lowamt": {
+    "ok": false,
+    "note": "组合尚未初始化: 下一个交易日收盘后会生成第一份待买入名单"
   },
   "sentiment": {
     "ok": true,
     "errors": [],
-    "zt_count": 39,
-    "max_lianban": 4,
-    "first_board": 29,
-    "lianban_count": 10,
-    "lianban_dist": [
-      {
-        "boards": 4,
-        "count": 2
-      },
-      {
-        "boards": 3,
-        "count": 2
-      },
-      {
-        "boards": 2,
-        "count": 6
-      }
-    ],
-    "ladder": [
-      {
-        "code": "001219",
-        "name": "青岛食品",
-        "boards": 4,
-        "industry": "休闲食品",
-        "first_seal": "092500",
-        "opens": 0
-      },
-      {
-        "code": "002708",
-        "name": "光洋股份",
-        "boards": 4,
-        "industry": "汽车零部",
-        "first_seal": "092500",
-        "opens": 17
-      },
-      {
-        "code": "601956",
-        "name": "东贝集团",
-        "boards": 3,
-        "industry": "家电零部",
-        "first_seal": "092502",
-        "opens": 0
-      },
-      {
-        "code": "600715",
-        "name": "文投控股",
-        "boards": 3,
-        "industry": "游戏Ⅱ",
-        "first_seal": "093011",
-        "opens": 6
-      }
-    ],
-    "zb_count": 25,
-    "zb_rate": 39.1,
-    "prev_zt_count": 72,
-    "prev_zt_avg_chg": -0.94,
-    "prev_zt_up_ratio": 33.3,
-    "prev_lianban_avg_chg": 5.21
+    "zt_count": 0,
+    "max_lianban": 0,
+    "first_board": 0,
+    "lianban_count": 0,
+    "lianban_dist": [],
+    "ladder": [],
+    "zb_count": 0,
+    "zb_rate": null,
+    "prev_zt_count": 39,
+    "prev_zt_avg_chg": 0.0,
+    "prev_zt_up_ratio": 0.0,
+    "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "15:30:01",
-    "compute_seconds": 20.2,
-    "prev_duration": 25.7,
-    "runs_ok_today": 35,
-    "runs_fail_today": 1,
-    "last_error": {
-      "time": "12:20",
-      "msg": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
-    },
+    "run_started": "09:00:02",
+    "compute_seconds": 19.5,
+    "prev_duration": 23.7,
+    "runs_ok_today": 0,
+    "runs_fail_today": 0,
+    "last_error": null,
     "amount_source": "turnover 字段(与推算值比值 1.00)",
     "sentiment_ok": true,
     "sentiment_errors": [],
