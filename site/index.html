@@ -161,6 +161,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
   <nav class="tabs" id="tabs">
     <a href="#radar">市场雷达</a>
     <a href="#picks">选股清单</a>
+    <a href="#obspool">观察池</a>
     <a href="#lowamt">低成交额组合</a>
     <a href="#timeline">信号时间线</a>
     <a href="#risk">风险提示</a>
@@ -241,6 +242,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
       <h2 class="page-title">选股清单</h2>
       <p class="page-note">主板 · 涨幅 2–7% · 量比 &gt; 1.8 · 振幅 ≤ 8% · 行业相对强度 &gt; 0 · 成交额按全天折算分三档。操作建议是清单内的相对强弱标签，不是买卖指令。</p>
     </div>
+    <div class="alert" style="margin-bottom:var(--gap)"><span class="alert-mark" style="background:var(--up)"></span><span><b>回测为负，仅供观察。</b>按本清单规则回测 2016–2026（收盘买入）：T+1 触及 +2% 卖出平均每笔跑输大盘 0.44%（t=−13），11 年每年都为负，持有 1–5 天同样为负；当日打分越高的票表现越差。不建议照此下单。</span></div>
     <div class="grid cols-4" id="pick-stats"></div>
     <div class="section">
       <div class="section-head"><h3 class="section-title">交易成本</h3><span class="section-meta">按现价买入整手计算，设置保存在本浏览器</span></div>
@@ -272,6 +274,34 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;font-size:12px;color:v
       </div>
       <div class="stock-cards" id="cards"></div>
     </div>
+  </section>
+
+  <!-- 观察池 -->
+  <section class="view" id="view-obspool" hidden>
+    <div class="page-head">
+      <h2 class="page-title">观察池</h2>
+      <p class="page-note">主板非 ST、股价 ≥ 2 元、20 日均成交额 ≥ 5000 万。三个因子（理想振幅、成交量波动、量价相关性，都是越小越好）的排名平均作为综合分；特质波动率或近 20 日暴涨程度排在最高 20% 的剔除。每个交易日收盘后更新，列出综合分最高的 30 只。</p>
+    </div>
+    <div class="grid cols-4" id="op-stats"></div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">名单</h3><span class="section-meta" id="op-meta"></span></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>名称</th><th>行业</th><th class="right">收盘价</th><th class="right">当日涨跌</th><th class="right">现价较收盘</th><th class="right">20日均成交额</th><th class="right">综合分</th><th class="right">理想振幅</th><th class="right">量波动</th><th class="right">量价相关</th><th>标记</th></tr></thead>
+        <tbody id="op-rows"></tbody>
+      </table></div></div>
+      <div class="note" style="margin-top:8px">三个因子列是该股在股票池里的排名百分位，<b>越小越好</b>（例如 5 表示排在最好的 5%）。"低成交额候选"表示它同时属于低成交额组合的候选范围。</div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3 class="section-title">历史名单跟踪</h3><span class="section-meta">各日名单从当天收盘至今的平均涨跌 vs 主板非 ST 等权</span></div>
+      <div class="card" style="padding:8px 8px 4px"><div class="table-wrap"><table>
+        <thead><tr><th>名单日期</th><th class="right">已过交易日</th><th class="right">名单平均</th><th class="right">全市场平均</th><th class="right">超额</th></tr></thead>
+        <tbody id="op-track"></tbody>
+      </table></div></div>
+    </div>
+    <div class="section"><div class="card note">
+      <b>回测参考（2016–2026，同样的 5000 万门槛）</b>：每天买综合分最好的 20%（约 300 只），持有 5 天平均跑赢大盘 0.29%，2023 年后 0.21%（t=3.7）；持有 20 天在 2023 年后不再显著。三个因子在 11 个年份里方向都一致。<br>
+      <b>定位是参考名单，不是交易信号</b>：超额来自几百只股票的平均，只挑几只时单只结果波动很大；5 天 0.2–0.3% 的超额扣掉一买一卖成本后所剩不多。
+    </div></div>
   </section>
 
   <!-- 低成交额组合 -->
@@ -391,7 +421,7 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 /* ---------- 路由 ---------- */
 function route(){
   const id = (location.hash || "#radar").slice(1);
-  const valid = ["radar","picks","lowamt","timeline","risk","fortune","health"].includes(id) ? id : "radar";
+  const valid = ["radar","picks","obspool","lowamt","timeline","risk","fortune","health"].includes(id) ? id : "radar";
   document.querySelectorAll(".view").forEach(v => v.hidden = v.id !== "view-" + valid);
   document.querySelectorAll("#tabs a").forEach(a => {
     if (a.getAttribute("href") === "#" + valid) a.setAttribute("aria-current", "page");
@@ -517,6 +547,7 @@ function renderLatest(d){
   renderSentiment(d.sentiment);
   renderSectors(d.sectors);
   LA_LATEST = d.lowamt || null; renderLowamt();
+  OP_LATEST = d.obspool || null; renderObspool();
 
   // 风险
   const notes = risk.notes || [];
@@ -616,6 +647,40 @@ function weakTag(s){
   return `<span class="badge badge-weak" title="${esc(why.join("，"))}。回测：超跌是弱势延续信号，后续大概率跑输。">超跌·弱势</span>`;
 }
 
+/* ---------- 观察池 ---------- */
+let OP_LATEST = null, OP_FILE = null;
+function renderObspool(){
+  const a = OP_LATEST, b = OP_FILE;
+  const d = (a && b) ? ((a.updated || "") >= (b.updated || "") ? a : b) : (a || b);
+  const card = (l, v, sub) => `<div class="card"><div class="metric-label">${l}</div><div class="metric-value" style="font-size:24px">${v}</div><div class="metric-sub">${sub}</div></div>`;
+  if (!d || !d.ok) { $("op-stats").innerHTML = `<div class="card empty">${esc((d && d.note) || "NAS 尚未推送观察池数据")}</div>`; $("op-rows").innerHTML = ""; $("op-track").innerHTML = ""; return; }
+  const t5 = (d.tracking || []).find(x => x.days === 5);
+  $("op-stats").innerHTML = [
+    card("名单日期", esc(d.as_of), "收盘后生成"),
+    card("股票池", d.pool, `排雷后 ${d.safe} 只`),
+    card("入选", (d.items || []).length, "综合分最高"),
+    card("5 天前名单至今", t5 ? `<span class="${cls(t5.excess)}">${pct(t5.excess)}</span>` : "—", t5 ? `名单 ${pct(t5.ret)} · 全市场 ${pct(t5.bench)}` : "跟踪满 5 个交易日后显示"),
+  ].join("");
+  $("op-meta").textContent = d.fetch ? `日线拉取 ${d.fetch.ok}/${d.fetch.requested}` + (d.fetch.failed ? `，失败 ${d.fetch.failed}` : "") : "";
+  const wan = v => v == null ? "—" : (v / 1e8 >= 1 ? (v / 1e8).toFixed(2) + " 亿" : (v / 1e4).toFixed(0) + " 万");
+  $("op-rows").innerHTML = (d.items || []).map((x, i) => `
+    <tr><td class="num muted">${i + 1}</td>
+    <td><div class="name-cell">${esc(x.name)}</div><div class="ticker">${esc(x.code)}</div></td>
+    <td>${esc(x.industry)}</td><td class="right num">${fmt(x.price)}</td>
+    <td class="right num ${cls(x.chg)}">${pct(x.chg)}</td>
+    <td class="right num ${cls(x.live_chg)}">${x.live_chg == null ? "—" : pct(x.live_chg)}</td>
+    <td class="right num">${wan(x.amt20)}</td><td class="right num">${fmt(x.comp, 1)}</td>
+    <td class="right num">${x.rk_iamp}</td><td class="right num">${x.rk_vcv}</td><td class="right num">${x.rk_pvcorr}</td>
+    <td>${x.low_cand ? '<span class="badge badge-watch">低成交额候选</span>' : ""}</td></tr>`).join("")
+    || `<tr><td colspan="12" class="empty">今天没有满足条件的股票</td></tr>`;
+  const tr = (d.tracking || []).filter(x => x.days > 0);
+  $("op-track").innerHTML = tr.length ? tr.map(x => `
+    <tr><td class="num mono">${esc(x.date)}</td><td class="right num">${x.days}</td>
+    <td class="right num ${cls(x.ret)}">${pct(x.ret)}</td><td class="right num ${cls(x.bench)}">${pct(x.bench)}</td>
+    <td class="right num ${cls(x.excess)}">${pct(x.excess)}</td></tr>`).join("")
+    : `<tr><td colspan="5" class="empty">名单满 1 个交易日后开始跟踪</td></tr>`;
+}
+
 /* ---------- 低成交额组合 ---------- */
 let LA_LATEST = null, LA_FILE = null;
 function pickLowamt(){
@@ -683,7 +748,7 @@ function renderLowamt(){
 
 function renderSectors(sc){
   const items = (sc && sc.items) || [];
-  $("sector-meta").textContent = items.length ? "东方财富行业板块 · 按板块涨幅排序" : "";
+  $("sector-meta").textContent = items.length ? `${sc.source || "东方财富"}行业板块 · 按板块涨幅排序` : "";
   if (!items.length) {
     $("sectors").innerHTML = `<div class="card empty">${sc && sc.errors && sc.errors.length ? "板块数据获取失败：" + esc(sc.errors.join("；")) : "板块数据本轮未获取到"}</div>`;
     return;
@@ -698,9 +763,9 @@ function renderSectors(sc){
       </div>
       <div class="sector-row"><span>龙头股</span>
         <span class="leader">${esc(x.leader || "—")}<span class="num">${x.leader_price != null ? fmt(x.leader_price) : ""}</span><small class="num ${cls(x.leader_chg)}">${pct(x.leader_chg)}</small></span></div>
-      <div class="sector-row"><span>主力净流入</span><span class="num">${flow(x.net_inflow)}</span></div>
+      <div class="sector-row"><span>${esc(sc.flow_label || "主力净流入")}</span><span class="num">${flow(x.net_inflow)}</span></div>
       <div class="sector-row"><span>涨跌家数</span><span class="num"><span class="up">${x.up}</span> / <span class="down">${x.down}</span></span></div>
-    </div>`).join("") + (sc.errors && sc.errors.length ? `<div class="note" style="grid-column:1/-1">${esc(sc.errors.join("；"))}</div>` : "");
+    </div>`).join("") + (sc.errors && sc.errors.length ? `<div class="note" style="grid-column:1/-1">${sc.source && sc.source !== "东方财富" ? "东方财富本轮连接失败，已改用" + esc(sc.source) + "。" : ""}<span class="muted">${esc(sc.errors.join("；"))}</span></div>` : "");
 }
 
 function renderSentiment(se){
@@ -754,6 +819,7 @@ function renderFortune(f){
 }
 
 function load(){
+  fetch("data/obspool.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(x => { OP_FILE = x; renderObspool(); }).catch(() => {});
   fetch("data/lowamt.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(x => { LA_FILE = x; renderLowamt(); }).catch(() => {});
   fetch("data/latest.json", { cache: "no-store" }).then(r => r.json()).then(renderLatest)
     .catch(e => { $("stamp").textContent = "选股数据读取失败：" + e.message; $("stamp").classList.add("stale"); });
