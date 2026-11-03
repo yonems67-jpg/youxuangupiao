@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-03 09:00:13",
+  "update_date": "2026-11-03 09:05:12",
   "market": {
     "market_score": 84.6,
     "market_status": "强势",
@@ -108,9 +108,9 @@
       "name": "羚锐制药",
       "first_time": "09:00",
       "first_price": 22.56,
-      "hits": 1,
+      "hits": 2,
       "max_price": 22.56,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 22.56,
@@ -122,9 +122,9 @@
       "name": "顺鑫农业",
       "first_time": "09:00",
       "first_price": 12.28,
-      "hits": 1,
+      "hits": 2,
       "max_price": 12.28,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "观察",
       "cur_price": 12.28,
@@ -136,9 +136,9 @@
       "name": "康盛股份",
       "first_time": "09:00",
       "first_price": 3.59,
-      "hits": 1,
+      "hits": 2,
       "max_price": 3.59,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 3.59,
@@ -153,54 +153,54 @@
     ],
     "items": [
       {
-        "name": "军工装备",
-        "chg": 1.89,
-        "up": 71,
-        "down": 11,
-        "leader": "*ST航图",
-        "leader_chg": 12.75,
-        "leader_price": 6.28,
-        "net_inflow": 2293000000.0
+        "name": "纺织制造",
+        "chg": 0.0,
+        "up": 29,
+        "down": 4,
+        "leader": "浙文影业",
+        "leader_chg": 10.16,
+        "leader_price": 3.47,
+        "net_inflow": 0.0
       },
       {
-        "name": "能源金属",
-        "chg": 1.88,
-        "up": 12,
+        "name": "保险",
+        "chg": 0.0,
+        "up": 4,
         "down": 1,
-        "leader": "*ST威领",
-        "leader_chg": 9.64,
-        "leader_price": 23.89,
-        "net_inflow": 225999999.99999997
+        "leader": "新华保险",
+        "leader_chg": 1.35,
+        "leader_price": 50.93,
+        "net_inflow": 0.0
       },
       {
-        "name": "电网设备",
-        "chg": 1.87,
-        "up": 122,
+        "name": "养殖业",
+        "chg": 0.0,
+        "up": 32,
+        "down": 4,
+        "leader": "京基智农",
+        "leader_chg": 7.88,
+        "leader_price": 13.82,
+        "net_inflow": 0.0
+      },
+      {
+        "name": "农产品加工",
+        "chg": 0.0,
+        "up": 40,
+        "down": 2,
+        "leader": "东方海洋",
+        "leader_chg": 9.89,
+        "leader_price": 3.11,
+        "net_inflow": 0.0
+      },
+      {
+        "name": "煤炭开采加工",
+        "chg": 0.0,
+        "up": 17,
         "down": 16,
-        "leader": "新宏泰",
-        "leader_chg": 10.01,
-        "leader_price": 28.25,
-        "net_inflow": 2260000000.0
-      },
-      {
-        "name": "汽车零部件",
-        "chg": 1.85,
-        "up": 230,
-        "down": 44,
-        "leader": "富特科技",
-        "leader_chg": 10.3,
-        "leader_price": 35.66,
-        "net_inflow": 2936000000.0
-      },
-      {
-        "name": "种植业与林业",
-        "chg": 1.79,
-        "up": 28,
-        "down": 1,
-        "leader": "博闻科技",
-        "leader_chg": 5.41,
-        "leader_price": 7.02,
-        "net_inflow": 314000000.0
+        "leader": "上海能源",
+        "leader_chg": 3.08,
+        "leader_price": 8.71,
+        "net_inflow": 0.0
       }
     ],
     "source": "同花顺",
@@ -209,7 +209,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-03 09:00:42",
+    "updated": "2026-11-03 09:05:40",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -286,7 +286,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-03 09:00:42",
+    "updated": "2026-11-03 09:05:40",
     "min_amt": 50000000.0,
     "as_of": "2026-11-02",
     "pool": 173,
@@ -798,7 +798,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-03 09:00:42",
+    "updated": "2026-11-03 09:05:40",
     "items": {
       "000665": {
         "zdf": 7.95,
@@ -1167,10 +1167,10 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:00:01",
-    "compute_seconds": 42.0,
-    "prev_duration": 47.3,
-    "runs_ok_today": 0,
+    "run_started": "09:05:01",
+    "compute_seconds": 40.4,
+    "prev_duration": 52.9,
+    "runs_ok_today": 1,
     "runs_fail_today": 0,
     "last_error": null,
     "amount_source": "turnover 字段(与推算值比值 0.99)",
