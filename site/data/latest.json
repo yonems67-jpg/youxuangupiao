@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-04 11:35:15",
+  "update_date": "2026-11-04 11:40:16",
   "market": {
     "market_score": 31.2,
     "market_status": "弱势",
@@ -435,9 +435,9 @@
       "name": "绝味食品",
       "first_time": "09:56",
       "first_price": 11.21,
-      "hits": 15,
+      "hits": 16,
       "max_price": 11.48,
-      "last_time": "11:35",
+      "last_time": "11:40",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 11.39,
@@ -825,9 +825,9 @@
       "name": "宝明科技",
       "first_time": "10:21",
       "first_price": 31.15,
-      "hits": 11,
+      "hits": 12,
       "max_price": 31.3,
-      "last_time": "11:35",
+      "last_time": "11:40",
       "in_list": true,
       "tag": "观察",
       "cur_price": 31.1,
@@ -870,9 +870,9 @@
       "name": "和远气体",
       "first_time": "10:30",
       "first_price": 33.16,
-      "hits": 10,
+      "hits": 11,
       "max_price": 33.16,
-      "last_time": "11:35",
+      "last_time": "11:40",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 32.89,
@@ -885,9 +885,9 @@
       "name": "通富微电",
       "first_time": "10:35",
       "first_price": 40.17,
-      "hits": 4,
+      "hits": 5,
       "max_price": 40.4,
-      "last_time": "11:35",
+      "last_time": "11:40",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 40.2,
@@ -929,67 +929,67 @@
   "sectors": {
     "ok": false,
     "errors": [
-      "板块资金流: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      "东方财富: ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
     ],
     "items": [
       {
-        "name": "视频媒体",
-        "chg": 3.99,
-        "up": 1,
-        "down": 0,
-        "leader": "芒果超媒",
-        "leader_chg": 3.99,
-        "leader_price": 28.91,
-        "net_inflow": null
-      },
-      {
-        "name": "半导体设备",
-        "chg": 3.66,
-        "up": 22,
-        "down": 3,
+        "name": "半导体",
+        "chg": 1.9,
+        "up": 155,
+        "down": 34,
         "leader": "托伦斯",
         "leader_chg": 15.99,
         "leader_price": 92.98,
-        "net_inflow": null
+        "net_inflow": 5297000000.0
       },
       {
-        "name": "种子",
-        "chg": 3.56,
-        "up": 10,
-        "down": 0,
+        "name": "影视院线",
+        "chg": 1.3,
+        "up": 15,
+        "down": 5,
+        "leader": "华智数媒",
+        "leader_chg": 12.22,
+        "leader_price": 10.1,
+        "net_inflow": -57999999.99999999
+      },
+      {
+        "name": "种植业与林业",
+        "chg": 1.12,
+        "up": 15,
+        "down": 13,
         "leader": "万向德农",
         "leader_chg": 10.04,
         "leader_price": 10.85,
-        "net_inflow": null
+        "net_inflow": 132000000.0
       },
       {
-        "name": "文字媒体",
-        "chg": 2.53,
-        "up": 2,
-        "down": 0,
-        "leader": "中文在线",
-        "leader_chg": 3.01,
-        "leader_price": 25.34,
-        "net_inflow": null
+        "name": "贵金属",
+        "chg": 0.93,
+        "up": 13,
+        "down": 1,
+        "leader": "赤峰黄金",
+        "leader_chg": 2.42,
+        "leader_price": 32.16,
+        "net_inflow": -283000000.0
       },
       {
-        "name": "数字芯片设计",
-        "chg": 2.36,
-        "up": 47,
-        "down": 9,
-        "leader": "恒玄科技",
-        "leader_chg": 13.3,
-        "leader_price": 119.2,
-        "net_inflow": null
+        "name": "文化传媒",
+        "chg": 0.91,
+        "up": 51,
+        "down": 30,
+        "leader": "中信出版",
+        "leader_chg": 15.21,
+        "leader_price": 34.62,
+        "net_inflow": 258000000.0
       }
     ],
-    "source": "东方财富",
-    "flow_match_ratio": null,
-    "flow_label": "主力净流入"
+    "source": "同花顺",
+    "flow_label": "净流入",
+    "flow_unit_guess": "亿元"
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-04 11:35:37",
+    "updated": "2026-11-04 11:40:52",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -1071,7 +1071,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-04 11:35:37",
+    "updated": "2026-11-04 11:40:52",
     "min_amt": 50000000.0,
     "as_of": "2026-11-03",
     "pool": 147,
@@ -1590,7 +1590,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-04 11:35:37",
+    "updated": "2026-11-04 11:40:52",
     "items": {
       "002652": {
         "zdf": -8.39,
@@ -2019,10 +2019,10 @@
     "prev_lianban_avg_chg": 0.91
   },
   "health": {
-    "run_started": "11:35:01",
-    "compute_seconds": 37.3,
-    "prev_duration": 57.1,
-    "runs_ok_today": 29,
+    "run_started": "11:40:01",
+    "compute_seconds": 52.4,
+    "prev_duration": 44.4,
+    "runs_ok_today": 30,
     "runs_fail_today": 2,
     "last_error": {
       "time": "10:45",
