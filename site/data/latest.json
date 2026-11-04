@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-04 15:05:11",
+  "update_date": "2026-11-04 15:10:12",
   "market": {
     "market_score": 84.9,
     "market_status": "强势",
@@ -550,9 +550,9 @@
       "name": "卓郎智能",
       "first_time": "10:11",
       "first_price": 3.04,
-      "hits": 18,
+      "hits": 19,
       "max_price": 3.12,
-      "last_time": "15:05",
+      "last_time": "15:10",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 3.12,
@@ -700,9 +700,9 @@
       "name": "漫步者",
       "first_time": "10:16",
       "first_price": 11.85,
-      "hits": 39,
+      "hits": 40,
       "max_price": 12.07,
-      "last_time": "15:05",
+      "last_time": "15:10",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 11.86,
@@ -1008,15 +1008,15 @@
         "up": 62,
         "down": 1,
         "leader": "三环集团",
-        "leader_chg": 14.67,
-        "leader_price": 79.03,
+        "leader_chg": 14.77,
+        "leader_price": 79.1,
         "net_inflow": 6033000000.0
       },
       {
         "name": "自动化设备",
         "chg": 6.04,
         "up": 97,
-        "down": 2,
+        "down": 1,
         "leader": "高凯技术",
         "leader_chg": 20.0,
         "leader_price": 297.28,
@@ -1029,7 +1029,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-04 15:05:40",
+    "updated": "2026-11-04 15:10:39",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -1111,7 +1111,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-04 15:05:40",
+    "updated": "2026-11-04 15:10:40",
     "min_amt": 50000000.0,
     "as_of": "2026-11-03",
     "pool": 147,
@@ -1630,7 +1630,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-04 15:05:40",
+    "updated": "2026-11-04 15:10:40",
     "items": {
       "002652": {
         "zdf": 10.07,
@@ -1991,9 +1991,9 @@
   "sentiment": {
     "ok": true,
     "errors": [],
-    "zt_count": 118,
+    "zt_count": 119,
     "max_lianban": 3,
-    "first_board": 106,
+    "first_board": 107,
     "lianban_count": 12,
     "lianban_dist": [
       {
@@ -2006,6 +2006,14 @@
       }
     ],
     "ladder": [
+      {
+        "code": "002578",
+        "name": "闽发铝业",
+        "boards": 3,
+        "industry": "工业金属",
+        "first_seal": "130351",
+        "opens": 0
+      },
       {
         "code": "002827",
         "name": "高争民爆",
@@ -2023,6 +2031,14 @@
         "opens": 0
       },
       {
+        "code": "002058",
+        "name": "紫竹高科",
+        "boards": 3,
+        "industry": "电池",
+        "first_seal": "093706",
+        "opens": 2
+      },
+      {
         "code": "601599",
         "name": "浙文影业",
         "boards": 3,
@@ -2037,36 +2053,20 @@
         "industry": "出版",
         "first_seal": "093105",
         "opens": 4
-      },
-      {
-        "code": "002578",
-        "name": "闽发铝业",
-        "boards": 3,
-        "industry": "工业金属",
-        "first_seal": "130351",
-        "opens": 0
-      },
-      {
-        "code": "002058",
-        "name": "紫竹高科",
-        "boards": 3,
-        "industry": "电池",
-        "first_seal": "093706",
-        "opens": 2
       }
     ],
-    "zb_count": 33,
-    "zb_rate": 21.9,
+    "zb_count": 32,
+    "zb_rate": 21.2,
     "prev_zt_count": 48,
     "prev_zt_avg_chg": -0.32,
     "prev_zt_up_ratio": 37.5,
     "prev_lianban_avg_chg": 1.09
   },
   "health": {
-    "run_started": "15:05:01",
-    "compute_seconds": 40.2,
-    "prev_duration": 35.1,
-    "runs_ok_today": 53,
+    "run_started": "15:10:01",
+    "compute_seconds": 39.7,
+    "prev_duration": 47.7,
+    "runs_ok_today": 54,
     "runs_fail_today": 5,
     "last_error": {
       "time": "14:25",
