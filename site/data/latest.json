@@ -1,135 +1,31 @@
 {
-  "update_date": "2026-11-09 09:10:14",
+  "update_date": "2026-11-09 09:15:08",
   "market": {
-    "market_score": 18.7,
-    "market_status": "弱势",
-    "suggested_position": "1~2成或观望",
-    "up_count": 635,
-    "down_count": 4121,
-    "limit_up_count": 32,
-    "limit_down_count": 26,
-    "total_count": 5573
+    "market_score": 53.9,
+    "market_status": "震荡",
+    "suggested_position": "3~5成",
+    "up_count": 897,
+    "down_count": 469,
+    "limit_up_count": 142,
+    "limit_down_count": 14,
+    "total_count": 5540
   },
   "fallback_status": {
     "used_tier": 2,
     "tier_name": "极度缩量防御模式",
-    "target_count": 4,
-    "actual_count": 4,
-    "fallback_note": "市场状态「弱势」目标选出 4 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 4 只。 已触发降级,当前盘面偏冷/缩量。"
+    "target_count": 9,
+    "actual_count": 0,
+    "fallback_note": "市场状态「震荡」目标选出 9 只,经 Tier2(极度缩量防御模式) 筛选后实际选出 0 只。 已触发降级,当前盘面偏冷/缩量。"
   },
   "risk": {
-    "top_industry": "农林牧渔",
-    "top_industry_share": 0.5,
-    "industry_concentration_warning": true,
-    "market_risk_warning": true,
-    "suggest_reduce_position": true,
-    "notes": [
-      "入选股票中「农林牧渔」占比达 50%,行业集中度偏高",
-      "当前市场宽度偏弱(下跌家数明显多于上涨家数)"
-    ]
+    "top_industry": null,
+    "top_industry_share": 0,
+    "industry_concentration_warning": false,
+    "market_risk_warning": false,
+    "suggest_reduce_position": false,
+    "notes": []
   },
-  "stocks": [
-    {
-      "代码": "sz002192",
-      "名称": "融捷股份",
-      "最新价": 51.93,
-      "涨跌幅": 3.28,
-      "换手率": 11.62,
-      "预估全天换手率": 11.62,
-      "量比": 1.85,
-      "振幅": 7.46,
-      "行业": "有色金属",
-      "行业相对强度": 5.3081707317073175,
-      "成交额": 1545060000.0,
-      "当前成交额": 1545060000.0,
-      "流通市值": 134.56,
-      "ma_aligned": false,
-      "volume_spike": true,
-      "breakout": true,
-      "距20日新高比例": 0.9752112676056338,
-      "距60日高点回撤": -0.3489217652958877,
-      "连跌天数": 0,
-      "score": 60.0,
-      "建议仓位": 0.0,
-      "操作建议": "重点关注",
-      "超跌弱势": false
-    },
-    {
-      "代码": "sz000722",
-      "名称": "湖南发展",
-      "最新价": 12.37,
-      "涨跌幅": 3.69,
-      "换手率": 7.25,
-      "预估全天换手率": 7.25,
-      "量比": 2.79,
-      "振幅": 6.71,
-      "行业": "电力",
-      "行业相对强度": 2.9012903225806452,
-      "成交额": 409380000.0,
-      "当前成交额": 409380000.0,
-      "流通市值": 57.42,
-      "ma_aligned": false,
-      "volume_spike": true,
-      "breakout": false,
-      "距20日新高比例": 0.8867383512544803,
-      "距60日高点回撤": -0.23689080814312158,
-      "连跌天数": 0,
-      "score": 34.6,
-      "建议仓位": 0.0,
-      "操作建议": "观察",
-      "超跌弱势": false
-    },
-    {
-      "代码": "sh600313",
-      "名称": "农发种业",
-      "最新价": 5.97,
-      "涨跌幅": 2.58,
-      "换手率": 8.14,
-      "预估全天换手率": 8.14,
-      "量比": 2.77,
-      "振幅": 7.39,
-      "行业": "农林牧渔",
-      "行业相对强度": 1.4345714285714288,
-      "成交额": 527620000.0,
-      "当前成交额": 527620000.0,
-      "流通市值": 64.61,
-      "ma_aligned": false,
-      "volume_spike": true,
-      "breakout": false,
-      "距20日新高比例": 0.8553008595988538,
-      "距60日高点回撤": -0.3050058207217695,
-      "连跌天数": 0,
-      "score": 26.2,
-      "建议仓位": 0.0,
-      "操作建议": "谨慎",
-      "超跌弱势": false
-    },
-    {
-      "代码": "sz002041",
-      "名称": "登海种业",
-      "最新价": 9.03,
-      "涨跌幅": 2.73,
-      "换手率": 5.17,
-      "预估全天换手率": 5.17,
-      "量比": 2.49,
-      "振幅": 5.92,
-      "行业": "农林牧渔",
-      "行业相对强度": 1.5845714285714287,
-      "成交额": 410600000.0,
-      "当前成交额": 410600000.0,
-      "流通市值": 79.46,
-      "ma_aligned": false,
-      "volume_spike": true,
-      "breakout": false,
-      "距20日新高比例": 0.912121212121212,
-      "距60日高点回撤": -0.2781774580335732,
-      "连跌天数": 0,
-      "score": 18.1,
-      "建议仓位": 0.0,
-      "操作建议": "谨慎",
-      "超跌弱势": false
-    }
-  ],
+  "stocks": [],
   "timeline": [
     {
       "code": "sh600313",
@@ -137,13 +33,14 @@
       "first_time": "09:00",
       "first_price": 5.97,
       "hits": 3,
-      "max_price": 5.97,
+      "max_price": 5.98,
       "last_time": "09:10",
-      "in_list": true,
+      "in_list": false,
       "tag": "谨慎",
-      "cur_price": 5.97,
-      "chg_since_first": 0.0,
-      "max_since_first": 0.0
+      "cur_price": 5.98,
+      "chg_since_first": 0.17,
+      "max_since_first": 0.17,
+      "left_time": "09:15"
     },
     {
       "code": "sz000722",
@@ -151,13 +48,14 @@
       "first_time": "09:00",
       "first_price": 12.37,
       "hits": 3,
-      "max_price": 12.37,
+      "max_price": 12.38,
       "last_time": "09:10",
-      "in_list": true,
+      "in_list": false,
       "tag": "观察",
-      "cur_price": 12.37,
-      "chg_since_first": 0.0,
-      "max_since_first": 0.0
+      "cur_price": 12.38,
+      "chg_since_first": 0.08,
+      "max_since_first": 0.08,
+      "left_time": "09:15"
     },
     {
       "code": "sz002041",
@@ -167,11 +65,12 @@
       "hits": 3,
       "max_price": 9.03,
       "last_time": "09:10",
-      "in_list": true,
+      "in_list": false,
       "tag": "谨慎",
-      "cur_price": 9.03,
-      "chg_since_first": 0.0,
-      "max_since_first": 0.0
+      "cur_price": 8.94,
+      "chg_since_first": -1.0,
+      "max_since_first": 0.0,
+      "left_time": "09:15"
     },
     {
       "code": "sz002192",
@@ -181,11 +80,12 @@
       "hits": 3,
       "max_price": 51.93,
       "last_time": "09:10",
-      "in_list": true,
+      "in_list": false,
       "tag": "重点关注",
       "cur_price": 51.93,
       "chg_since_first": 0.0,
-      "max_since_first": 0.0
+      "max_since_first": 0.0,
+      "left_time": "09:15"
     }
   ],
   "sectors": {
@@ -193,53 +93,53 @@
     "errors": [],
     "items": [
       {
-        "name": "个护用品",
-        "chg": 0.0,
-        "up": 0,
+        "name": "海洋捕捞",
+        "chg": 10.04,
+        "up": 1,
         "down": 0,
-        "leader": "-",
-        "leader_chg": null,
-        "leader_price": null,
+        "leader": "中水渔业",
+        "leader_chg": 10.04,
+        "leader_price": 9.43,
         "net_inflow": null
       },
       {
-        "name": "油气开采Ⅱ",
-        "chg": 0.0,
-        "up": 0,
+        "name": "期货",
+        "chg": 10.03,
+        "up": 1,
         "down": 0,
-        "leader": "-",
-        "leader_chg": null,
-        "leader_price": null,
+        "leader": "弘业期货",
+        "leader_chg": 10.03,
+        "leader_price": 7.79,
         "net_inflow": null
       },
       {
-        "name": "焦炭Ⅱ",
-        "chg": 0.0,
-        "up": 0,
+        "name": "涂料",
+        "chg": 10.02,
+        "up": 1,
         "down": 0,
-        "leader": "-",
-        "leader_chg": null,
-        "leader_price": null,
+        "leader": "三棵树",
+        "leader_chg": -0.21,
+        "leader_price": 23.65,
         "net_inflow": null
       },
       {
-        "name": "汽车服务",
-        "chg": 0.0,
-        "up": 0,
+        "name": "个护小家电",
+        "chg": 10.0,
+        "up": 1,
         "down": 0,
-        "leader": "-",
-        "leader_chg": null,
-        "leader_price": null,
+        "leader": "彩虹集团",
+        "leader_chg": 10.0,
+        "leader_price": 21.69,
         "net_inflow": null
       },
       {
-        "name": "橡胶",
-        "chg": 0.0,
-        "up": 0,
+        "name": "体育Ⅲ",
+        "chg": 9.98,
+        "up": 1,
         "down": 0,
-        "leader": "-",
-        "leader_chg": null,
-        "leader_price": null,
+        "leader": "力盛体育",
+        "leader_chg": 9.98,
+        "leader_price": 11.24,
         "net_inflow": null
       }
     ],
@@ -249,7 +149,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-09 09:10:20",
+    "updated": "2026-11-09 09:15:14",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -291,8 +191,8 @@
           "amt20": 18517230,
           "ref_price": 3.87,
           "buy": 3.93,
-          "price": 3.94,
-          "chg": 0.25
+          "price": 3.93,
+          "chg": 0.0
         },
         {
           "code": "600716",
@@ -301,8 +201,8 @@
           "amt20": 26010215,
           "ref_price": 3.14,
           "buy": 3.22,
-          "price": 3.24,
-          "chg": 0.62
+          "price": 3.23,
+          "chg": 0.31
         },
         {
           "code": "600935",
@@ -311,8 +211,8 @@
           "amt20": 34119935,
           "ref_price": 2.04,
           "buy": 2.06,
-          "price": 2.09,
-          "chg": 1.46
+          "price": 2.08,
+          "chg": 0.97
         },
         {
           "code": "601366",
@@ -321,8 +221,8 @@
           "amt20": 38046740,
           "ref_price": 3.51,
           "buy": 3.6,
-          "price": 3.67,
-          "chg": 1.94
+          "price": 3.61,
+          "chg": 0.28
         },
         {
           "code": "600858",
@@ -331,22 +231,22 @@
           "amt20": 42666890,
           "ref_price": 4.66,
           "buy": 4.81,
-          "price": 4.82,
-          "chg": 0.21
+          "price": 4.88,
+          "chg": 1.46
         }
       ],
       "elapsed": 5,
       "next_rebalance": "2026-11-30",
-      "period_ret": 0.9,
-      "bench_ret": 1.91,
-      "cum_nav": 1.009,
-      "cum_bench": 1.0191
+      "period_ret": 0.6,
+      "bench_ret": 2.47,
+      "cum_nav": 1.006,
+      "cum_bench": 1.0247
     },
     "history": []
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-09 09:10:20",
+    "updated": "2026-11-09 09:15:14",
     "min_amt": 50000000.0,
     "as_of": "2026-11-06",
     "pool": 63,
@@ -365,8 +265,8 @@
         "rk_pvcorr": 13,
         "rk_ivol": 8,
         "low_cand": false,
-        "live": 2.18,
-        "live_chg": 0.0
+        "live": 2.17,
+        "live_chg": -0.46
       },
       {
         "code": "603363",
@@ -397,8 +297,8 @@
         "rk_pvcorr": 17,
         "rk_ivol": 16,
         "low_cand": false,
-        "live": 3.34,
-        "live_chg": 0.0
+        "live": 3.35,
+        "live_chg": 0.3
       },
       {
         "code": "000589",
@@ -429,8 +329,8 @@
         "rk_pvcorr": 11,
         "rk_ivol": 22,
         "low_cand": false,
-        "live": 4.3,
-        "live_chg": 0.0
+        "live": 4.31,
+        "live_chg": 0.23
       },
       {
         "code": "600791",
@@ -477,8 +377,8 @@
         "rk_pvcorr": 27,
         "rk_ivol": 43,
         "low_cand": false,
-        "live": 2.14,
-        "live_chg": 0.0
+        "live": 2.15,
+        "live_chg": 0.47
       },
       {
         "code": "000629",
@@ -509,8 +409,8 @@
         "rk_pvcorr": 16,
         "rk_ivol": 27,
         "low_cand": false,
-        "live": 3.25,
-        "live_chg": 0.0
+        "live": 3.26,
+        "live_chg": 0.31
       },
       {
         "code": "000407",
@@ -525,8 +425,8 @@
         "rk_pvcorr": 35,
         "rk_ivol": 32,
         "low_cand": false,
-        "live": 3.88,
-        "live_chg": 0.0
+        "live": 4.05,
+        "live_chg": 4.38
       },
       {
         "code": "002256",
@@ -573,8 +473,8 @@
         "rk_pvcorr": 32,
         "rk_ivol": 6,
         "low_cand": false,
-        "live": 2.64,
-        "live_chg": 0.0
+        "live": 2.66,
+        "live_chg": 0.76
       },
       {
         "code": "600984",
@@ -621,8 +521,8 @@
         "rk_pvcorr": 6,
         "rk_ivol": 67,
         "low_cand": false,
-        "live": 5.71,
-        "live_chg": 0.0
+        "live": 5.68,
+        "live_chg": -0.53
       },
       {
         "code": "000750",
@@ -637,8 +537,8 @@
         "rk_pvcorr": 25,
         "rk_ivol": 49,
         "low_cand": false,
-        "live": 3.45,
-        "live_chg": 0.0
+        "live": 3.46,
+        "live_chg": 0.29
       },
       {
         "code": "000571",
@@ -653,8 +553,8 @@
         "rk_pvcorr": 33,
         "rk_ivol": 71,
         "low_cand": false,
-        "live": 4.86,
-        "live_chg": 0.0
+        "live": 4.96,
+        "live_chg": 2.06
       },
       {
         "code": "603077",
@@ -669,8 +569,8 @@
         "rk_pvcorr": 43,
         "rk_ivol": 2,
         "low_cand": false,
-        "live": 2.06,
-        "live_chg": 0.0
+        "live": 2.07,
+        "live_chg": 0.49
       },
       {
         "code": "000751",
@@ -685,8 +585,8 @@
         "rk_pvcorr": 14,
         "rk_ivol": 10,
         "low_cand": false,
-        "live": 3.89,
-        "live_chg": 0.0
+        "live": 3.9,
+        "live_chg": 0.26
       },
       {
         "code": "601002",
@@ -701,8 +601,8 @@
         "rk_pvcorr": 3,
         "rk_ivol": 17,
         "low_cand": false,
-        "live": 4.67,
-        "live_chg": 0.0
+        "live": 4.69,
+        "live_chg": 0.43
       },
       {
         "code": "601860",
@@ -717,8 +617,8 @@
         "rk_pvcorr": 49,
         "rk_ivol": 19,
         "low_cand": false,
-        "live": 2.53,
-        "live_chg": 0.0
+        "live": 2.52,
+        "live_chg": -0.4
       },
       {
         "code": "000767",
@@ -733,8 +633,8 @@
         "rk_pvcorr": 29,
         "rk_ivol": 21,
         "low_cand": false,
-        "live": 3.03,
-        "live_chg": 0.0
+        "live": 3.04,
+        "live_chg": 0.33
       },
       {
         "code": "002682",
@@ -765,8 +665,8 @@
         "rk_pvcorr": 21,
         "rk_ivol": 70,
         "low_cand": false,
-        "live": 3.47,
-        "live_chg": 0.0
+        "live": 3.12,
+        "live_chg": -10.09
       },
       {
         "code": "000723",
@@ -813,8 +713,8 @@
         "rk_pvcorr": 38,
         "rk_ivol": 13,
         "low_cand": false,
-        "live": 3.41,
-        "live_chg": 0.0
+        "live": 3.38,
+        "live_chg": -0.88
       },
       {
         "code": "002676",
@@ -829,8 +729,8 @@
         "rk_pvcorr": 44,
         "rk_ivol": 40,
         "low_cand": false,
-        "live": 5.22,
-        "live_chg": 0.0
+        "live": 5.23,
+        "live_chg": 0.19
       }
     ],
     "fetch": {
@@ -844,65 +744,65 @@
       {
         "date": "2026-11-06",
         "days": 1,
-        "ret": 0.0,
-        "bench": -0.0,
-        "excess": 0.0
+        "ret": -0.06,
+        "bench": 0.54,
+        "excess": -0.61
       },
       {
         "date": "2026-11-05",
         "days": 2,
-        "ret": -0.69,
-        "bench": -1.51,
-        "excess": 0.81
+        "ret": -0.63,
+        "bench": -0.97,
+        "excess": 0.34
       },
       {
         "date": "2026-11-04",
         "days": 3,
-        "ret": 0.58,
-        "bench": 0.41,
-        "excess": 0.17
+        "ret": 0.85,
+        "bench": 0.96,
+        "excess": -0.11
       },
       {
         "date": "2026-11-03",
         "days": 4,
-        "ret": 1.88,
-        "bench": 2.16,
-        "excess": -0.28
+        "ret": 2.06,
+        "bench": 2.71,
+        "excess": -0.66
       },
       {
         "date": "2026-11-02",
         "days": 5,
-        "ret": 2.06,
-        "bench": 1.91,
-        "excess": 0.15
+        "ret": 2.61,
+        "bench": 2.47,
+        "excess": 0.14
       },
       {
         "date": "2026-10-30",
         "days": 6,
-        "ret": 3.94,
-        "bench": 4.06,
-        "excess": -0.11
+        "ret": 3.95,
+        "bench": 4.64,
+        "excess": -0.69
       }
     ]
   },
   "potential_live": {
-    "updated": "2026-11-09 09:10:20",
+    "updated": "2026-11-09 09:15:14",
     "items": {
       "000055": {
-        "zdf": -1.14,
+        "zdf": 0.0,
         "price": 3.46,
         "vx": null,
         "flag": null
       },
       "600715": {
-        "zdf": 0.0,
-        "price": 2.35,
+        "zdf": 0.43,
+        "price": 2.36,
         "vx": null,
         "flag": null
       },
       "000757": {
-        "zdf": -1.55,
-        "price": 3.82,
+        "zdf": 1.05,
+        "price": 3.86,
         "vx": null,
         "flag": null
       },
@@ -913,19 +813,19 @@
         "flag": null
       },
       "600819": {
-        "zdf": 0.0,
-        "price": 5.22,
+        "zdf": 0.96,
+        "price": 5.27,
         "vx": null,
         "flag": null
       },
       "002042": {
-        "zdf": 0.0,
-        "price": 3.41,
+        "zdf": -0.88,
+        "price": 3.38,
         "vx": null,
         "flag": null
       },
       "002678": {
-        "zdf": -0.95,
+        "zdf": 0.0,
         "price": 4.18,
         "vx": null,
         "flag": null
@@ -937,14 +837,14 @@
         "flag": null
       },
       "000715": {
-        "zdf": 0.0,
-        "price": 5.22,
+        "zdf": 9.96,
+        "price": 5.74,
         "vx": null,
         "flag": null
       },
       "000790": {
-        "zdf": -1.11,
-        "price": 3.56,
+        "zdf": 1.12,
+        "price": 3.6,
         "vx": null,
         "flag": null
       },
@@ -961,26 +861,26 @@
         "flag": null
       },
       "600854": {
-        "zdf": 0.0,
-        "price": 4.32,
+        "zdf": -0.46,
+        "price": 4.3,
         "vx": null,
         "flag": null
       },
       "600807": {
-        "zdf": 0.0,
-        "price": 2.4,
+        "zdf": 1.25,
+        "price": 2.43,
         "vx": null,
         "flag": null
       },
       "000560": {
-        "zdf": 0.0,
-        "price": 2.92,
+        "zdf": 0.34,
+        "price": 2.93,
         "vx": null,
         "flag": null
       },
       "000716": {
-        "zdf": 0.0,
-        "price": 5.25,
+        "zdf": -2.29,
+        "price": 5.13,
         "vx": null,
         "flag": null
       },
@@ -997,8 +897,8 @@
         "flag": null
       },
       "600815": {
-        "zdf": 0.0,
-        "price": 2.84,
+        "zdf": 0.7,
+        "price": 2.86,
         "vx": null,
         "flag": null
       },
@@ -1009,32 +909,32 @@
         "flag": null
       },
       "002426": {
-        "zdf": 0.0,
-        "price": 2.18,
+        "zdf": -0.46,
+        "price": 2.17,
         "vx": null,
         "flag": null
       },
       "000514": {
-        "zdf": -1.3,
+        "zdf": 0.0,
         "price": 3.81,
         "vx": null,
         "flag": null
       },
       "600622": {
-        "zdf": 0.0,
-        "price": 2.05,
+        "zdf": -0.49,
+        "price": 2.04,
         "vx": null,
         "flag": null
       },
       "603188": {
-        "zdf": -1.19,
+        "zdf": 0.0,
         "price": 4.14,
         "vx": null,
         "flag": null
       },
       "002676": {
-        "zdf": 0.0,
-        "price": 5.22,
+        "zdf": 0.19,
+        "price": 5.23,
         "vx": null,
         "flag": null
       },
@@ -1051,14 +951,14 @@
         "flag": null
       },
       "603117": {
-        "zdf": 0.0,
-        "price": 3.44,
+        "zdf": 4.36,
+        "price": 3.59,
         "vx": null,
         "flag": null
       },
       "000620": {
-        "zdf": 0.0,
-        "price": 2.64,
+        "zdf": 0.76,
+        "price": 2.66,
         "vx": null,
         "flag": null
       },
@@ -1069,8 +969,8 @@
         "flag": null
       },
       "000813": {
-        "zdf": 0.0,
-        "price": 2.98,
+        "zdf": 1.68,
+        "price": 3.03,
         "vx": null,
         "flag": null
       },
@@ -1087,38 +987,38 @@
         "flag": null
       },
       "603023": {
-        "zdf": 0.0,
-        "price": 3.38,
+        "zdf": 0.59,
+        "price": 3.4,
         "vx": null,
         "flag": null
       },
       "000692": {
-        "zdf": -0.26,
-        "price": 3.85,
+        "zdf": 0.78,
+        "price": 3.88,
         "vx": null,
         "flag": null
       },
       "000571": {
-        "zdf": 0.0,
-        "price": 4.86,
+        "zdf": 2.06,
+        "price": 4.96,
         "vx": null,
         "flag": null
       },
       "000736": {
-        "zdf": -0.98,
-        "price": 4.03,
+        "zdf": -1.74,
+        "price": 3.96,
         "vx": null,
         "flag": null
       },
       "601188": {
-        "zdf": 10.12,
-        "price": 3.81,
+        "zdf": 9.97,
+        "price": 4.19,
         "vx": null,
         "flag": null
       },
       "601599": {
-        "zdf": 0.0,
-        "price": 5.08,
+        "zdf": -10.04,
+        "price": 4.57,
         "vx": null,
         "flag": null
       },
@@ -1141,8 +1041,8 @@
         "flag": null
       },
       "000520": {
-        "zdf": -1.98,
-        "price": 3.47,
+        "zdf": -10.09,
+        "price": 3.12,
         "vx": null,
         "flag": null
       },
@@ -1159,14 +1059,14 @@
         "flag": null
       },
       "600738": {
-        "zdf": -0.99,
-        "price": 4.02,
+        "zdf": 0.25,
+        "price": 4.03,
         "vx": null,
         "flag": null
       },
       "600165": {
-        "zdf": 0.0,
-        "price": 2.8,
+        "zdf": -1.07,
+        "price": 2.77,
         "vx": null,
         "flag": null
       },
@@ -1177,20 +1077,20 @@
         "flag": null
       },
       "002742": {
-        "zdf": -1.15,
-        "price": 3.45,
+        "zdf": -0.87,
+        "price": 3.42,
         "vx": null,
         "flag": null
       },
       "601996": {
-        "zdf": 0.0,
-        "price": 2.14,
+        "zdf": 0.47,
+        "price": 2.15,
         "vx": null,
         "flag": null
       },
       "000755": {
-        "zdf": 0.0,
-        "price": 4.87,
+        "zdf": -1.85,
+        "price": 4.78,
         "vx": null,
         "flag": null
       }
@@ -1208,18 +1108,18 @@
     "zb_count": 0,
     "zb_rate": null,
     "prev_zt_count": 32,
-    "prev_zt_avg_chg": 0.0,
-    "prev_zt_up_ratio": 0.0,
-    "prev_lianban_avg_chg": 0.0
+    "prev_zt_avg_chg": 9.24,
+    "prev_zt_up_ratio": 93.8,
+    "prev_lianban_avg_chg": 7.23
   },
   "health": {
-    "run_started": "09:10:01",
-    "compute_seconds": 20.2,
-    "prev_duration": 27.8,
-    "runs_ok_today": 2,
+    "run_started": "09:15:01",
+    "compute_seconds": 14.4,
+    "prev_duration": 28.2,
+    "runs_ok_today": 3,
     "runs_fail_today": 0,
     "last_error": null,
-    "amount_source": "turnover 字段(与推算值比值 0.99)",
+    "amount_source": "换手率×流通市值推算",
     "sentiment_ok": true,
     "sentiment_errors": [],
     "host": "3d892ff88fde"
