@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-11 09:00:14",
+  "update_date": "2026-11-11 09:05:14",
   "market": {
     "market_score": 78.0,
     "market_status": "强势",
@@ -133,9 +133,9 @@
       "name": "飞亚达",
       "first_time": "09:00",
       "first_price": 21.05,
-      "hits": 1,
+      "hits": 2,
       "max_price": 21.05,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 21.05,
@@ -147,9 +147,9 @@
       "name": "金 螳 螂",
       "first_time": "09:00",
       "first_price": 4.63,
-      "hits": 1,
+      "hits": 2,
       "max_price": 4.63,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "观察",
       "cur_price": 4.63,
@@ -161,9 +161,9 @@
       "name": "久其软件",
       "first_time": "09:00",
       "first_price": 6.11,
-      "hits": 1,
+      "hits": 2,
       "max_price": 6.11,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 6.11,
@@ -175,9 +175,9 @@
       "name": "东方中科",
       "first_time": "09:00",
       "first_price": 21.31,
-      "hits": 1,
+      "hits": 2,
       "max_price": 21.31,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 21.31,
@@ -246,7 +246,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-11 09:00:21",
+    "updated": "2026-11-11 09:05:21",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -353,7 +353,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-11 09:00:21",
+    "updated": "2026-11-11 09:05:21",
     "min_amt": 50000000.0,
     "as_of": "2026-11-10",
     "pool": 47,
@@ -907,7 +907,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-11 09:00:21",
+    "updated": "2026-11-11 09:05:21",
     "items": {
       "000055": {
         "zdf": 1.15,
@@ -1228,10 +1228,10 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:00:01",
-    "compute_seconds": 21.3,
-    "prev_duration": 23.6,
-    "runs_ok_today": 0,
+    "run_started": "09:05:01",
+    "compute_seconds": 20.7,
+    "prev_duration": 33.5,
+    "runs_ok_today": 1,
     "runs_fail_today": 0,
     "last_error": null,
     "amount_source": "turnover 字段(与推算值比值 0.99)",
