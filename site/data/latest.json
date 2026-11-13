@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-13 09:00:15",
+  "update_date": "2026-11-13 09:05:15",
   "market": {
     "market_score": 16.3,
     "market_status": "弱势",
@@ -135,9 +135,9 @@
       "name": "返利科技",
       "first_time": "09:00",
       "first_price": 10.43,
-      "hits": 1,
+      "hits": 2,
       "max_price": 10.43,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "观察",
       "cur_price": 10.43,
@@ -149,9 +149,9 @@
       "name": "合富中国",
       "first_time": "09:00",
       "first_price": 12.32,
-      "hits": 1,
+      "hits": 2,
       "max_price": 12.32,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 12.32,
@@ -163,9 +163,9 @@
       "name": "水发燃气",
       "first_time": "09:00",
       "first_price": 8.83,
-      "hits": 1,
+      "hits": 2,
       "max_price": 8.83,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 8.83,
@@ -177,9 +177,9 @@
       "name": "天虹股份",
       "first_time": "09:00",
       "first_price": 5.04,
-      "hits": 1,
+      "hits": 2,
       "max_price": 5.04,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 5.04,
@@ -194,54 +194,54 @@
     ],
     "items": [
       {
-        "name": "燃气",
-        "chg": 0.95,
-        "up": 16,
-        "down": 11,
-        "leader": "东方环宇",
-        "leader_chg": 9.99,
-        "leader_price": 26.87,
-        "net_inflow": -101000000.0
+        "name": "纺织制造",
+        "chg": 0.0,
+        "up": 5,
+        "down": 28,
+        "leader": "华升股份",
+        "leader_chg": 1.73,
+        "leader_price": 7.05,
+        "net_inflow": 0.0
       },
       {
-        "name": "白酒",
-        "chg": 0.79,
-        "up": 8,
-        "down": 11,
-        "leader": "皇台酒业",
-        "leader_chg": 10.03,
-        "leader_price": 18.32,
-        "net_inflow": -655000000.0
-      },
-      {
-        "name": "医疗服务",
-        "chg": 0.3,
-        "up": 23,
-        "down": 32,
-        "leader": "澳洋健康",
-        "leader_chg": 10.08,
-        "leader_price": 6.66,
-        "net_inflow": -994999999.9999999
+        "name": "保险",
+        "chg": 0.0,
+        "up": 0,
+        "down": 5,
+        "leader": "中国平安",
+        "leader_chg": -0.15,
+        "leader_price": 53.33,
+        "net_inflow": 0.0
       },
       {
         "name": "养殖业",
-        "chg": 0.27,
+        "chg": 0.0,
         "up": 15,
         "down": 19,
         "leader": "好当家",
         "leader_chg": 10.22,
         "leader_price": 2.48,
-        "net_inflow": -43000000.0
+        "net_inflow": 0.0
       },
       {
-        "name": "饮料制造",
-        "chg": 0.15,
-        "up": 22,
-        "down": 24,
-        "leader": "泉阳泉",
-        "leader_chg": 5.24,
-        "leader_price": 9.24,
-        "net_inflow": -501999999.99999994
+        "name": "农产品加工",
+        "chg": 0.0,
+        "up": 16,
+        "down": 25,
+        "leader": "东方海洋",
+        "leader_chg": 10.02,
+        "leader_price": 5.16,
+        "net_inflow": 0.0
+      },
+      {
+        "name": "煤炭开采加工",
+        "chg": 0.0,
+        "up": 1,
+        "down": 32,
+        "leader": "陕西煤业",
+        "leader_chg": 0.19,
+        "leader_price": 26.3,
+        "net_inflow": 0.0
       }
     ],
     "source": "同花顺",
@@ -250,7 +250,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-13 09:00:44",
+    "updated": "2026-11-13 09:05:44",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -367,7 +367,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-13 09:00:45",
+    "updated": "2026-11-13 09:05:45",
     "min_amt": 50000000.0,
     "as_of": "2026-11-12",
     "pool": 171,
@@ -935,7 +935,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-13 09:00:45",
+    "updated": "2026-11-13 09:05:45",
     "items": {
       "600620": {
         "zdf": -1.33,
@@ -1298,10 +1298,10 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:00:01",
-    "compute_seconds": 44.5,
-    "prev_duration": 53.5,
-    "runs_ok_today": 0,
+    "run_started": "09:05:01",
+    "compute_seconds": 44.6,
+    "prev_duration": 57.3,
+    "runs_ok_today": 1,
     "runs_fail_today": 0,
     "last_error": null,
     "amount_source": "turnover 字段(与推算值比值 1.00)",
