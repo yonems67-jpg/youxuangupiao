@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "updated": "2026-11-13 16:39:19",
+  "updated": "2026-11-16 16:38:40",
   "hold_days": 20,
   "k": 5,
   "calendar": "sina",
@@ -55,6 +55,11 @@
       "date": "2026-11-13",
       "nav": 1.000098,
       "bench": 1.011037
+    },
+    {
+      "date": "2026-11-16",
+      "nav": 1.011038,
+      "bench": 0.995469
     }
   ],
   "current": {
@@ -67,8 +72,8 @@
         "amt20": 18517230,
         "ref_price": 3.87,
         "buy": 3.93,
-        "price": 3.88,
-        "chg": -1.27
+        "price": 3.89,
+        "chg": -1.02
       },
       {
         "code": "600716",
@@ -77,8 +82,8 @@
         "amt20": 26010215,
         "ref_price": 3.14,
         "buy": 3.22,
-        "price": 3.22,
-        "chg": 0.0
+        "price": 3.16,
+        "chg": -1.86
       },
       {
         "code": "600935",
@@ -97,8 +102,8 @@
         "amt20": 38046740,
         "ref_price": 3.51,
         "buy": 3.6,
-        "price": 3.69,
-        "chg": 2.5
+        "price": 3.87,
+        "chg": 7.5
       },
       {
         "code": "600858",
@@ -107,16 +112,16 @@
         "amt20": 42666890,
         "ref_price": 4.66,
         "buy": 4.81,
-        "price": 4.8,
-        "chg": -0.21
+        "price": 4.9,
+        "chg": 1.87
       }
     ],
-    "elapsed": 9,
+    "elapsed": 10,
     "next_rebalance": "2026-11-30",
-    "period_ret": 0.01,
-    "bench_ret": 1.1,
-    "cum_nav": 1.0001,
-    "cum_bench": 1.011
+    "period_ret": 1.1,
+    "bench_ret": -0.45,
+    "cum_nav": 1.011,
+    "cum_bench": 0.9955
   },
   "history": []
 }
