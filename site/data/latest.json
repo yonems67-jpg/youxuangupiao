@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-16 09:00:11",
+  "update_date": "2026-11-16 09:05:11",
   "market": {
     "market_score": 14.3,
     "market_status": "弱势",
@@ -86,9 +86,9 @@
       "name": "神州数码",
       "first_time": "09:00",
       "first_price": 21.82,
-      "hits": 1,
+      "hits": 2,
       "max_price": 21.82,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 21.82,
@@ -100,9 +100,9 @@
       "name": "拓维信息",
       "first_time": "09:00",
       "first_price": 22.15,
-      "hits": 1,
+      "hits": 2,
       "max_price": 22.15,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 22.15,
@@ -117,54 +117,54 @@
     ],
     "items": [
       {
-        "name": "影视院线",
-        "chg": 4.37,
-        "up": 13,
-        "down": 7,
-        "leader": "幸福蓝海",
-        "leader_chg": 20.01,
-        "leader_price": 17.99,
-        "net_inflow": -546000000.0
-      },
-      {
-        "name": "银行",
-        "chg": 1.43,
-        "up": 40,
-        "down": 0,
-        "leader": "青岛银行",
-        "leader_chg": 3.65,
-        "leader_price": 6.53,
-        "net_inflow": 7123999999.999999
+        "name": "纺织制造",
+        "chg": 0.0,
+        "up": 12,
+        "down": 20,
+        "leader": "华孚时尚",
+        "leader_chg": 10.03,
+        "leader_price": 3.62,
+        "net_inflow": 0.0
       },
       {
         "name": "保险",
-        "chg": 1.2,
+        "chg": 0.0,
         "up": 5,
         "down": 0,
         "leader": "中国人寿",
         "leader_chg": 1.9,
         "leader_price": 34.95,
-        "net_inflow": 504000000.0
-      },
-      {
-        "name": "白酒",
-        "chg": 0.89,
-        "up": 11,
-        "down": 7,
-        "leader": "古井贡酒",
-        "leader_chg": 5.86,
-        "leader_price": 112.0,
-        "net_inflow": 714000000.0
+        "net_inflow": 0.0
       },
       {
         "name": "养殖业",
-        "chg": 0.87,
+        "chg": 0.0,
         "up": 19,
         "down": 16,
         "leader": "好当家",
         "leader_chg": 10.08,
         "leader_price": 2.73,
-        "net_inflow": 470000000.0
+        "net_inflow": 0.0
+      },
+      {
+        "name": "农产品加工",
+        "chg": 0.0,
+        "up": 15,
+        "down": 26,
+        "leader": "金新农",
+        "leader_chg": 10.06,
+        "leader_price": 3.83,
+        "net_inflow": 0.0
+      },
+      {
+        "name": "煤炭开采加工",
+        "chg": 0.0,
+        "up": 11,
+        "down": 22,
+        "leader": "陕西煤业",
+        "leader_chg": 2.55,
+        "leader_price": 26.97,
+        "net_inflow": 0.0
       }
     ],
     "source": "同花顺",
@@ -173,7 +173,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-16 09:00:40",
+    "updated": "2026-11-16 09:05:40",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -295,7 +295,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-16 09:00:40",
+    "updated": "2026-11-16 09:05:40",
     "min_amt": 50000000.0,
     "as_of": "2026-11-13",
     "pool": 66,
@@ -870,7 +870,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-16 09:00:40",
+    "updated": "2026-11-16 09:05:40",
     "items": {
       "601002": {
         "zdf": -1.72,
@@ -1191,10 +1191,10 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:00:01",
+    "run_started": "09:05:01",
     "compute_seconds": 40.0,
-    "prev_duration": 46.2,
-    "runs_ok_today": 0,
+    "prev_duration": 52.4,
+    "runs_ok_today": 1,
     "runs_fail_today": 0,
     "last_error": null,
     "amount_source": "turnover 字段(与推算值比值 0.99)",
