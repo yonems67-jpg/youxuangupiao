@@ -1,14 +1,14 @@
 {
-  "update_date": "2026-11-20 11:30:12",
+  "update_date": "2026-11-20 11:35:12",
   "market": {
     "market_score": 13.1,
     "market_status": "弱势",
     "suggested_position": "1~2成或观望",
-    "up_count": 692,
-    "down_count": 4805,
+    "up_count": 690,
+    "down_count": 4808,
     "limit_up_count": 40,
     "limit_down_count": 13,
-    "total_count": 5579
+    "total_count": 5580
   },
   "fallback_status": {
     "used_tier": 2,
@@ -38,7 +38,7 @@
       "量比": 3.38,
       "振幅": 5.68,
       "行业": "IT服务Ⅱ",
-      "行业相对强度": 4.724744525547445,
+      "行业相对强度": 4.719051094890511,
       "成交额": 3159140000.0,
       "当前成交额": 1579570000.0,
       "流通市值": 214.42,
@@ -48,7 +48,7 @@
       "距20日新高比例": 1.0,
       "距60日高点回撤": -0.0919860627177701,
       "连跌天数": 0,
-      "score": 81.9,
+      "score": 81.0,
       "建议仓位": 0.0,
       "操作建议": "重点关注",
       "超跌弱势": false
@@ -63,7 +63,7 @@
       "量比": 2.68,
       "振幅": 5.27,
       "行业": "医药生物",
-      "行业相对强度": 5.079558232931727,
+      "行业相对强度": 5.08433734939759,
       "成交额": 497020000.0,
       "当前成交额": 248510000.0,
       "流通市值": 48.91,
@@ -88,9 +88,9 @@
       "量比": 2.21,
       "振幅": 7.72,
       "行业": "电子化学品Ⅱ",
-      "行业相对强度": 4.688108108108109,
-      "成交额": 1048060000.0,
-      "当前成交额": 524030000.0,
+      "行业相对强度": 4.69945945945946,
+      "成交额": 1048160000.0,
+      "当前成交额": 524080000.0,
       "流通市值": 135.75,
       "ma_aligned": false,
       "volume_spike": false,
@@ -125,9 +125,9 @@
       "name": "常山北明",
       "first_time": "09:00",
       "first_price": 13.03,
-      "hits": 4,
+      "hits": 5,
       "max_price": 13.48,
-      "last_time": "11:30",
+      "last_time": "11:35",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 13.48,
@@ -265,8 +265,8 @@
       "last_time": "11:20",
       "in_list": false,
       "tag": "谨慎",
-      "cur_price": 29.52,
-      "chg_since_first": 0.17,
+      "cur_price": 29.5,
+      "chg_since_first": 0.1,
       "max_since_first": 0.85,
       "left_time": "11:25"
     },
@@ -275,9 +275,9 @@
       "name": "宏昌电子",
       "first_time": "10:30",
       "first_price": 11.96,
-      "hits": 8,
+      "hits": 9,
       "max_price": 11.99,
-      "last_time": "11:30",
+      "last_time": "11:35",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 11.97,
@@ -305,9 +305,9 @@
       "name": "方盛制药",
       "first_time": "10:40",
       "first_price": 11.08,
-      "hits": 11,
+      "hits": 12,
       "max_price": 11.19,
-      "last_time": "11:30",
+      "last_time": "11:35",
       "in_list": true,
       "tag": "观察",
       "cur_price": 11.14,
@@ -342,7 +342,7 @@
         "leader": "风语筑",
         "leader_chg": 10.0,
         "leader_price": 14.3,
-        "net_inflow": 399650736.0
+        "net_inflow": 399667888.0
       },
       {
         "name": "视频媒体",
@@ -351,8 +351,8 @@
         "down": 0,
         "leader": "芒果超媒",
         "leader_chg": 7.18,
-        "leader_price": 28.15,
-        "net_inflow": -115446220.0
+        "leader_price": 28.2,
+        "net_inflow": -114832008.0
       },
       {
         "name": "印制电路板",
@@ -362,7 +362,7 @@
         "leader": "中京电子",
         "leader_chg": 10.02,
         "leader_price": 13.39,
-        "net_inflow": 2238634384.0
+        "net_inflow": 2239164304.0
       },
       {
         "name": "广告媒体",
@@ -382,7 +382,7 @@
         "leader": "好当家",
         "leader_chg": 10.0,
         "leader_price": 2.86,
-        "net_inflow": 82787831.0
+        "net_inflow": 83061819.0
       }
     ],
     "source": "东方财富",
@@ -391,7 +391,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-20 11:30:17",
+    "updated": "2026-11-20 11:35:19",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -533,7 +533,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-20 11:30:17",
+    "updated": "2026-11-20 11:35:20",
     "min_amt": 50000000.0,
     "as_of": "2026-11-19",
     "pool": 94,
@@ -1032,7 +1032,7 @@
         "date": "2026-11-19",
         "days": 1,
         "ret": -1.52,
-        "bench": -1.66,
+        "bench": -1.65,
         "excess": 0.14
       },
       {
@@ -1045,9 +1045,9 @@
       {
         "date": "2026-11-17",
         "days": 3,
-        "ret": -3.15,
+        "ret": -3.14,
         "bench": -4.77,
-        "excess": 1.62
+        "excess": 1.63
       },
       {
         "date": "2026-11-16",
@@ -1059,9 +1059,9 @@
       {
         "date": "2026-11-13",
         "days": 5,
-        "ret": -3.97,
+        "ret": -3.96,
         "bench": -7.38,
-        "excess": 3.41
+        "excess": 3.42
       },
       {
         "date": "2026-11-12",
@@ -1136,7 +1136,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-20 11:30:17",
+    "updated": "2026-11-20 11:35:20",
     "items": {
       "600800": {
         "zdf": -1.85,
@@ -1487,10 +1487,10 @@
     "prev_lianban_avg_chg": 1.42
   },
   "health": {
-    "run_started": "11:30:01",
-    "compute_seconds": 16.6,
-    "prev_duration": 25.4,
-    "runs_ok_today": 29,
+    "run_started": "11:35:01",
+    "compute_seconds": 19.2,
+    "prev_duration": 21.7,
+    "runs_ok_today": 30,
     "runs_fail_today": 1,
     "last_error": {
       "time": "10:10",
