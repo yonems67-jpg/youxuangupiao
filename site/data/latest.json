@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-20 09:00:15",
+  "update_date": "2026-11-20 09:05:15",
   "market": {
     "market_score": 12.1,
     "market_status": "弱势",
@@ -135,9 +135,9 @@
       "name": "综艺股份",
       "first_time": "09:00",
       "first_price": 5.49,
-      "hits": 1,
+      "hits": 2,
       "max_price": 5.49,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 5.49,
@@ -149,9 +149,9 @@
       "name": "常山北明",
       "first_time": "09:00",
       "first_price": 13.03,
-      "hits": 1,
+      "hits": 2,
       "max_price": 13.03,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 13.03,
@@ -163,9 +163,9 @@
       "name": "好想你",
       "first_time": "09:00",
       "first_price": 10.18,
-      "hits": 1,
+      "hits": 2,
       "max_price": 10.18,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "谨慎",
       "cur_price": 10.18,
@@ -177,9 +177,9 @@
       "name": "芯瑞达",
       "first_time": "09:00",
       "first_price": 24.89,
-      "hits": 1,
+      "hits": 2,
       "max_price": 24.89,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "观察",
       "cur_price": 24.89,
@@ -194,54 +194,54 @@
     ],
     "items": [
       {
-        "name": "机场航运",
-        "chg": 0.72,
-        "up": 8,
-        "down": 5,
-        "leader": "吉祥航空",
-        "leader_chg": 3.04,
-        "leader_price": 10.83,
-        "net_inflow": 564000000.0
-      },
-      {
-        "name": "证券",
-        "chg": -0.05,
-        "up": 27,
-        "down": 19,
-        "leader": "国信证券",
-        "leader_chg": 1.66,
-        "leader_price": 9.18,
-        "net_inflow": 1513000000.0
-      },
-      {
-        "name": "电子化学品",
-        "chg": -0.06,
-        "up": 15,
-        "down": 28,
-        "leader": "格林达",
-        "leader_chg": 10.0,
-        "leader_price": 29.15,
-        "net_inflow": -73000000.0
-      },
-      {
-        "name": "银行",
-        "chg": -0.62,
-        "up": 10,
-        "down": 30,
-        "leader": "苏州银行",
-        "leader_chg": 1.69,
-        "leader_price": 10.21,
-        "net_inflow": -511000000.00000006
+        "name": "纺织制造",
+        "chg": 0.0,
+        "up": 3,
+        "down": 29,
+        "leader": "华升股份",
+        "leader_chg": 10.01,
+        "leader_price": 8.9,
+        "net_inflow": 0.0
       },
       {
         "name": "保险",
-        "chg": -0.74,
+        "chg": 0.0,
         "up": 1,
         "down": 4,
         "leader": "中国平安",
         "leader_chg": 0.48,
         "leader_price": 54.66,
-        "net_inflow": 171000000.0
+        "net_inflow": 0.0
+      },
+      {
+        "name": "养殖业",
+        "chg": 0.0,
+        "up": 1,
+        "down": 35,
+        "leader": "生物股份",
+        "leader_chg": 1.27,
+        "leader_price": 11.96,
+        "net_inflow": 0.0
+      },
+      {
+        "name": "农产品加工",
+        "chg": 0.0,
+        "up": 1,
+        "down": 42,
+        "leader": "乖宝宠物",
+        "leader_chg": 0.42,
+        "leader_price": 33.26,
+        "net_inflow": 0.0
+      },
+      {
+        "name": "煤炭开采加工",
+        "chg": 0.0,
+        "up": 4,
+        "down": 30,
+        "leader": "淮北矿业",
+        "leader_chg": 0.5,
+        "leader_price": 14.15,
+        "net_inflow": 0.0
       }
     ],
     "source": "同花顺",
@@ -250,7 +250,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-20 09:00:45",
+    "updated": "2026-11-20 09:05:44",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -392,7 +392,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-20 09:00:45",
+    "updated": "2026-11-20 09:05:44",
     "min_amt": 50000000.0,
     "as_of": "2026-11-19",
     "pool": 94,
@@ -995,7 +995,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-20 09:00:45",
+    "updated": "2026-11-20 09:05:44",
     "items": {
       "600800": {
         "zdf": -2.17,
@@ -1328,10 +1328,10 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:00:01",
-    "compute_seconds": 45.0,
-    "prev_duration": 52.7,
-    "runs_ok_today": 0,
+    "run_started": "09:05:01",
+    "compute_seconds": 43.9,
+    "prev_duration": 56.7,
+    "runs_ok_today": 1,
     "runs_fail_today": 0,
     "last_error": null,
     "amount_source": "turnover 字段(与推算值比值 0.99)",
