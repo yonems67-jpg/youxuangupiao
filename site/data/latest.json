@@ -1,14 +1,14 @@
 {
-  "update_date": "2026-11-23 09:05:09",
+  "update_date": "2026-11-23 09:10:09",
   "market": {
-    "market_score": 5.9,
+    "market_score": 10.2,
     "market_status": "弱势",
     "suggested_position": "1~2成或观望",
-    "up_count": 313,
-    "down_count": 5236,
-    "limit_up_count": 34,
-    "limit_down_count": 222,
-    "total_count": 5580
+    "up_count": 277,
+    "down_count": 4713,
+    "limit_up_count": 27,
+    "limit_down_count": 213,
+    "total_count": 5579
   },
   "fallback_status": {
     "used_tier": 2,
@@ -39,7 +39,7 @@
       "量比": 1.9,
       "振幅": 5.74,
       "行业": "医药生物",
-      "行业相对强度": 6.9602811244979925,
+      "行业相对强度": 6.720522088353414,
       "成交额": 354630000.0,
       "当前成交额": 354630000.0,
       "流通市值": 48.78,
@@ -61,9 +61,9 @@
       "name": "方盛制药",
       "first_time": "09:00",
       "first_price": 11.11,
-      "hits": 2,
+      "hits": 3,
       "max_price": 11.11,
-      "last_time": "09:05",
+      "last_time": "09:10",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 11.11,
@@ -134,7 +134,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-23 09:05:38",
+    "updated": "2026-11-23 09:10:36",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -273,15 +273,15 @@
       "elapsed": 15,
       "next_rebalance": "2026-11-30",
       "period_ret": -11.07,
-      "bench_ret": -8.75,
+      "bench_ret": -8.77,
       "cum_nav": 0.8893,
-      "cum_bench": 0.9125
+      "cum_bench": 0.9123
     },
     "history": []
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-23 09:05:38",
+    "updated": "2026-11-23 09:10:37",
     "min_amt": 50000000.0,
     "as_of": "2026-11-20",
     "pool": 77,
@@ -780,7 +780,7 @@
         "date": "2026-11-20",
         "days": 1,
         "ret": 0.0,
-        "bench": 0.0,
+        "bench": -0.0,
         "excess": 0.0
       },
       {
@@ -788,27 +788,27 @@
         "days": 2,
         "ret": -4.03,
         "bench": -4.11,
-        "excess": 0.07
+        "excess": 0.08
       },
       {
         "date": "2026-11-18",
         "days": 3,
         "ret": -5.08,
-        "bench": -6.22,
-        "excess": 1.14
+        "bench": -6.23,
+        "excess": 1.15
       },
       {
         "date": "2026-11-17",
         "days": 4,
         "ret": -4.71,
-        "bench": -7.11,
+        "bench": -7.12,
         "excess": 2.41
       },
       {
         "date": "2026-11-16",
         "days": 5,
         "ret": -7.01,
-        "bench": -8.27,
+        "bench": -8.28,
         "excess": 1.27
       },
       {
@@ -816,7 +816,7 @@
         "days": 6,
         "ret": -5.68,
         "bench": -9.61,
-        "excess": 3.93
+        "excess": 3.94
       },
       {
         "date": "2026-11-12",
@@ -829,62 +829,62 @@
         "date": "2026-11-11",
         "days": 8,
         "ret": -9.51,
-        "bench": -12.2,
-        "excess": 2.69
+        "bench": -12.21,
+        "excess": 2.7
       },
       {
         "date": "2026-11-10",
         "days": 9,
         "ret": -6.78,
-        "bench": -11.52,
-        "excess": 4.73
+        "bench": -11.53,
+        "excess": 4.74
       },
       {
         "date": "2026-11-09",
         "days": 10,
         "ret": -8.35,
-        "bench": -10.45,
-        "excess": 2.1
+        "bench": -10.46,
+        "excess": 2.11
       },
       {
         "date": "2026-11-06",
         "days": 11,
         "ret": -10.3,
-        "bench": -10.43,
-        "excess": 0.13
+        "bench": -10.44,
+        "excess": 0.14
       },
       {
         "date": "2026-11-05",
         "days": 12,
         "ret": -8.1,
-        "bench": -11.74,
-        "excess": 3.64
+        "bench": -11.75,
+        "excess": 3.65
       },
       {
         "date": "2026-11-04",
         "days": 13,
         "ret": -6.75,
-        "bench": -10.09,
-        "excess": 3.34
+        "bench": -10.11,
+        "excess": 3.35
       },
       {
         "date": "2026-11-03",
         "days": 14,
         "ret": -6.64,
-        "bench": -8.57,
-        "excess": 1.93
+        "bench": -8.59,
+        "excess": 1.94
       },
       {
         "date": "2026-11-02",
         "days": 15,
         "ret": -4.89,
-        "bench": -8.75,
-        "excess": 3.86
+        "bench": -8.77,
+        "excess": 3.88
       }
     ]
   },
   "potential_live": {
-    "updated": "2026-11-23 09:05:38",
+    "updated": "2026-11-23 09:10:37",
     "items": {
       "603801": {
         "zdf": -5.25,
@@ -893,55 +893,55 @@
         "flag": null
       },
       "600467": {
-        "zdf": 10.0,
+        "zdf": 0.0,
         "price": 2.86,
         "vx": null,
         "flag": null
       },
       "600691": {
-        "zdf": -3.67,
+        "zdf": 0.0,
         "price": 2.1,
         "vx": null,
         "flag": null
       },
       "000068": {
-        "zdf": -4.18,
+        "zdf": 0.0,
         "price": 2.52,
         "vx": null,
         "flag": null
       },
       "002059": {
-        "zdf": -4.63,
+        "zdf": 0.0,
         "price": 3.5,
         "vx": null,
         "flag": null
       },
       "600800": {
-        "zdf": -5.54,
+        "zdf": 0.0,
         "price": 2.56,
         "vx": null,
         "flag": null
       },
       "600503": {
-        "zdf": -5.15,
+        "zdf": 0.0,
         "price": 1.84,
         "vx": null,
         "flag": null
       },
       "600303": {
-        "zdf": -5.42,
+        "zdf": 0.0,
         "price": 2.27,
         "vx": null,
         "flag": null
       },
       "002551": {
-        "zdf": -5.78,
+        "zdf": 0.0,
         "price": 2.61,
         "vx": null,
         "flag": null
       },
       "600684": {
-        "zdf": -3.11,
+        "zdf": 0.0,
         "price": 2.8,
         "vx": null,
         "flag": null
@@ -953,13 +953,13 @@
         "flag": null
       },
       "600255": {
-        "zdf": -5.3,
+        "zdf": 0.0,
         "price": 2.5,
         "vx": null,
         "flag": null
       },
       "600831": {
-        "zdf": -6.29,
+        "zdf": 0.0,
         "price": 2.68,
         "vx": null,
         "flag": null
@@ -971,25 +971,25 @@
         "flag": null
       },
       "002494": {
-        "zdf": -5.67,
+        "zdf": 0.0,
         "price": 3.66,
         "vx": null,
         "flag": null
       },
       "600708": {
-        "zdf": -5.68,
+        "zdf": 0.0,
         "price": 2.16,
         "vx": null,
         "flag": null
       },
       "600807": {
-        "zdf": -4.93,
+        "zdf": 0.0,
         "price": 2.12,
         "vx": null,
         "flag": null
       },
       "600824": {
-        "zdf": -4.12,
+        "zdf": 0.0,
         "price": 3.26,
         "vx": null,
         "flag": null
@@ -1001,13 +1001,13 @@
         "flag": null
       },
       "002524": {
-        "zdf": -4.5,
+        "zdf": 0.0,
         "price": 3.18,
         "vx": null,
         "flag": null
       },
       "601366": {
-        "zdf": -5.81,
+        "zdf": 0.0,
         "price": 3.08,
         "vx": null,
         "flag": null
@@ -1019,19 +1019,19 @@
         "flag": null
       },
       "600322": {
-        "zdf": -1.83,
+        "zdf": 0.0,
         "price": 2.14,
         "vx": null,
         "flag": null
       },
       "600217": {
-        "zdf": -4.06,
+        "zdf": 0.0,
         "price": 2.6,
         "vx": null,
         "flag": null
       },
       "600984": {
-        "zdf": -3.65,
+        "zdf": 0.0,
         "price": 2.9,
         "vx": null,
         "flag": null
@@ -1043,13 +1043,13 @@
         "flag": null
       },
       "600293": {
-        "zdf": -4.33,
+        "zdf": 0.0,
         "price": 3.09,
         "vx": null,
         "flag": null
       },
       "002397": {
-        "zdf": -4.88,
+        "zdf": 0.0,
         "price": 2.73,
         "vx": null,
         "flag": null
@@ -1067,7 +1067,7 @@
         "flag": null
       },
       "600159": {
-        "zdf": -3.67,
+        "zdf": 0.0,
         "price": 2.1,
         "vx": null,
         "flag": null
@@ -1079,61 +1079,61 @@
         "flag": null
       },
       "600280": {
-        "zdf": -4.28,
+        "zdf": 0.0,
         "price": 2.46,
         "vx": null,
         "flag": null
       },
       "000607": {
-        "zdf": 10.03,
+        "zdf": 0.0,
         "price": 3.73,
         "vx": null,
         "flag": null
       },
       "600844": {
-        "zdf": -3.82,
+        "zdf": 0.0,
         "price": 2.52,
         "vx": null,
         "flag": null
       },
       "600716": {
-        "zdf": -5.37,
+        "zdf": 0.0,
         "price": 2.82,
         "vx": null,
         "flag": null
       },
       "600227": {
-        "zdf": -4.03,
+        "zdf": 0.0,
         "price": 2.86,
         "vx": null,
         "flag": null
       },
       "600067": {
-        "zdf": -6.17,
+        "zdf": 0.0,
         "price": 2.13,
         "vx": null,
         "flag": null
       },
       "601279": {
-        "zdf": -4.98,
+        "zdf": 0.0,
         "price": 2.67,
         "vx": null,
         "flag": null
       },
       "603878": {
-        "zdf": -4.92,
+        "zdf": 0.0,
         "price": 3.67,
         "vx": null,
         "flag": null
       },
       "600376": {
-        "zdf": -5.31,
+        "zdf": 0.0,
         "price": 2.32,
         "vx": null,
         "flag": null
       },
       "002225": {
-        "zdf": -3.75,
+        "zdf": 0.0,
         "price": 2.82,
         "vx": null,
         "flag": null
@@ -1145,13 +1145,13 @@
         "flag": null
       },
       "000520": {
-        "zdf": -5.02,
+        "zdf": 0.0,
         "price": 2.46,
         "vx": null,
         "flag": null
       },
       "002535": {
-        "zdf": -9.96,
+        "zdf": 0.0,
         "price": 2.44,
         "vx": null,
         "flag": null
@@ -1163,31 +1163,31 @@
         "flag": null
       },
       "000509": {
-        "zdf": -5.74,
+        "zdf": 0.0,
         "price": 2.79,
         "vx": null,
         "flag": null
       },
       "600657": {
-        "zdf": -4.7,
+        "zdf": 0.0,
         "price": 2.23,
         "vx": null,
         "flag": null
       },
       "600386": {
-        "zdf": -4.15,
+        "zdf": 0.0,
         "price": 3.0,
         "vx": null,
         "flag": null
       },
       "600165": {
-        "zdf": -2.02,
+        "zdf": 0.0,
         "price": 2.42,
         "vx": null,
         "flag": null
       },
       "002329": {
-        "zdf": 0.29,
+        "zdf": 0.0,
         "price": 3.51,
         "vx": null,
         "flag": null
@@ -1217,10 +1217,10 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:05:01",
-    "compute_seconds": 37.7,
-    "prev_duration": 23.0,
-    "runs_ok_today": 0,
+    "run_started": "09:10:01",
+    "compute_seconds": 36.6,
+    "prev_duration": 47.4,
+    "runs_ok_today": 1,
     "runs_fail_today": 1,
     "last_error": {
       "time": "09:00",
