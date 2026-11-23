@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-23 09:00:09",
+  "update_date": "2026-11-23 09:05:09",
   "market": {
     "market_score": 5.9,
     "market_status": "弱势",
@@ -61,9 +61,9 @@
       "name": "方盛制药",
       "first_time": "09:00",
       "first_price": 11.11,
-      "hits": 1,
+      "hits": 2,
       "max_price": 11.11,
-      "last_time": "09:00",
+      "last_time": "09:05",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 11.11,
@@ -78,54 +78,54 @@
     ],
     "items": [
       {
+        "name": "纺织制造",
+        "chg": 0.0,
+        "up": 0,
+        "down": 33,
+        "leader": "航民股份",
+        "leader_chg": -0.9,
+        "leader_price": 6.58,
+        "net_inflow": 0.0
+      },
+      {
         "name": "保险",
-        "chg": 0.39,
+        "chg": 0.0,
         "up": 3,
         "down": 2,
         "leader": "中国太保",
         "leader_chg": 1.6,
         "leader_price": 32.98,
-        "net_inflow": 1103000000.0
-      },
-      {
-        "name": "银行",
-        "chg": 0.21,
-        "up": 23,
-        "down": 19,
-        "leader": "工商银行",
-        "leader_chg": 3.3,
-        "leader_price": 9.4,
-        "net_inflow": 5540000000.0
-      },
-      {
-        "name": "元件",
-        "chg": -0.82,
-        "up": 22,
-        "down": 40,
-        "leader": "满坤科技",
-        "leader_chg": 20.0,
-        "leader_price": 51.07,
-        "net_inflow": 1392000000.0
-      },
-      {
-        "name": "港口航运",
-        "chg": -1.12,
-        "up": 10,
-        "down": 24,
-        "leader": "锦江航运",
-        "leader_chg": 3.42,
-        "leader_price": 14.22,
-        "net_inflow": 202999999.99999997
+        "net_inflow": 0.0
       },
       {
         "name": "养殖业",
-        "chg": -1.25,
+        "chg": 0.0,
         "up": 9,
         "down": 27,
         "leader": "好当家",
         "leader_chg": 10.0,
         "leader_price": 2.86,
-        "net_inflow": 395000000.0
+        "net_inflow": 0.0
+      },
+      {
+        "name": "农产品加工",
+        "chg": 0.0,
+        "up": 9,
+        "down": 33,
+        "leader": "东方海洋",
+        "leader_chg": 9.97,
+        "leader_price": 3.75,
+        "net_inflow": 0.0
+      },
+      {
+        "name": "煤炭开采加工",
+        "chg": 0.0,
+        "up": 4,
+        "down": 29,
+        "leader": "安泰集团",
+        "leader_chg": 3.81,
+        "leader_price": 3.54,
+        "net_inflow": 0.0
       }
     ],
     "source": "同花顺",
@@ -134,7 +134,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-23 09:00:37",
+    "updated": "2026-11-23 09:05:38",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -281,7 +281,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-23 09:00:37",
+    "updated": "2026-11-23 09:05:38",
     "min_amt": 50000000.0,
     "as_of": "2026-11-20",
     "pool": 77,
@@ -884,7 +884,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-23 09:00:37",
+    "updated": "2026-11-23 09:05:38",
     "items": {
       "603801": {
         "zdf": -5.25,
@@ -1217,12 +1217,15 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:00:01",
-    "compute_seconds": 37.2,
+    "run_started": "09:05:01",
+    "compute_seconds": 37.7,
     "prev_duration": 23.0,
     "runs_ok_today": 0,
-    "runs_fail_today": 0,
-    "last_error": null,
+    "runs_fail_today": 1,
+    "last_error": {
+      "time": "09:00",
+      "msg": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
+    },
     "amount_source": "turnover 字段(与推算值比值 0.99)",
     "sentiment_ok": true,
     "sentiment_errors": [],
