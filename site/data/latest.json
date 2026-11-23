@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-23 15:25:09",
+  "update_date": "2026-11-23 15:30:09",
   "market": {
     "market_score": 84.7,
     "market_status": "强势",
@@ -630,9 +630,9 @@
       "name": "国光股份",
       "first_time": "11:10",
       "first_price": 9.1,
-      "hits": 32,
+      "hits": 33,
       "max_price": 9.33,
-      "last_time": "15:25",
+      "last_time": "15:30",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 9.25,
@@ -749,7 +749,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-23 15:25:47",
+    "updated": "2026-11-23 15:30:37",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -896,7 +896,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-23 15:25:47",
+    "updated": "2026-11-23 15:30:37",
     "min_amt": 50000000.0,
     "as_of": "2026-11-20",
     "pool": 77,
@@ -1499,7 +1499,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-23 15:25:47",
+    "updated": "2026-11-23 15:30:37",
     "items": {
       "603801": {
         "zdf": -0.21,
@@ -1818,9 +1818,9 @@
   "sentiment": {
     "ok": true,
     "errors": [],
-    "zt_count": 147,
+    "zt_count": 146,
     "max_lianban": 5,
-    "first_board": 131,
+    "first_board": 130,
     "lianban_count": 16,
     "lianban_dist": [
       {
@@ -1838,20 +1838,20 @@
     ],
     "ladder": [
       {
-        "code": "002771",
-        "name": "真视通",
-        "boards": 5,
-        "industry": "IT服务Ⅱ",
-        "first_seal": "092500",
-        "opens": 6
-      },
-      {
         "code": "603324",
         "name": "盛剑科技",
         "boards": 5,
         "industry": "环保设备",
         "first_seal": "130303",
         "opens": 0
+      },
+      {
+        "code": "002771",
+        "name": "真视通",
+        "boards": 5,
+        "industry": "IT服务Ⅱ",
+        "first_seal": "092500",
+        "opens": 6
       },
       {
         "code": "002579",
@@ -1862,18 +1862,18 @@
         "opens": 6
       }
     ],
-    "zb_count": 23,
-    "zb_rate": 13.5,
+    "zb_count": 24,
+    "zb_rate": 14.1,
     "prev_zt_count": 28,
     "prev_zt_avg_chg": 7.69,
     "prev_zt_up_ratio": 92.9,
     "prev_lianban_avg_chg": 10.0
   },
   "health": {
-    "run_started": "15:25:01",
-    "compute_seconds": 47.0,
-    "prev_duration": 41.8,
-    "runs_ok_today": 61,
+    "run_started": "15:30:01",
+    "compute_seconds": 37.4,
+    "prev_duration": 58.0,
+    "runs_ok_today": 62,
     "runs_fail_today": 1,
     "last_error": {
       "time": "09:00",
