@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-26 09:00:09",
+  "update_date": "2026-11-26 09:05:09",
   "market": {
     "market_score": 11.1,
     "market_status": "弱势",
@@ -36,54 +36,54 @@
     ],
     "items": [
       {
-        "name": "医药商业",
-        "chg": 0.87,
-        "up": 17,
-        "down": 14,
-        "leader": "ST海王",
-        "leader_chg": 10.28,
-        "leader_price": 1.18,
-        "net_inflow": 63000000.0
+        "name": "纺织制造",
+        "chg": 0.0,
+        "up": 5,
+        "down": 28,
+        "leader": "万事利",
+        "leader_chg": 19.96,
+        "leader_price": 12.74,
+        "net_inflow": 0.0
       },
       {
-        "name": "旅游及酒店",
-        "chg": 0.58,
-        "up": 19,
-        "down": 14,
-        "leader": "祥源文旅",
-        "leader_chg": 4.18,
-        "leader_price": 4.98,
-        "net_inflow": 12000000.0
+        "name": "保险",
+        "chg": 0.0,
+        "up": 0,
+        "down": 4,
+        "leader": "中国人保",
+        "leader_chg": -0.41,
+        "leader_price": 7.22,
+        "net_inflow": 0.0
       },
       {
-        "name": "中药",
-        "chg": 0.44,
-        "up": 39,
-        "down": 27,
-        "leader": "桂林三金",
-        "leader_chg": 10.03,
-        "leader_price": 13.82,
-        "net_inflow": 239000000.0
+        "name": "养殖业",
+        "chg": 0.0,
+        "up": 6,
+        "down": 29,
+        "leader": "好当家",
+        "leader_chg": 10.09,
+        "leader_price": 3.6,
+        "net_inflow": 0.0
       },
       {
-        "name": "零售",
-        "chg": 0.32,
-        "up": 34,
-        "down": 30,
-        "leader": "中央商场",
-        "leader_chg": 10.16,
-        "leader_price": 2.82,
-        "net_inflow": -81000000.0
+        "name": "农产品加工",
+        "chg": 0.0,
+        "up": 5,
+        "down": 38,
+        "leader": "金新农",
+        "leader_chg": 10.11,
+        "leader_price": 5.01,
+        "net_inflow": 0.0
       },
       {
-        "name": "银行",
-        "chg": -0.02,
-        "up": 17,
-        "down": 22,
-        "leader": "交通银行",
-        "leader_chg": 1.78,
-        "leader_price": 9.14,
-        "net_inflow": 3861999999.9999995
+        "name": "煤炭开采加工",
+        "chg": 0.0,
+        "up": 8,
+        "down": 24,
+        "leader": "淮北矿业",
+        "leader_chg": 2.16,
+        "leader_price": 13.73,
+        "net_inflow": 0.0
       }
     ],
     "source": "同花顺",
@@ -92,7 +92,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-26 09:00:38",
+    "updated": "2026-11-26 09:05:37",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -254,7 +254,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-26 09:00:38",
+    "updated": "2026-11-26 09:05:37",
     "min_amt": 50000000.0,
     "as_of": "2026-11-25",
     "pool": 61,
@@ -857,7 +857,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-26 09:00:38",
+    "updated": "2026-11-26 09:05:37",
     "items": {
       "600586": {
         "zdf": -2.97,
@@ -1196,10 +1196,10 @@
     "prev_lianban_avg_chg": 0.0
   },
   "health": {
-    "run_started": "09:00:01",
-    "compute_seconds": 38.2,
-    "prev_duration": 46.5,
-    "runs_ok_today": 0,
+    "run_started": "09:05:01",
+    "compute_seconds": 37.1,
+    "prev_duration": 47.6,
+    "runs_ok_today": 1,
     "runs_fail_today": 0,
     "last_error": null,
     "amount_source": "turnover 字段(与推算值比值 1.00)",
