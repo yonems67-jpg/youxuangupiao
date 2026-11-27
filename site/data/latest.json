@@ -1,5 +1,5 @@
 {
-  "update_date": "2026-11-27 15:25:09",
+  "update_date": "2026-11-27 15:30:09",
   "market": {
     "market_score": 96.6,
     "market_status": "强势",
@@ -1290,9 +1290,9 @@
       "name": "新世界",
       "first_time": "13:45",
       "first_price": 6.58,
-      "hits": 17,
+      "hits": 18,
       "max_price": 6.79,
-      "last_time": "15:25",
+      "last_time": "15:30",
       "in_list": true,
       "tag": "重点关注",
       "cur_price": 6.71,
@@ -1437,7 +1437,7 @@
   },
   "lowamt": {
     "ok": true,
-    "updated": "2026-11-27 15:25:15",
+    "updated": "2026-11-27 15:30:16",
     "hold_days": 20,
     "k": 5,
     "calendar": "sina",
@@ -1604,7 +1604,7 @@
   },
   "obspool": {
     "ok": true,
-    "updated": "2026-11-27 15:25:15",
+    "updated": "2026-11-27 15:30:16",
     "min_amt": 50000000.0,
     "as_of": "2026-11-26",
     "pool": 109,
@@ -2207,7 +2207,7 @@
     ]
   },
   "potential_live": {
-    "updated": "2026-11-27 15:25:15",
+    "updated": "2026-11-27 15:30:16",
     "items": {
       "000553": {
         "zdf": 2.99,
@@ -2532,9 +2532,9 @@
   "sentiment": {
     "ok": true,
     "errors": [],
-    "zt_count": 419,
+    "zt_count": 418,
     "max_lianban": 6,
-    "first_board": 390,
+    "first_board": 389,
     "lianban_count": 29,
     "lianban_dist": [
       {
@@ -2564,14 +2564,6 @@
         "opens": 0
       },
       {
-        "code": "002651",
-        "name": "利君股份",
-        "boards": 4,
-        "industry": "航空装备",
-        "first_seal": "093003",
-        "opens": 3
-      },
-      {
         "code": "603030",
         "name": "全筑股份",
         "boards": 4,
@@ -2586,6 +2578,14 @@
         "industry": "化学制药",
         "first_seal": "093015",
         "opens": 8
+      },
+      {
+        "code": "002651",
+        "name": "利君股份",
+        "boards": 4,
+        "industry": "航空装备",
+        "first_seal": "093003",
+        "opens": 3
       },
       {
         "code": "002197",
@@ -2612,18 +2612,18 @@
         "opens": 4
       }
     ],
-    "zb_count": 40,
-    "zb_rate": 8.7,
+    "zb_count": 41,
+    "zb_rate": 8.9,
     "prev_zt_count": 65,
     "prev_zt_avg_chg": 5.8,
     "prev_zt_up_ratio": 84.6,
     "prev_lianban_avg_chg": 5.57
   },
   "health": {
-    "run_started": "15:25:01",
-    "compute_seconds": 15.3,
-    "prev_duration": 28.4,
-    "runs_ok_today": 60,
+    "run_started": "15:30:01",
+    "compute_seconds": 15.9,
+    "prev_duration": 27.3,
+    "runs_ok_today": 61,
     "runs_fail_today": 2,
     "last_error": {
       "time": "15:20",
